@@ -1,19 +1,11 @@
-#!/usr/bin/env python3
-"""Compara as comparacoes medidas pelo copiador com o modelo teorico
-T(N, Q) = N*Q + N*(N-1)/2 e gera os graficos do relatorio.
-
-Agora le dois arquivos por experimento:
-    <nome>_iter.csv  -> modo iterativo
-    <nome>_rec.csv   -> modo recursivo
-e concatena em um unico DataFrame com a coluna 'modo'.
-"""
-
+import math
 import os
-import numpy as np
-import pandas as pd
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from matplotlib.ticker import FuncFormatter
 
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -21,266 +13,233 @@ EST = os.path.join(BASE, "experimentos", "estatisticas")
 SAIDA = os.path.join(BASE, "graficos")
 os.makedirs(SAIDA, exist_ok=True)
 
-OBS = "#2a78d6"   # azul - iterativa
-REC = "#8e44ad"   # roxo - recursiva
-TEO = "#eb6834"   # laranja - teoria
-SURFACE = "#fcfcfb"
-INK = "#0b0b0b"
-MUTED = "#898781"
-GRID = "#e1e0d9"
-AXIS = "#c3c2b7"
+COR = {"seq-iter": "#2a78d6", "seq-rec": "#8e44ad", "bin-iter": "#1b9e77", "bin-rec": "#d95f02"}
+MARCA = {"seq-iter": "o", "seq-rec": "s", "bin-iter": "^", "bin-rec": "D"}
+ROTULO = {"seq-iter": "Seq. iterativa", "seq-rec": "Seq. recursiva",
+          "bin-iter": "MergeSort + binária (iterativas)", "bin-rec": "MergeSort + binária (recursivas)"}
+TEO = "#555555"
 
 plt.rcParams.update({
-    "figure.facecolor": SURFACE,
-    "axes.facecolor": SURFACE,
-    "font.family": "DejaVu Sans",
-    "font.size": 10,
-    "axes.titlesize": 12,
-    "axes.titleweight": "bold",
-    "axes.labelcolor": INK,
-    "axes.edgecolor": AXIS,
-    "text.color": INK,
-    "xtick.color": MUTED,
-    "ytick.color": MUTED,
-    "grid.color": GRID,
-    "grid.linewidth": 0.8,
-    "legend.frameon": False,
-    "figure.dpi": 160,
+    "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb", "font.size": 10,
+    "axes.titlesize": 12, "axes.titleweight": "bold", "axes.edgecolor": "#c3c2b7",
+    "grid.color": "#e1e0d9", "legend.frameon": False, "figure.dpi": 160,
+    "axes.spines.top": False, "axes.spines.right": False,
 })
 
 
-def modelo(n, q):
-    return n * q + n * (n - 1) // 2
-
-
-def moldura(ax, titulo, xlabel, ylabel, subtitulo=None):
-    ax.set_title(titulo, loc="left", pad=18 if subtitulo else 10)
-    if subtitulo:
-        ax.text(0, 1.02, subtitulo, transform=ax.transAxes,
-                fontsize=9, color="#52514e", va="bottom")
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    ax.grid(True, axis="y", linewidth=0.8)
-    ax.set_axisbelow(True)
-    for lado in ("top", "right"):
-        ax.spines[lado].set_visible(False)
-    ax.spines["left"].set_color(AXIS)
-    ax.spines["bottom"].set_color(AXIS)
-
-
 def milhar(x, _):
-    return f"{int(x):,}".replace(",", ".")
+    return f"{int(round(x)):,}".replace(",", ".")
 
 
 def salvar(fig, nome):
-    caminho = os.path.join(SAIDA, nome)
     fig.tight_layout()
-    fig.savefig(caminho, bbox_inches="tight")
+    fig.savefig(os.path.join(SAIDA, nome), bbox_inches="tight")
     plt.close(fig)
-    print("gerado:", caminho)
 
 
-# ------------------------------------------------------------------
-# Carregamento: le os dois modos e concatena
-# ------------------------------------------------------------------
-def carregar_par(nome_base):
-    """Le <nome_base>_iter.csv e <nome_base>_rec.csv e devolve um
-    DataFrame concatenado com coluna 'modo' em {'iter', 'rec'}."""
-    it = pd.read_csv(os.path.join(EST, f"{nome_base}_iter.csv"))
-    rc = pd.read_csv(os.path.join(EST, f"{nome_base}_rec.csv"))
-    it["modo"] = "iter"
-    rc["modo"] = "rec"
-    return pd.concat([it, rc], ignore_index=True)
+def lg(n):
+    return math.log2(n)
 
 
-a = carregar_par("A_destino_vazio")
-b = carregar_par("B_q1")
-c = carregar_par("C_q_variavel")
-
-# Separa por modo para os graficos
-a_iter = a[a.modo == "iter"].sort_values("nomes_inseridos").reset_index(drop=True)
-a_rec  = a[a.modo == "rec"].sort_values("nomes_inseridos").reset_index(drop=True)
-b_iter = b[b.modo == "iter"].sort_values("nomes_inseridos").reset_index(drop=True)
-b_rec  = b[b.modo == "rec"].sort_values("nomes_inseridos").reset_index(drop=True)
-c_iter = c[c.modo == "iter"].reset_index(drop=True)
-c_rec  = c[c.modo == "rec"].reset_index(drop=True)
-
-# Colunas de previsao e diferenca (por modo)
-for df, q in [(a_iter, 0), (a_rec, 0)]:
-    df["previsto"]  = [modelo(n, q) for n in df.nomes_inseridos]
-    df["diferenca"] = df.comparacoes - df.previsto
-for df, q in [(b_iter, 1), (b_rec, 1)]:
-    df["previsto"]  = [modelo(n, q) for n in df.nomes_inseridos]
-    df["diferenca"] = df.comparacoes - df.previsto
-
-# Experimento C: a coluna Q nao vem do CSV, reconstruimos pela ordem
-qs_c = [0, 10, 20, 40, 80, 160]
-for df in (c_iter, c_rec):
-    df["q"] = qs_c
-    df["previsto"]  = [modelo(160, q) for q in df.q]
-    df["diferenca"] = df.comparacoes - df.previsto
+def t_seq(n, q):
+    return n * q + n * (n - 1) // 2
 
 
-# ------------------------------------------------------------------
-# Grafico 1 - observado x previsto, Q = 0 (iter e rec)
-# ------------------------------------------------------------------
+def ms_pior_topdown(n):
+    if n < 2:
+        return 0
+    k = math.ceil(lg(n))
+    return n * k - 2 ** k + 1
+
+
+def ms_melhor_topdown(n):
+    if n < 2:
+        return 0
+    return ms_melhor_topdown(n // 2) + ms_melhor_topdown(n - n // 2) + n // 2
+
+
+def ms_pior_bottomup(n):
+    total, largura = 0, 1
+    while largura < n:
+        ini = 0
+        while ini + largura < n:
+            fim = min(ini + 2 * largura, n)
+            total += fim - ini - 1
+            ini += 2 * largura
+        largura *= 2
+    return total
+
+
+def ms_melhor_bottomup(n):
+    total, largura = 0, 1
+    while largura < n:
+        ini = 0
+        while ini + largura < n:
+            fim = min(ini + 2 * largura, n)
+            total += min(largura, fim - ini - largura)
+            ini += 2 * largura
+        largura *= 2
+    return total
+
+
+def bb_min(n):
+    return 0 if n == 0 else int(math.floor(lg(n + 1)))
+
+
+def bb_max(n):
+    return 0 if n == 0 else int(math.floor(lg(n))) + 1
+
+
+a = pd.read_csv(os.path.join(EST, "A.csv"))
+c = pd.read_csv(os.path.join(EST, "C.csv"))
+d = pd.read_csv(os.path.join(EST, "D.csv"))
+e = pd.read_csv(os.path.join(EST, "E.csv"))
+tr = pd.read_csv(os.path.join(EST, "tempos_reais.csv"))
+bench = pd.read_csv(os.path.join(EST, "bench.csv"))
+
+print("=== Solucao 1: previsto x medido ===")
+for nome, df in [("A", a), ("C", c)]:
+    s = df[df.modo.str.startswith("seq")].copy()
+    s["previsto"] = [t_seq(n, q) for n, q in zip(s.inseridos, s.previos)]
+    s["dif"] = s.comp_total - s.previsto
+    print(nome, "diferenca maxima:", s.dif.abs().max())
+    print(s[["modo", "inseridos", "previos", "comp_total", "previsto", "dif"]].to_string(index=False))
+
+print("\n=== Solucao 2: limites x medido ===")
+for nome, df in [("A", a), ("C", c)]:
+    b = df[df.modo.str.startswith("bin")].copy()
+    linhas = []
+    for _, r in b.iterrows():
+        n, q = int(r.lidos), int(r.previos)
+        if r.modo == "bin-rec":
+            ol, oh = ms_melhor_topdown(q) + ms_melhor_topdown(n), ms_pior_topdown(q) + ms_pior_topdown(n)
+        else:
+            ol, oh = ms_melhor_bottomup(q) + ms_melhor_bottomup(n), ms_pior_bottomup(q) + ms_pior_bottomup(n)
+        bl = n * (bb_min(q) + bb_min(n))
+        bh = n * (bb_max(q) + (1 if q else 0) + bb_max(n))
+        ok = ol <= r.comp_ordenacao <= oh and bl <= r.comp_busca <= bh
+        linhas.append((r.modo, n, q, ol, int(r.comp_ordenacao), oh, bl, int(r.comp_busca), bh, ok))
+    for l in linhas:
+        print(nome, *l)
+
+print("\nMergeSort n=718 (D, ordem original) iter/rec:", d[d.modo.str.startswith("bin")][["modo", "comp_ordenacao"]].values.tolist())
+print("limites 718 top-down:", ms_melhor_topdown(718), ms_pior_topdown(718), " bottom-up:", ms_melhor_bottomup(718), ms_pior_bottomup(718))
+print("D:\n", d.to_string(index=False))
+print("E:\n", e.to_string(index=False))
+
+med = tr.groupby(["modo", "lidos"]).tempo_total_s.median().unstack(0) * 1e3
+print("\n=== tempos reais (mediana, ms) ===")
+print(med.to_string(float_format=lambda x: f"{x:.4f}"))
+
+print("\n=== benchmark ===")
+print(bench.to_string(index=False))
+for modo in ["seq-iter", "seq-rec"]:
+    s = bench[bench.modo == modo]
+    incl = np.polyfit(np.log(s.n), np.log(s.tempo_total_s), 1)[0]
+    raz = (s.tempo_total_s.values[1:] / s.tempo_total_s.values[:-1]).round(3)
+    print(modo, "inclinacao log-log do tempo:", round(incl, 4), "razoes:", raz)
+for modo in ["bin-iter", "bin-rec"]:
+    s = bench[bench.modo == modo]
+    incl = np.polyfit(np.log(s.n), np.log(s.tempo_total_s), 1)[0]
+    raz = (s.tempo_total_s.values[1:] / s.tempo_total_s.values[:-1]).round(3)
+    k = (s.tempo_total_s / (s.n * np.log2(s.n)) * 1e9).round(3)
+    print(modo, "inclinacao log-log do tempo:", round(incl, 4), "razoes:", raz, "ns por n lg n:", k.values)
+    kc = (s.comp_ordenacao + s.comp_busca) / (s.n * np.log2(s.n))
+    print(modo, "comparacoes / (n lg n):", kc.round(4).values)
+for n in [1000, 2000, 4000, 8000]:
+    si = bench[(bench.modo == "seq-iter") & (bench.n == n)].tempo_total_s.iloc[0]
+    sr = bench[(bench.modo == "seq-rec") & (bench.n == n)].tempo_total_s.iloc[0]
+    bi = bench[(bench.modo == "bin-iter") & (bench.n == n)].tempo_total_s.iloc[0]
+    br = bench[(bench.modo == "bin-rec") & (bench.n == n)].tempo_total_s.iloc[0]
+    print(f"n={n}: rec/iter seq={sr/si:.2f} bin={br/bi:.2f}  seq-iter/bin-iter={si/bi:.1f}")
+
+aq = a.copy()
 fig, ax = plt.subplots(figsize=(7.2, 4.2))
-grade = np.linspace(1, a_iter.nomes_inseridos.max(), 400)
-ax.plot(grade, grade * (grade - 1) / 2, color=TEO, lw=2,
-        label="Previsto: N(N−1)/2")
-ax.plot(a_iter.nomes_inseridos, a_iter.comparacoes, "o", color=OBS, ms=8,
-        markeredgecolor=SURFACE, markeredgewidth=2, label="Observado (iterativa)")
-ax.plot(a_rec.nomes_inseridos, a_rec.comparacoes, "s", color=REC, ms=6,
-        markeredgecolor=SURFACE, markeredgewidth=1.5, label="Observado (recursiva)")
-moldura(ax, "Comparações: observado × previsto (Q = 0)", "N (nomes inseridos)",
-        "Comparações entre nomes",
-        "Os pontos medidos caem exatamente sobre a curva teórica — diferença nula em ambos os modos.")
-ax.xaxis.set_major_formatter(FuncFormatter(milhar))
+g = np.linspace(1, 718, 400)
+ax.plot(g, g * (g - 1) / 2, color=TEO, lw=1.8, label="Previsto: N(N−1)/2")
+for m in ["seq-iter", "seq-rec"]:
+    s = aq[aq.modo == m]
+    ax.plot(s.inseridos, s.comp_total, MARCA[m], color=COR[m], ms=7 if m == "seq-iter" else 4, label=ROTULO[m])
+ax.set_title("Solução 1: comparações medidas × previstas (Q = 0)", loc="left")
+ax.set_xlabel("N (registros inseridos)")
+ax.set_ylabel("Comparações entre chaves")
 ax.yaxis.set_major_formatter(FuncFormatter(milhar))
+ax.grid(True, axis="y")
 ax.legend()
-salvar(fig, "g1_observado_previsto.png")
+salvar(fig, "g1_sol1_observado_previsto.png")
 
-
-# ------------------------------------------------------------------
-# Grafico 2 - log-log, inclinacao 2
-# ------------------------------------------------------------------
 fig, ax = plt.subplots(figsize=(7.2, 4.2))
-ax.plot(a_iter.nomes_inseridos, a_iter.comparacoes, "o-", color=OBS, lw=2, ms=7,
-        markeredgecolor=SURFACE, markeredgewidth=1.5, label="Observado (iterativa)")
-ax.plot(a_rec.nomes_inseridos, a_rec.comparacoes, "s--", color=REC, lw=1.5, ms=5,
-        markeredgecolor=SURFACE, markeredgewidth=1.2, label="Observado (recursiva)")
-ref = a_iter.comparacoes.iloc[0] * (a_iter.nomes_inseridos / a_iter.nomes_inseridos.iloc[0]) ** 2
-ax.plot(a_iter.nomes_inseridos, ref, "--", color=TEO, lw=2, label="Referência N²")
+gq = np.linspace(0, 160, 100)
+ax.plot(gq, 160 * gq + 12720, color=TEO, lw=1.8, label="Previsto: 160·Q + 12.720")
+for m in ["seq-iter", "seq-rec"]:
+    s = c[c.modo == m]
+    ax.plot(s.previos, s.comp_total, MARCA[m], color=COR[m], ms=7 if m == "seq-iter" else 4, label=ROTULO[m])
+ax.set_title("Solução 1: efeito de Q com N = 160 fixo", loc="left")
+ax.set_xlabel("Q (registros já existentes no destino)")
+ax.set_ylabel("Comparações entre chaves")
+ax.yaxis.set_major_formatter(FuncFormatter(milhar))
+ax.grid(True, axis="y")
+ax.legend()
+salvar(fig, "g2_sol1_termo_nq.png")
+
+fig, ax = plt.subplots(figsize=(7.2, 4.2))
+ns = np.array(sorted(a.lidos.unique()))
+low = [ms_melhor_topdown(n) + n * bb_min(n) for n in ns]
+high = [ms_pior_topdown(n) + n * bb_max(n) for n in ns]
+ax.fill_between(ns, low, high, color="#dddddd", label="Faixa teórica (MergeSort + busca binária)")
+ax.plot(ns, ns * np.log2(ns) * 2, "--", color=TEO, lw=1.2, label="Referência 2·N lg N")
+for m in ["bin-iter", "bin-rec"]:
+    s = a[a.modo == m]
+    ax.plot(s.lidos, s.comp_total, MARCA[m], color=COR[m], ms=6, label=ROTULO[m])
+ax.set_title("Solução 2: comparações medidas (Q = 0)", loc="left")
+ax.set_xlabel("N (registros novos)")
+ax.set_ylabel("Comparações entre chaves")
+ax.yaxis.set_major_formatter(FuncFormatter(milhar))
+ax.grid(True, axis="y")
+ax.legend(fontsize=8)
+salvar(fig, "g3_sol2_comparacoes.png")
+
+fig, ax = plt.subplots(figsize=(7.2, 4.2))
+for m in ["seq-iter", "bin-iter", "bin-rec"]:
+    s = a[a.modo == m]
+    ax.plot(s.lidos, s.comp_total, MARCA[m] + "-", color=COR[m], ms=6, lw=1.5, label=ROTULO[m])
 ax.set_xscale("log")
 ax.set_yscale("log")
-moldura(ax, "Verificação de O(N²) em escala log-log", "N (escala log)",
-        "Comparações (escala log)",
-        "Em log-log a reta medida tem inclinação 2: duplicar N multiplica as comparações por 4.")
-ax.legend()
-salvar(fig, "g2_loglog.png")
+ax.set_title("Comparações: Solução 1 × Solução 2 (Q = 0)", loc="left")
+ax.set_xlabel("N (escala log)")
+ax.set_ylabel("Comparações (escala log)")
+ax.grid(True, which="major")
+ax.legend(fontsize=8)
+salvar(fig, "g4_sol1_x_sol2_comparacoes.png")
 
-
-# ------------------------------------------------------------------
-# Grafico 3 - razao T(2N)/T(N) (usando o modo iterativo como referencia,
-#             pois a contagem e identica nos dois modos)
-# ------------------------------------------------------------------
-dobras = [(10, 20), (20, 40), (40, 80), (80, 160), (160, 320), (320, 640)]
-rotulos, razoes = [], []
-for n1, n2 in dobras:
-    t1 = int(a_iter.loc[a_iter.nomes_inseridos == n1, "comparacoes"].iloc[0])
-    t2 = int(a_iter.loc[a_iter.nomes_inseridos == n2, "comparacoes"].iloc[0])
-    rotulos.append(f"{n1}→{n2}")
-    razoes.append(t2 / t1)
+fig, ax = plt.subplots(figsize=(7.2, 4.4))
+for m in ["seq-iter", "seq-rec", "bin-iter", "bin-rec"]:
+    s = bench[bench.modo == m]
+    ax.plot(s.n, s.tempo_total_s * 1e3, MARCA[m] + "-", color=COR[m], ms=5, lw=1.5, label=ROTULO[m])
+s = bench[bench.modo == "seq-iter"]
+ref = s.tempo_total_s.iloc[-1] * 1e3 * (s.n / s.n.iloc[-1]) ** 2
+ax.plot(s.n, ref, ":", color=TEO, lw=1.5, label="Referência ∝ N²")
+s = bench[bench.modo == "bin-iter"]
+nn = s.n.values.astype(float)
+ref = s.tempo_total_s.iloc[-1] * 1e3 * (nn * np.log2(nn)) / (nn[-1] * np.log2(nn[-1]))
+ax.plot(nn, ref, "--", color=TEO, lw=1.2, label="Referência ∝ N lg N")
+ax.set_xscale("log")
+ax.set_yscale("log")
+ax.set_title("Tempo de execução medido (benchmark em memória)", loc="left")
+ax.set_xlabel("N (escala log)")
+ax.set_ylabel("Tempo em ms (escala log, mediana de 15)")
+ax.grid(True, which="major")
+ax.legend(fontsize=8)
+salvar(fig, "g5_tempos_benchmark.png")
 
 fig, ax = plt.subplots(figsize=(7.2, 4.2))
-ax.bar(rotulos, razoes, color=OBS, width=0.55)
-ax.axhline(4, color=TEO, lw=2, ls="--", label="Limite assintótico = 4")
-for i, r in enumerate(razoes):
-    ax.text(i, r + 0.06, f"{r:.3f}", ha="center", fontsize=9, color="#52514e")
-ax.set_ylim(0, 4.8)
-moldura(ax, "Fator de crescimento ao dobrar N", "Transição de N",
-        "T(2N) / T(N)",
-        "A razão sobe monotonicamente em direção a 4, como prevê um algoritmo quadrático.")
-ax.legend(loc="lower right")
-salvar(fig, "g3_dobrar_n.png")
+for m in ["seq-iter", "seq-rec", "bin-iter", "bin-rec"]:
+    ax.plot(med.index, med[m], MARCA[m] + "-", color=COR[m], ms=5, lw=1.5, label=ROTULO[m])
+ax.set_title("Tempo do programa com os dados reais (Q = 0)", loc="left")
+ax.set_xlabel("N (registros novos)")
+ax.set_ylabel("Tempo em ms (mediana de 15)")
+ax.grid(True, axis="y")
+ax.legend(fontsize=8)
+salvar(fig, "g6_tempos_dados_reais.png")
 
-
-# ------------------------------------------------------------------
-# Grafico 4 - termo N*Q: N = 160 fixo, Q variavel
-# ------------------------------------------------------------------
-fig, ax = plt.subplots(figsize=(7.2, 4.2))
-grade_q = np.linspace(0, c_iter.q.max(), 200)
-ax.plot(grade_q, 160 * grade_q + 160 * 159 / 2, color=TEO, lw=2,
-        label="Previsto: 160·Q + 12.720")
-ax.plot(c_iter.q, c_iter.comparacoes, "o", color=OBS, ms=8,
-        markeredgecolor=SURFACE, markeredgewidth=2, label="Observado (iterativa)")
-ax.plot(c_rec.q, c_rec.comparacoes, "s", color=REC, ms=6,
-        markeredgecolor=SURFACE, markeredgewidth=1.5, label="Observado (recursiva)")
-moldura(ax, "Efeito do cadastro prévio Q (N = 160 fixo)", "Q (cadastros já existentes no destino)",
-        "Comparações entre nomes",
-        "Com N fixo, a dependência em Q é uma reta de inclinação 160 — o termo N·Q da fórmula.")
-ax.xaxis.set_major_formatter(FuncFormatter(milhar))
-ax.yaxis.set_major_formatter(FuncFormatter(milhar))
-ax.legend()
-salvar(fig, "g4_termo_nq.png")
-
-
-# ------------------------------------------------------------------
-# Grafico 5 - tempo de execucao: iterativa x recursiva
-# ------------------------------------------------------------------
-fig, ax = plt.subplots(figsize=(7.2, 4.2))
-ax.plot(a_iter.nomes_inseridos, a_iter.tempo_s * 1e6, "o-", color=OBS, lw=2, ms=7,
-        markeredgecolor=SURFACE, markeredgewidth=1.5, label="Iterativa")
-ax.plot(a_rec.nomes_inseridos, a_rec.tempo_s * 1e6, "s--", color=REC, lw=2, ms=6,
-        markeredgecolor=SURFACE, markeredgewidth=1.5, label="Recursiva")
-moldura(ax, "Tempo de execução: iterativa × recursiva (Q = 0)",
-        "N (nomes inseridos)", "Tempo (µs)",
-        "A recursiva é consistentemente mais lenta por causa do overhead de chamadas e do uso de pilha.")
-ax.xaxis.set_major_formatter(FuncFormatter(milhar))
-ax.legend()
-salvar(fig, "g5_tempo_iter_rec.png")
-
-
-# ------------------------------------------------------------------
-# Grafico 6 - comparacoes: iterativa x recursiva (devem coincidir)
-# ------------------------------------------------------------------
-fig, ax = plt.subplots(figsize=(7.2, 4.2))
-ax.plot(a_iter.nomes_inseridos, a_iter.comparacoes, "o", color=OBS, ms=8,
-        markeredgecolor=SURFACE, markeredgewidth=2, label="Iterativa")
-ax.plot(a_rec.nomes_inseridos, a_rec.comparacoes, "x", color=REC, ms=8,
-        markeredgewidth=2, label="Recursiva")
-moldura(ax, "Comparações: iterativa × recursiva (Q = 0)",
-        "N (nomes inseridos)", "Comparações entre nomes",
-        "As duas implementações produzem o mesmo número de comparações — os pontos se sobrepõem.")
-ax.xaxis.set_major_formatter(FuncFormatter(milhar))
-ax.yaxis.set_major_formatter(FuncFormatter(milhar))
-ax.legend()
-salvar(fig, "g6_comparacoes_iter_rec.png")
-
-
-# ------------------------------------------------------------------
-# Tabelas para o relatorio
-# ------------------------------------------------------------------
-print("\n=== Experimento A (Q = 0) — iterativa ===")
-print(a_iter[["nomes_inseridos", "comparacoes", "previsto", "diferenca", "tempo_s"]].to_string(index=False))
-print("\n=== Experimento A (Q = 0) — recursiva ===")
-print(a_rec[["nomes_inseridos", "comparacoes", "previsto", "diferenca", "tempo_s"]].to_string(index=False))
-
-print("\n=== Experimento B (Q = 1) — iterativa ===")
-print(b_iter[["nomes_inseridos", "comparacoes", "previsto", "diferenca", "tempo_s"]].to_string(index=False))
-print("\n=== Experimento B (Q = 1) — recursiva ===")
-print(b_rec[["nomes_inseridos", "comparacoes", "previsto", "diferenca", "tempo_s"]].to_string(index=False))
-
-print("\n=== Experimento C (N = 160, Q variavel) — iterativa ===")
-print(c_iter[["q", "nomes_inseridos", "comparacoes", "previsto", "diferenca", "tempo_s"]].to_string(index=False))
-print("\n=== Experimento C (N = 160, Q variavel) — recursiva ===")
-print(c_rec[["q", "nomes_inseridos", "comparacoes", "previsto", "diferenca", "tempo_s"]].to_string(index=False))
-
-print("\n=== razoes T(2N)/T(N) (iterativa) ===")
-for rot, r in zip(rotulos, razoes):
-    print(f"{rot}: {r:.4f}")
-
-logn = np.log(a_iter.nomes_inseridos.astype(float))
-logt = np.log(a_iter.comparacoes.astype(float))
-inclinacao, intercepto = np.polyfit(logn, logt, 1)
-print(f"\ninclinacao log-log (iterativa): {inclinacao:.4f}  (esperado 2 para O(N^2))")
-
-logn_r = np.log(a_rec.nomes_inseridos.astype(float))
-logt_r = np.log(a_rec.comparacoes.astype(float))
-inclinacao_r, _ = np.polyfit(logn_r, logt_r, 1)
-print(f"inclinacao log-log (recursiva): {inclinacao_r:.4f}")
-
-print(f"\nerro absoluto maximo A (iter): {a_iter.diferenca.abs().max()}")
-print(f"erro absoluto maximo A (rec) : {a_rec.diferenca.abs().max()}")
-print(f"erro absoluto maximo B (iter): {b_iter.diferenca.abs().max()}")
-print(f"erro absoluto maximo B (rec) : {b_rec.diferenca.abs().max()}")
-print(f"erro absoluto maximo C (iter): {c_iter.diferenca.abs().max()}")
-print(f"erro absoluto maximo C (rec) : {c_rec.diferenca.abs().max()}")
-
-# Comparacao direta de tempo
-print("\n=== Tempo medio (µs) por N — iterativa vs recursiva ===")
-for n in sorted(a_iter.nomes_inseridos.unique()):
-    ti = a_iter.loc[a_iter.nomes_inseridos == n, "tempo_s"].iloc[0] * 1e6
-    tr = a_rec.loc[a_rec.nomes_inseridos == n, "tempo_s"].iloc[0] * 1e6
-    razao = tr / ti if ti > 0 else float("inf")
-    print(f"N={n:4d}  iter={ti:8.2f} µs  rec={tr:8.2f} µs  razao={razao:.2f}")
+print("\ngraficos gerados em", SAIDA)
