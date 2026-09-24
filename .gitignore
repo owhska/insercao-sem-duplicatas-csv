@@ -1,6 +1,8 @@
 # Executáveis
 src/copiador
 src/copiador.exe
+src/bench
+src/bench.exe
 *.o
 *.obj
 

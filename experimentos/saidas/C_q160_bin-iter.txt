@@ -1,0 +1,10 @@
+
+Modo                        : bin-iter
+Registros lidos             : 160
+Registros previos no destino: 160
+Registros inseridos         : 160
+Registros duplicados        : 0
+Comparacoes na ordenacao    : 2022
+Comparacoes na busca        : 2538
+Comparacoes totais          : 4560
+Tempo total                 : 0.000123 s

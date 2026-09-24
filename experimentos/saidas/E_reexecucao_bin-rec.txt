@@ -1,0 +1,729 @@
+ERRO: valor duplicado na chave, registro ignorado: ABILIO AZAMBUJA RODRIGUES FILHO
+ERRO: valor duplicado na chave, registro ignorado: ADALBERTO JOSE DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: ADALIENE VERSIANI MATOS FERREIRA
+ERRO: valor duplicado na chave, registro ignorado: ADRIANA ARAUJO PEREIRA BORGES
+ERRO: valor duplicado na chave, registro ignorado: ADRIANA CRISTINA DE OLIVEIRA IQUIAPAZA
+ERRO: valor duplicado na chave, registro ignorado: ADRIANA DE MIRANDA RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: ADRIANA SILVA FRANCA
+ERRO: valor duplicado na chave, registro ignorado: ADRIANA SILVINA PAGANO
+ERRO: valor duplicado na chave, registro ignorado: ADRIANE MESQUITA DE MEDEIROS
+ERRO: valor duplicado na chave, registro ignorado: ADRIANO ALONSO VELOSO
+ERRO: valor duplicado na chave, registro ignorado: ADRIANO BORGES DA CUNHA
+ERRO: valor duplicado na chave, registro ignorado: ADRIANO DE PAULA SABINO
+ERRO: valor duplicado na chave, registro ignorado: ADRIANO MAX MOREIRA REIS
+ERRO: valor duplicado na chave, registro ignorado: ADRIANO PEREIRA PAGLIA
+ERRO: valor duplicado na chave, registro ignorado: ALBERTO RESENDE DE CONTI
+ERRO: valor duplicado na chave, registro ignorado: ALCINEI MISTICO AZEVEDO
+ERRO: valor duplicado na chave, registro ignorado: ALDRI LUIZ DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: ALEXANDRE DE OLIVEIRA CHAVES
+ERRO: valor duplicado na chave, registro ignorado: ALEXANDRE DE PADUA CARRIERI
+ERRO: valor duplicado na chave, registro ignorado: ALEXANDRE GUSTAVO MELO FRANCO BAHIA
+ERRO: valor duplicado na chave, registro ignorado: ALEXANDRE MENDES ABRAO
+ERRO: valor duplicado na chave, registro ignorado: ALEXANDRE MENDES CUNHA
+ERRO: valor duplicado na chave, registro ignorado: ALEXANDRE SALINO
+ERRO: valor duplicado na chave, registro ignorado: ALEXANDRE SALLES DA CUNHA
+ERRO: valor duplicado na chave, registro ignorado: ALEXANDRE UHLEIN
+ERRO: valor duplicado na chave, registro ignorado: ALINE ALVIM SCIANNI
+ERRO: valor duplicado na chave, registro ignorado: ALINE CRISTINE SOUZA LOPES
+ERRO: valor duplicado na chave, registro ignorado: ALINE MAGALHAES PINTO
+ERRO: valor duplicado na chave, registro ignorado: ALINE SILVA DE MIRANDA
+ERRO: valor duplicado na chave, registro ignorado: ALINE SOUZA MAGALHAES
+ERRO: valor duplicado na chave, registro ignorado: ALISSON FLAVIO BARBIERI
+ERRO: valor duplicado na chave, registro ignorado: ALLAN CLAUDIUS QUEIROZ BARBOSA
+ERRO: valor duplicado na chave, registro ignorado: AMELIA AUGUSTA DE LIMA FRICHE
+ERRO: valor duplicado na chave, registro ignorado: ANA CARINA UTSCH TERRA
+ERRO: valor duplicado na chave, registro ignorado: ANA CRISTINA CORTES GAMA
+ERRO: valor duplicado na chave, registro ignorado: ANA CRISTINA SIMOES E SILVA
+ERRO: valor duplicado na chave, registro ignorado: ANA CRISTINA VIEIRA
+ERRO: valor duplicado na chave, registro ignorado: ANA FLAVIA MACHADO
+ERRO: valor duplicado na chave, registro ignorado: ANA LARISSA ADORNO MARCIOTTO OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: ANA LUCIA BRUNIALTI GODARD
+ERRO: valor duplicado na chave, registro ignorado: ANA MARCELA ARDILA PINTO
+ERRO: valor duplicado na chave, registro ignorado: ANA MARIA CAETANO DE FARIA
+ERRO: valor duplicado na chave, registro ignorado: ANA MARIA DE OLIVEIRA GALVAO
+ERRO: valor duplicado na chave, registro ignorado: ANA MARIA DE PAULA
+ERRO: valor duplicado na chave, registro ignorado: ANA MARIA HERMETO CAMILO DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: ANA MARIA RABELO GOMES
+ERRO: valor duplicado na chave, registro ignorado: ANA PAULA BALTAZAR DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: ANA PAULA COUTO DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: ANA PAULA DE ANDRADE VERONA
+ERRO: valor duplicado na chave, registro ignorado: ANA PAULA DE CARVALHO TEIXEIRA
+ERRO: valor duplicado na chave, registro ignorado: ANA PAULA SALLES MOURA FERNANDES
+ERRO: valor duplicado na chave, registro ignorado: ANDERSON DIAS
+ERRO: valor duplicado na chave, registro ignorado: ANDITYAS SOARES DE MOURA COSTA MATOS
+ERRO: valor duplicado na chave, registro ignorado: ANDRE AUGUSTO GOMES FARACO
+ERRO: valor duplicado na chave, registro ignorado: ANDRE BRAZ GOLGHER
+ERRO: valor duplicado na chave, registro ignorado: ANDRE CAVALCANTE HORA
+ERRO: valor duplicado na chave, registro ignorado: ANDRE GUIMARAES BRAZIL
+ERRO: valor duplicado na chave, registro ignorado: ANDRE GUSTAVO PEREIRA DE ANDRADE
+ERRO: valor duplicado na chave, registro ignorado: ANDRE JOFFILY ABATH
+ERRO: valor duplicado na chave, registro ignorado: ANDRE LUIS BRANCO DE BARROS
+ERRO: valor duplicado na chave, registro ignorado: ANDRE LUIS PEREIRA MIATELLO
+ERRO: valor duplicado na chave, registro ignorado: ANDRE RICARDO MASSENSINI
+ERRO: valor duplicado na chave, registro ignorado: ANDREA MACHADO DE ALMEIDA MATTOS
+ERRO: valor duplicado na chave, registro ignorado: ANDREA MARA MACEDO
+ERRO: valor duplicado na chave, registro ignorado: ANDREA MARIS CAMPOS GUERRA
+ERRO: valor duplicado na chave, registro ignorado: ANDREA OLIVEIRA SOUZA DA COSTA
+ERRO: valor duplicado na chave, registro ignorado: ANDREIA BICALHO HENRIQUES
+ERRO: valor duplicado na chave, registro ignorado: ANDRESSA DA SILVA DE MELLO
+ERRO: valor duplicado na chave, registro ignorado: ANGELA CRISTINA SALGUEIRO MARQUES
+ERRO: valor duplicado na chave, registro ignorado: ANGELA MARIA QUINTAO LANA
+ERRO: valor duplicado na chave, registro ignorado: ANGELO DE FATIMA
+ERRO: valor duplicado na chave, registro ignorado: ANGELO MALACHIAS DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: ANISIO MENDES LACERDA
+ERRO: valor duplicado na chave, registro ignorado: ANTONELLA LOMBARDI COSTA
+ERRO: valor duplicado na chave, registro ignorado: ANTONIO ALFREDO FERREIRA LOUREIRO
+ERRO: valor duplicado na chave, registro ignorado: ANTONIO AUGUSTO TORRES MAIA
+ERRO: valor duplicado na chave, registro ignorado: ANTONIO CARLOS PINHEIRO DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: ANTONIO DE PADUA BRAGA
+ERRO: valor duplicado na chave, registro ignorado: ANTONIO FERREIRA AVILA
+ERRO: valor duplicado na chave, registro ignorado: ANTONIO JAEGER
+ERRO: valor duplicado na chave, registro ignorado: ANTONIO LUIZ PINHO RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: ANTONIO PEREIRA MAGALHAES JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: ARIETE RIGHI
+ERRO: valor duplicado na chave, registro ignorado: ARISTOBOLO MENDES DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: ARISTOTELES GOES NETO
+ERRO: valor duplicado na chave, registro ignorado: ARMANDO ALVES NETO
+ERRO: valor duplicado na chave, registro ignorado: ARMANDO DA SILVA CUNHA JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: ARTURO ULISES FERNANDEZ PEREZ
+ERRO: valor duplicado na chave, registro ignorado: AURELIANO ANGEL BRESSAN
+ERRO: valor duplicado na chave, registro ignorado: AUREO EDUARDO MAGALHAES RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: BENILDES COURA MOREIRA DOS SANTOS MACULAN
+ERRO: valor duplicado na chave, registro ignorado: BENITO SOTO BLANCO
+ERRO: valor duplicado na chave, registro ignorado: BERNARDO LAGES RODRIGUES
+ERRO: valor duplicado na chave, registro ignorado: BERNARDO LANZA QUEIROZ
+ERRO: valor duplicado na chave, registro ignorado: BERNARDO NUNES BORGES DE LIMA
+ERRO: valor duplicado na chave, registro ignorado: BERNARDO RUEGGER ALMEIDA NEVES
+ERRO: valor duplicado na chave, registro ignorado: BETANIA PAIVA DRUMOND
+ERRO: valor duplicado na chave, registro ignorado: BRUNA FIGUEIREDO MANZO
+ERRO: valor duplicado na chave, registro ignorado: BRUNO ALEXANDER NUNES SILVA
+ERRO: valor duplicado na chave, registro ignorado: BRUNO MELO BRENTAN
+ERRO: valor duplicado na chave, registro ignorado: BRUNO OTAVIO SOARES TEIXEIRA
+ERRO: valor duplicado na chave, registro ignorado: BRUNO RAMOS NASCIMENTO
+ERRO: valor duplicado na chave, registro ignorado: BRUNO SOUZA LEAL
+ERRO: valor duplicado na chave, registro ignorado: CAMILA ARGENTA FANTE
+ERRO: valor duplicado na chave, registro ignorado: CAMILA COSTA DE AMORIM AMARAL
+ERRO: valor duplicado na chave, registro ignorado: CAMILA STEFANIE FONSECA DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: CARLA JORGE MACHADO
+ERRO: valor duplicado na chave, registro ignorado: CARLOS ALBERTO AVILA ARAUJO
+ERRO: valor duplicado na chave, registro ignorado: CARLOS ALBERTO CIMINI JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: CARLOS ALBERTO DE CARVALHO
+ERRO: valor duplicado na chave, registro ignorado: CARLOS ALBERTO TAGLIATI
+ERRO: valor duplicado na chave, registro ignorado: CARLOS ANDREY MAIA
+ERRO: valor duplicado na chave, registro ignorado: CARLOS AUGUSTO ROSA
+ERRO: valor duplicado na chave, registro ignorado: CARLOS BASILIO PINHEIRO
+ERRO: valor duplicado na chave, registro ignorado: CARLOS DELFIN CHAVEZ OLORTEGUI
+ERRO: valor duplicado na chave, registro ignorado: CARLOS EDUARDO VELASQUEZ CABRERA
+ERRO: valor duplicado na chave, registro ignorado: CARLOS FREDERICO DE BRITO D ANDREA
+ERRO: valor duplicado na chave, registro ignorado: CARLOS HENRIQUE MONKEN
+ERRO: valor duplicado na chave, registro ignorado: CARLOS MAGNO CAMARGOS MENDONCA
+ERRO: valor duplicado na chave, registro ignorado: CARLOS RENATO MACHADO
+ERRO: valor duplicado na chave, registro ignorado: CAROLINA CAVALIERI GOMES
+ERRO: valor duplicado na chave, registro ignorado: CASSIO GONCALVES DO REGO
+ERRO: valor duplicado na chave, registro ignorado: CASSIO MALDONADO TURRA
+ERRO: valor duplicado na chave, registro ignorado: CESAR GERALDO GUIMARAES
+ERRO: valor duplicado na chave, registro ignorado: CESAR NARDELLI CAMBRAIA
+ERRO: valor duplicado na chave, registro ignorado: CESAR ROSSAS MOTA FILHO
+ERRO: valor duplicado na chave, registro ignorado: CHRISTIAN FERNANDES
+ERRO: valor duplicado na chave, registro ignorado: CHRISTIANNE LUCE GOMES
+ERRO: valor duplicado na chave, registro ignorado: CHRISTINA DANIELLI COELHO DE MORAIS FARIA
+ERRO: valor duplicado na chave, registro ignorado: CINTIA APARECIDA CHAGAS
+ERRO: valor duplicado na chave, registro ignorado: CLARYSSON ALBERTO MELLO DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: CLAUBIA PEREIRA BEZERRA LIMA
+ERRO: valor duplicado na chave, registro ignorado: CLAUDIA FERES FARIA
+ERRO: valor duplicado na chave, registro ignorado: CLAUDIA REGINA LINDGREN ALVES
+ERRO: valor duplicado na chave, registro ignorado: CLAUDIO SANTIAGO DIAS JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: CLAYSSON BRUNO SANTOS VIMIEIRO
+ERRO: valor duplicado na chave, registro ignorado: CLEIDA APARECIDA DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: CLEITON MOREIRA DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: CLEMENS PETER SCHLINDWEIN
+ERRO: valor duplicado na chave, registro ignorado: CLESIA CRISTINA NASCENTES
+ERRO: valor duplicado na chave, registro ignorado: CLODOVEU AUGUSTO DAVIS JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: CONSTANTINO LUZ DE MEDEIROS
+ERRO: valor duplicado na chave, registro ignorado: CRISTIANA LIBARDI MIRANDA FURTADO
+ERRO: valor duplicado na chave, registro ignorado: CRISTIANE BACCIN BENDO NEVES
+ERRO: valor duplicado na chave, registro ignorado: CRISTIANO FANTINI LEITE
+ERRO: valor duplicado na chave, registro ignorado: CRISTIANO LEITE DE CASTRO
+ERRO: valor duplicado na chave, registro ignorado: CRISTIANO MAURO ASSIS GOMES
+ERRO: valor duplicado na chave, registro ignorado: CRISTINA GUATIMOSIM FONSECA
+ERRO: valor duplicado na chave, registro ignorado: CSABA SCHNEIDER
+ERRO: valor duplicado na chave, registro ignorado: CYNTHIA LOPES MARTINS PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: DAISY MOREIRA CUNHA
+ERRO: valor duplicado na chave, registro ignorado: DALTON MARTINI COLOMBO
+ERRO: valor duplicado na chave, registro ignorado: DANIEL DE ASSIS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: DANIEL FERNANDES MACEDO
+ERRO: valor duplicado na chave, registro ignorado: DANIEL MAJUSTE
+ERRO: valor duplicado na chave, registro ignorado: DANIEL MENEZES SOUZA
+ERRO: valor duplicado na chave, registro ignorado: DANIELE CRISTINA DE AGUIAR
+ERRO: valor duplicado na chave, registro ignorado: DANIELE DA GLORIA DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: DANIELLA CASTANHEIRA BARTHOLOMEU
+ERRO: valor duplicado na chave, registro ignorado: DANIELLE FERREIRA DE MAGALHAES SOARES
+ERRO: valor duplicado na chave, registro ignorado: DANILO IGLESIAS BRANDAO
+ERRO: valor duplicado na chave, registro ignorado: DANILO RAFAEL MESQUITA NEVES
+ERRO: valor duplicado na chave, registro ignorado: DAVID SOEIRO BARBOSA
+ERRO: valor duplicado na chave, registro ignorado: DAWIDSON ASSIS GOMES
+ERRO: valor duplicado na chave, registro ignorado: DAWISSON ELVECIO BELEM LOPES
+ERRO: valor duplicado na chave, registro ignorado: DAYSE CARVALHO DA SILVA MARTINS
+ERRO: valor duplicado na chave, registro ignorado: DEBORA MARQUES DE MIRANDA
+ERRO: valor duplicado na chave, registro ignorado: DEBORAH APARECIDA NEGRAO CORREA
+ERRO: valor duplicado na chave, registro ignorado: DEBORAH CARVALHO MALTA
+ERRO: valor duplicado na chave, registro ignorado: DEISE LUIZA DA SILVA FERRAZ
+ERRO: valor duplicado na chave, registro ignorado: DENISE MARIA TROMBERT DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: DENISE UTSCH GONCALVES
+ERRO: valor duplicado na chave, registro ignorado: DIANA BAHIA
+ERRO: valor duplicado na chave, registro ignorado: DIEGO RODRIGUES MACEDO
+ERRO: valor duplicado na chave, registro ignorado: DORGIVAL OLAVO GUEDES NETO
+ERRO: valor duplicado na chave, registro ignorado: DOUGLAS ATTILA MARCELINO
+ERRO: valor duplicado na chave, registro ignorado: DOUGLAS BATISTA MAZZINGHY
+ERRO: valor duplicado na chave, registro ignorado: DOUGLAS GUIMARAES MACHARET
+ERRO: valor duplicado na chave, registro ignorado: DULCIENE MARIA DE MAGALHAES QUEIROZ
+ERRO: valor duplicado na chave, registro ignorado: EDGAR VLADIMIRO MANTILLA CARRASCO
+ERRO: valor duplicado na chave, registro ignorado: EDMAR AVELLAR SOARES
+ERRO: valor duplicado na chave, registro ignorado: EDSON MASSAYUKI HUZIWARA
+ERRO: valor duplicado na chave, registro ignorado: EDSON PAULO DOMINGUES
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO ANTONIO FERRAZ COELHO
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO ARAUJO DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO COUTINHO DE PAULA
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO DA MOTTA E ALBUQUERQUE
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO HENRIQUE MARTINS NUNES
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO MAGNO LAGES FIGUEIREDO
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO MALDONADO TURRA
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO MARTIN TARAZONA SANTOS
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO MAZONI ANDRADE MARCAL MENDES
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO NICOLAU DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO ROBSON DUARTE
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO ROMEIRO FILHO
+ERRO: valor duplicado na chave, registro ignorado: ELAINE AMARAL LEITE
+ERRO: valor duplicado na chave, registro ignorado: ELCIO LOUREIRO CORNELSEN
+ERRO: valor duplicado na chave, registro ignorado: ELDER ANTONIO SOUSA E PAIVA
+ERRO: valor duplicado na chave, registro ignorado: ELEN DE MEDEIROS
+ERRO: valor duplicado na chave, registro ignorado: ELENA VITALIEVNA GOUSSEVSKAIA
+ERRO: valor duplicado na chave, registro ignorado: ELIDA MARA LEITE RABELO
+ERRO: valor duplicado na chave, registro ignorado: ELISANGELA CRISTINA AGANETTE
+ERRO: valor duplicado na chave, registro ignorado: ELSON JOSE DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: ELTON ANTUNES
+ERRO: valor duplicado na chave, registro ignorado: ELYSANGELA DITTZ DUARTE
+ERRO: valor duplicado na chave, registro ignorado: EMERSON ALVES MENDONCA DE ABREU
+ERRO: valor duplicado na chave, registro ignorado: EMILIO PELUSO NEDER MEYER
+ERRO: valor duplicado na chave, registro ignorado: ENIO FERREIRA
+ERRO: valor duplicado na chave, registro ignorado: ENRRICO BLOISE
+ERRO: valor duplicado na chave, registro ignorado: ERICA AZEVEDO COSTA
+ERRO: valor duplicado na chave, registro ignorado: ERICA DOS SANTOS MARTINS DUARTE
+ERRO: valor duplicado na chave, registro ignorado: ERICA RENATA DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: ERICKSON RANGEL DO NASCIMENTO
+ERRO: valor duplicado na chave, registro ignorado: ERIKA CRISTINA JORGE
+ERRO: valor duplicado na chave, registro ignorado: ERIKA MARTINS BRAGA
+ERRO: valor duplicado na chave, registro ignorado: ERNA GEESSIEN KROON
+ERRO: valor duplicado na chave, registro ignorado: ERNESTO PERINI FRIZZERA DA MOTA SANTOS
+ERRO: valor duplicado na chave, registro ignorado: ESLY FERREIRA DA COSTA JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: ESTEVAM BARBOSA DE LAS CASAS
+ERRO: valor duplicado na chave, registro ignorado: EUFRANIO NUNES DA SILVA JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: EZEQUIEL RODRIGUES BARBOSA
+ERRO: valor duplicado na chave, registro ignorado: FABIANA SIMAO MACHADO
+ERRO: valor duplicado na chave, registro ignorado: FABIANO VARGAS PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: FABIO ALVES DA SILVA JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: FABIO BONFIM DUARTE
+ERRO: valor duplicado na chave, registro ignorado: FABIO ENRIQUE BROCHERO MARTINEZ
+ERRO: valor duplicado na chave, registro ignorado: FABIO LUIZ BURANELO TORAL
+ERRO: valor duplicado na chave, registro ignorado: FABIO SOARES DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: FABIO TOZI
+ERRO: valor duplicado na chave, registro ignorado: FABIO VASCONCELLOS COMIM
+ERRO: valor duplicado na chave, registro ignorado: FABIOLA MARA RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: FABRICIO BENEVENUTO DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: FABRICIO BERTINI PASQUOT POLIDO
+ERRO: valor duplicado na chave, registro ignorado: FABRICIO DE ANDRADE CAXITO
+ERRO: valor duplicado na chave, registro ignorado: FABRICIO DE ARAUJO MOREIRA
+ERRO: valor duplicado na chave, registro ignorado: FABRICIO RODRIGUES DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: FAUSTO BOREM DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: FELICIO BRUZZI BARROS
+ERRO: valor duplicado na chave, registro ignorado: FELIPE PAIVA FONSECA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDA DE MORAIS FERREIRA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDA PENIDO MATOZINHOS
+ERRO: valor duplicado na chave, registro ignorado: FERNANDA RADICCHI CAMPOS LOBATO DE ALMEIDA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO ANTONIO MENCARELLI
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO ARAUJO PERINI
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO COTTING
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO DE OLIVEIRA COSTA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO DE OLIVEIRA SOUZA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO HENRIQUE SILVEIRA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO JOSE DA SILVA MOREIRA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO MAGNO QUINTAO PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO MARCOS DOS REIS
+ERRO: valor duplicado na chave, registro ignorado: FERNAO CASTRO BRAGA
+ERRO: valor duplicado na chave, registro ignorado: FLAVIA CRISTINA CAMILO MOURA MATTIOLI
+ERRO: valor duplicado na chave, registro ignorado: FLAVIA FIGUEIRA ABURJAILE
+ERRO: valor duplicado na chave, registro ignorado: FLAVIANO DOS SANTOS MARTINS
+ERRO: valor duplicado na chave, registro ignorado: FLAVIANO OLIVEIRA SILVERIO
+ERRO: valor duplicado na chave, registro ignorado: FLAVIO ALMEIDA AMARAL
+ERRO: valor duplicado na chave, registro ignorado: FLAVIO BAMBIRRA GONCALVES
+ERRO: valor duplicado na chave, registro ignorado: FLAVIO DE LEMOS CARSALADE
+ERRO: valor duplicado na chave, registro ignorado: FLAVIO GUIMARAES DA FONSECA
+ERRO: valor duplicado na chave, registro ignorado: FRANCINE BENETTI FARIA
+ERRO: valor duplicado na chave, registro ignorado: FRANCISCO ANGELO COUTINHO
+ERRO: valor duplicado na chave, registro ignorado: FRANCISCO CARLOS FELIX LANA
+ERRO: valor duplicado na chave, registro ignorado: FREDERIC JEAN GEORGES FREZARD
+ERRO: valor duplicado na chave, registro ignorado: FREDERICO DE SIQUEIRA NEVES
+ERRO: valor duplicado na chave, registro ignorado: FREDERICO GADELHA GUIMARAES
+ERRO: valor duplicado na chave, registro ignorado: FREDERICO GONZAGA JAYME JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: FREDERICO MARIANETTI SORIANI
+ERRO: valor duplicado na chave, registro ignorado: FREDERICO RODRIGUES BORGES DA CRUZ
+ERRO: valor duplicado na chave, registro ignorado: GABRIEL DE MORAIS COUTINHO
+ERRO: valor duplicado na chave, registro ignorado: GABRIEL JUBE UHLEIN
+ERRO: valor duplicado na chave, registro ignorado: GEANE CARVALHO ALZAMORA
+ERRO: valor duplicado na chave, registro ignorado: GEORG OTTE
+ERRO: valor duplicado na chave, registro ignorado: GEORGE LUIZ MEDEIROS TEODORO
+ERRO: valor duplicado na chave, registro ignorado: GEOVANNI DANTAS CASSALI
+ERRO: valor duplicado na chave, registro ignorado: GERALD WEBER
+ERRO: valor duplicado na chave, registro ignorado: GERALDO MAGELA DE LIMA
+ERRO: valor duplicado na chave, registro ignorado: GERALDO WILSON AFONSO FERNANDES
+ERRO: valor duplicado na chave, registro ignorado: GERCINA ANGELA DE LIMA
+ERRO: valor duplicado na chave, registro ignorado: GERMANO LEAO DEMOLIN LEITE
+ERRO: valor duplicado na chave, registro ignorado: GILBERTO DE ASSIS LIBANIO
+ERRO: valor duplicado na chave, registro ignorado: GILBERTO MEDEIROS RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: GILIANE DE SOUZA TRINDADE
+ERRO: valor duplicado na chave, registro ignorado: GILSON DE FREITAS SILVA
+ERRO: valor duplicado na chave, registro ignorado: GILVAN RAMALHO GUEDES
+ERRO: valor duplicado na chave, registro ignorado: GISELA PATRICIA ZAPATA ARAUJO
+ERRO: valor duplicado na chave, registro ignorado: GISELE CRISTINA FAVERO
+ERRO: valor duplicado na chave, registro ignorado: GISELE LOBO PAPPA
+ERRO: valor duplicado na chave, registro ignorado: GLAUBER CARVALHO DORSCH
+ERRO: valor duplicado na chave, registro ignorado: GLAUBER DOS SANTOS FERREIRA DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: GLAUCIA MUNIZ PROENCA LARA
+ERRO: valor duplicado na chave, registro ignorado: GLAURA GOULART SILVA
+ERRO: valor duplicado na chave, registro ignorado: GRACE SCHENATTO PEREIRA MORAES
+ERRO: valor duplicado na chave, registro ignorado: GREY ERCOLE
+ERRO: valor duplicado na chave, registro ignorado: GUILHERME MATTOS JARDIM COSTA
+ERRO: valor duplicado na chave, registro ignorado: GUILHERME VIANNA RAFFO
+ERRO: valor duplicado na chave, registro ignorado: GUSTAVO ANDRES GUERRERO ERASO
+ERRO: valor duplicado na chave, registro ignorado: GUSTAVO BATISTA DE MENEZES
+ERRO: valor duplicado na chave, registro ignorado: GUSTAVO CAMPOS E SILVA KUHN
+ERRO: valor duplicado na chave, registro ignorado: GUSTAVO DE BRITTO ROCHA
+ERRO: valor duplicado na chave, registro ignorado: GUSTAVO MEDEIROS FREITAS
+ERRO: valor duplicado na chave, registro ignorado: GUSTAVO MEIRELLES LIMA
+ERRO: valor duplicado na chave, registro ignorado: GUSTAVO XIMENES CUNHA
+ERRO: valor duplicado na chave, registro ignorado: HEITOR AVELINO DE ABREU
+ERRO: valor duplicado na chave, registro ignorado: HEITOR SOARES RAMOS FILHO
+ERRO: valor duplicado na chave, registro ignorado: HELIDA MONTEIRO DE ANDRADE
+ERRO: valor duplicado na chave, registro ignorado: HELIO ANDERSON DUARTE
+ERRO: valor duplicado na chave, registro ignorado: HELIO CHACHAM
+ERRO: valor duplicado na chave, registro ignorado: HELOISA DE OLIVEIRA BERALDO
+ERRO: valor duplicado na chave, registro ignorado: HELOISA MARIA MURGEL STARLING
+ERRO: valor duplicado na chave, registro ignorado: HELTON DA COSTA SANTIAGO
+ERRO: valor duplicado na chave, registro ignorado: HELTON MACHADO ADVERSE
+ERRO: valor duplicado na chave, registro ignorado: HENRIQUE CESAR PEREIRA FIGUEIREDO
+ERRO: valor duplicado na chave, registro ignorado: HERCULES RIBEIRO LEITE
+ERRO: valor duplicado na chave, registro ignorado: HERMAN SANDER MANSUR
+ERRO: valor duplicado na chave, registro ignorado: HEVELINE SILVA
+ERRO: valor duplicado na chave, registro ignorado: HUDSON ALVES PINTO
+ERRO: valor duplicado na chave, registro ignorado: HUMBERTO CORREA DA SILVA FILHO
+ERRO: valor duplicado na chave, registro ignorado: HUMBERTO OSORIO STUMPF
+ERRO: valor duplicado na chave, registro ignorado: IGOR DIMITRI GAMA DUARTE
+ERRO: valor duplicado na chave, registro ignorado: IGOR VIANA BRANDI
+ERRO: valor duplicado na chave, registro ignorado: ISABELA ALMEIDA PORDEUS
+ERRO: valor duplicado na chave, registro ignorado: ISABELA DA COSTA CESAR
+ERRO: valor duplicado na chave, registro ignorado: ITALO FERNANDO SCOTA CUNHA
+ERRO: valor duplicado na chave, registro ignorado: JACQUELINE APARECIDA TAKAHASHI
+ERRO: valor duplicado na chave, registro ignorado: JACQUELINE ISAURA ALVAREZ LEITE
+ERRO: valor duplicado na chave, registro ignorado: JACQUELINE VENEROSO ALVES DA CUNHA
+ERRO: valor duplicado na chave, registro ignorado: JADER DOS SANTOS CRUZ
+ERRO: valor duplicado na chave, registro ignorado: JADSON CLAUDIO BELCHIOR
+ERRO: valor duplicado na chave, registro ignorado: JAIMA PINHEIRO DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: JARBAS MAGALHAES RESENDE
+ERRO: valor duplicado na chave, registro ignorado: JEAN CARLOS DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: JENNER KARLISSON PIMENTA DOS REIS
+ERRO: valor duplicado na chave, registro ignorado: JERONIMO OLIVEIRA MUNIZ
+ERRO: valor duplicado na chave, registro ignorado: JOAO AGUIAR NOGUEIRA BATISTA
+ERRO: valor duplicado na chave, registro ignorado: JOAO BOSCO MOURA TONUCCI FILHO
+ERRO: valor duplicado na chave, registro ignorado: JOAO HENRIQUE FROTA CAVALCANTI
+ERRO: valor duplicado na chave, registro ignorado: JOAO PRATES ROMERO
+ERRO: valor duplicado na chave, registro ignorado: JOAO RENATO STEHMANN
+ERRO: valor duplicado na chave, registro ignorado: JOHN WILLIAM MACQUARRIE
+ERRO: valor duplicado na chave, registro ignorado: JONATAS SANTOS ABRAHAO
+ERRO: valor duplicado na chave, registro ignorado: JORDANA GRAZZIELA ALVES COELHO DOS REIS
+ERRO: valor duplicado na chave, registro ignorado: JORGE ALEXANDRE BARBOSA NEVES
+ERRO: valor duplicado na chave, registro ignorado: JORGE GUSTAVO VELASQUEZ MELENDEZ
+ERRO: valor duplicado na chave, registro ignorado: JOSE ELIEVAM BESSA JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: JOSE GUILHERME COELHO BAETA
+ERRO: valor duplicado na chave, registro ignorado: JOSE IRINEU RANGEL RIGOTTI
+ERRO: valor duplicado na chave, registro ignorado: JOSE RACHID MOHALLEM
+ERRO: valor duplicado na chave, registro ignorado: JOSE RAIMUNDO MAIA NETO
+ERRO: valor duplicado na chave, registro ignorado: JOSE ROBERTO PELLINI
+ERRO: valor duplicado na chave, registro ignorado: JUAN CARLOS CAMPOS RUBIO
+ERRO: valor duplicado na chave, registro ignorado: JUAN CARLOS GONZALEZ PEREZ
+ERRO: valor duplicado na chave, registro ignorado: JULIA ANGELICA GONCALVES DA SILVEIRA
+ERRO: valor duplicado na chave, registro ignorado: JULIANA ALVARES TEODORO
+ERRO: valor duplicado na chave, registro ignorado: JULIANA CALABRIA DE ARAUJO
+ERRO: valor duplicado na chave, registro ignorado: JULIANA DE ASSIS SILVA GOMES ESTANISLAU
+ERRO: valor duplicado na chave, registro ignorado: JULIANA DE MELO OCARINO
+ERRO: valor duplicado na chave, registro ignorado: JULIO EMILIO DINIZ PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: JUNIA MARIA CHEIB SERRA NEGRA
+ERRO: valor duplicado na chave, registro ignorado: JURI CASTELFRANCHI
+ERRO: valor duplicado na chave, registro ignorado: JUSSARA MARQUES DE ALMEIDA GONCALVES
+ERRO: valor duplicado na chave, registro ignorado: KARINA BRAGA GOMES
+ERRO: valor duplicado na chave, registro ignorado: KELY CESAR MARTINS DE PAIVA
+ERRO: valor duplicado na chave, registro ignorado: KENIA LARA DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: KENYA VALERIA MICAELA DE SOUZA NORONHA
+ERRO: valor duplicado na chave, registro ignorado: KLAUS WILHELM HEINRICH KRAMBROCK
+ERRO: valor duplicado na chave, registro ignorado: KLEMENS AUGUSTINUS LASCHEFSKI
+ERRO: valor duplicado na chave, registro ignorado: LARISSA LOURES MENDES
+ERRO: valor duplicado na chave, registro ignorado: LASARA FABRICIA RODRIGUES
+ERRO: valor duplicado na chave, registro ignorado: LAURA GUIMARAES CORREA
+ERRO: valor duplicado na chave, registro ignorado: LEANDRO DE ARRUDA SANTOS
+ERRO: valor duplicado na chave, registro ignorado: LEANDRO MALARD MOREIRA
+ERRO: valor duplicado na chave, registro ignorado: LEANDRO RODRIGUES ALVES DINIZ
+ERRO: valor duplicado na chave, registro ignorado: LEIDIVAN ALMEIDA FRAZAO
+ERRO: valor duplicado na chave, registro ignorado: LENIN MARTINS FERREIRA MORAIS
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO AMARAL MOZELLI
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO ANTONIO BORGES TORRES
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO BARCI CASTRIOTA
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO COSTA RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO CRISTIANO CAMPOS
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO DE SOUSA FORTES
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO HUMBERTO REZENDE DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO JOSE CAMARGOS LARA
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO TEIXEIRA NEVES
+ERRO: valor duplicado na chave, registro ignorado: LILIAN LACERDA BUENO
+ERRO: valor duplicado na chave, registro ignorado: LIRLANDIA PIRES DE SOUSA
+ERRO: valor duplicado na chave, registro ignorado: LISANDRA ESPINDULA MOREIRA
+ERRO: valor duplicado na chave, registro ignorado: LIVIA SIMAN GOMES
+ERRO: valor duplicado na chave, registro ignorado: LIZA FIGUEIREDO FELICORI VILELA
+ERRO: valor duplicado na chave, registro ignorado: LORENZO TEIXEIRA VITRAL
+ERRO: valor duplicado na chave, registro ignorado: LUANA CAROLINE DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: LUANA GIATTI GONCALVES
+ERRO: valor duplicado na chave, registro ignorado: LUCAS BLEICHER
+ERRO: valor duplicado na chave, registro ignorado: LUCAS DA SILVA REIS
+ERRO: valor duplicado na chave, registro ignorado: LUCAS GUIMARAES ABREU
+ERRO: valor duplicado na chave, registro ignorado: LUCCAS CASSIMIRO CAMPOS
+ERRO: valor duplicado na chave, registro ignorado: LUCIANA DE OLIVEIRA ANDRADE
+ERRO: valor duplicado na chave, registro ignorado: LUCIANA MACEDO DE RESENDE
+ERRO: valor duplicado na chave, registro ignorado: LUCIANA REGINA FERREIRA PEREIRA DA MATA
+ERRO: valor duplicado na chave, registro ignorado: LUCIANA SOARES LUZ DO AMARAL
+ERRO: valor duplicado na chave, registro ignorado: LUCIANO CUNHA DE ARAUJO PIMENTA
+ERRO: valor duplicado na chave, registro ignorado: LUCILENE REZENDE ANASTACIO
+ERRO: valor duplicado na chave, registro ignorado: LUCIOLA DA SILVA BARCELOS
+ERRO: valor duplicado na chave, registro ignorado: LUDMILA MENDONCA LOPES RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: LUDMILA RODRIGUES PINTO FERREIRA CAMARGO
+ERRO: valor duplicado na chave, registro ignorado: LUIS ANTONIO AGUIRRE
+ERRO: valor duplicado na chave, registro ignorado: LUIS CLAUDIO PEREIRA SYMANSKI
+ERRO: valor duplicado na chave, registro ignorado: LUIS EUGENIO FERNANDEZ OUTON
+ERRO: valor duplicado na chave, registro ignorado: LUIS FERNANDO RAGOGNETTE
+ERRO: valor duplicado na chave, registro ignorado: LUIS HENRIQUE FRANCO
+ERRO: valor duplicado na chave, registro ignorado: LUISA CAMPOS CALDEIRA BRANT
+ERRO: valor duplicado na chave, registro ignorado: LUIZ ALBERTO CURY
+ERRO: valor duplicado na chave, registro ignorado: LUIZ ALEX SILVA SARAIVA
+ERRO: valor duplicado na chave, registro ignorado: LUIZ ARMANDO CUNHA DE MARCO
+ERRO: valor duplicado na chave, registro ignorado: LUIZ ARNALDO FERNANDES
+ERRO: valor duplicado na chave, registro ignorado: LUIZ CARLOS ALVES DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: LUIZ CHAIMOWICZ
+ERRO: valor duplicado na chave, registro ignorado: LUIZ CLAUDIO DE ALMEIDA BARBOSA
+ERRO: valor duplicado na chave, registro ignorado: LUIZ FILIPE MENEZES VIEIRA
+ERRO: valor duplicado na chave, registro ignorado: LUIZ FRANCISCO DIAS
+ERRO: valor duplicado na chave, registro ignorado: LUIZ GUSTAVO FARAH DIAS
+ERRO: valor duplicado na chave, registro ignorado: LUIZ HENRIQUE ROSA
+ERRO: valor duplicado na chave, registro ignorado: LUIZ MACHADO
+ERRO: valor duplicado na chave, registro ignorado: LUZIA VALENTINA MODOLO
+ERRO: valor duplicado na chave, registro ignorado: LYSLEI DE SOUZA NASCIMENTO
+ERRO: valor duplicado na chave, registro ignorado: MAGNA MARIA INACIO
+ERRO: valor duplicado na chave, registro ignorado: MAGNO MORAES MELLO
+ERRO: valor duplicado na chave, registro ignorado: MAICON RODRIGUES ALBUQUERQUE
+ERRO: valor duplicado na chave, registro ignorado: MANUEL NOEL PAUL GEORGES HOUMARD
+ERRO: valor duplicado na chave, registro ignorado: MARCEL GIOVANNI COSTA FRANCA
+ERRO: valor duplicado na chave, registro ignorado: MARCELA MANSUR ALVES
+ERRO: valor duplicado na chave, registro ignorado: MARCELO ANDRADE CATTONI DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: MARCELO ARAUJO CAMARA
+ERRO: valor duplicado na chave, registro ignorado: MARCELO AZEVEDO COSTA
+ERRO: valor duplicado na chave, registro ignorado: MARCELO CAMPOS GALUPPO
+ERRO: valor duplicado na chave, registro ignorado: MARCELO GRECO
+ERRO: valor duplicado na chave, registro ignorado: MARCELO HENRIQUE MAMEDE LEWER
+ERRO: valor duplicado na chave, registro ignorado: MARCELO MACHADO VIANA
+ERRO: valor duplicado na chave, registro ignorado: MARCELO MACIEL RAMOS
+ERRO: valor duplicado na chave, registro ignorado: MARCELO MARTINS DE SENA
+ERRO: valor duplicado na chave, registro ignorado: MARCELO RICARDO PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: MARCELO RICHARD HILARIO
+ERRO: valor duplicado na chave, registro ignorado: MARCELO RIZZATTI LUIZON
+ERRO: valor duplicado na chave, registro ignorado: MARCIA CRISTINA DE BRITO RUMEU
+ERRO: valor duplicado na chave, registro ignorado: MARCIA MIRANDA SOARES
+ERRO: valor duplicado na chave, registro ignorado: MARCIA SIQUEIRA RAPINI
+ERRO: valor duplicado na chave, registro ignorado: MARCIO FLAVIO DUTRA MORAES
+ERRO: valor duplicado na chave, registro ignorado: MARCO ANTONIO PELIKY FONTES
+ERRO: valor duplicado na chave, registro ignorado: MARCO ANTONIO PENIDO DE REZENDE
+ERRO: valor duplicado na chave, registro ignorado: MARCO AURELIO MAXIMO PRADO
+ERRO: valor duplicado na chave, registro ignorado: MARCO AURELIO ROMANO SILVA
+ERRO: valor duplicado na chave, registro ignorado: MARCO FLAVIO DA CUNHA RESENDE
+ERRO: valor duplicado na chave, registro ignorado: MARCO TULIO DE OLIVEIRA VALENTE
+ERRO: valor duplicado na chave, registro ignorado: MARCOS ANDRE GONCALVES
+ERRO: valor duplicado na chave, registro ignorado: MARCOS ANTONIO ALEXANDRE
+ERRO: valor duplicado na chave, registro ignorado: MARCOS AUGUSTO MENEZES VIEIRA
+ERRO: valor duplicado na chave, registro ignorado: MARCOS CALLISTO DE FARIA PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: MARCOS DA SILVA MONTENEGRO
+ERRO: valor duplicado na chave, registro ignorado: MARCOS HORACIO PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: MARCOS OLIVEIRA PRATES
+ERRO: valor duplicado na chave, registro ignorado: MARIA AMALIA DE ALMEIDA CUNHA
+ERRO: valor duplicado na chave, registro ignorado: MARIA APARECIDA MOURA
+ERRO: valor duplicado na chave, registro ignorado: MARIA AUXILIADORA PARREIRAS MARTINS
+ERRO: valor duplicado na chave, registro ignorado: MARIA BEATRIZ BRAGA MENDONCA
+ERRO: valor duplicado na chave, registro ignorado: MARIA CAROLINA DE OLIVEIRA AGUIAR
+ERRO: valor duplicado na chave, registro ignorado: MARIA CLARA VIEIRA MARTINS STARLING
+ERRO: valor duplicado na chave, registro ignorado: MARIA DA CONCEICAO FERREIRA REIS FONSECA
+ERRO: valor duplicado na chave, registro ignorado: MARIA DE FATIMA LEITE
+ERRO: valor duplicado na chave, registro ignorado: MARIA DE FATIMA MARTINS HORTA
+ERRO: valor duplicado na chave, registro ignorado: MARIA DO CARMO DE FREITAS VENEROSO
+ERRO: valor duplicado na chave, registro ignorado: MARIA DO CARMO PEREIRA NUNES
+ERRO: valor duplicado na chave, registro ignorado: MARIA ESPERANZA CORTES SEGURA
+ERRO: valor duplicado na chave, registro ignorado: MARIA HELENA DE ARAUJO
+ERRO: valor duplicado na chave, registro ignorado: MARIA ISABEL DE AZEVEDO
+ERRO: valor duplicado na chave, registro ignorado: MARIA JACQUELINE RODET
+ERRO: valor duplicado na chave, registro ignorado: MARIA TERESA PAULINO AGUILAR
+ERRO: valor duplicado na chave, registro ignorado: MARIANA COSTA DUARTE
+ERRO: valor duplicado na chave, registro ignorado: MARIANA PETRY CABRAL
+ERRO: valor duplicado na chave, registro ignorado: MARIANA SANTOS FELISBINO MENDES
+ERRO: valor duplicado na chave, registro ignorado: MARIANGELA LEAL CHERCHIGLIA
+ERRO: valor duplicado na chave, registro ignorado: MARILIA MARTINS MELO
+ERRO: valor duplicado na chave, registro ignorado: MARINA DE BRITO BRANDAO
+ERRO: valor duplicado na chave, registro ignorado: MARIO SERGIO DE CARVALHO MAZZONI
+ERRO: valor duplicado na chave, registro ignorado: MARISTELA DE OLIVEIRA POLETINI
+ERRO: valor duplicado na chave, registro ignorado: MARLUCY ALVES PARAISO
+ERRO: valor duplicado na chave, registro ignorado: MARLUSA DE SEVILHA GOSLING
+ERRO: valor duplicado na chave, registro ignorado: MARTIN GOMEZ RAVETTI
+ERRO: valor duplicado na chave, registro ignorado: MATHEUS PEREIRA PORTO
+ERRO: valor duplicado na chave, registro ignorado: MAURICIO ALVES LOUREIRO
+ERRO: valor duplicado na chave, registro ignorado: MAURICIO BARCELLOS ALMEIDA
+ERRO: valor duplicado na chave, registro ignorado: MAURICIO CARDOSO DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: MAURICIO COVCEVICH BAGATINI
+ERRO: valor duplicado na chave, registro ignorado: MAURO HENRIQUE NOGUEIRA GUIMARAES DE ABREU
+ERRO: valor duplicado na chave, registro ignorado: MAURO LUIZ ENGELMANN
+ERRO: valor duplicado na chave, registro ignorado: MAURO MARTINS TEIXEIRA
+ERRO: valor duplicado na chave, registro ignorado: MAYCOLN LEONI MARTINS TEODORO
+ERRO: valor duplicado na chave, registro ignorado: MICHELE NOGUEIRA LIMA
+ERRO: valor duplicado na chave, registro ignorado: MILENA SORIANO MARCOLINO
+ERRO: valor duplicado na chave, registro ignorado: MILENE ALVARENGA RACHID
+ERRO: valor duplicado na chave, registro ignorado: MILENE CRISTINE PESSOA
+ERRO: valor duplicado na chave, registro ignorado: MIRELA CASTRO SANTOS CAMARGOS
+ERRO: valor duplicado na chave, registro ignorado: MIRIAM CRISTINA SANTOS AMARAL MORAVIA
+ERRO: valor duplicado na chave, registro ignorado: MIRIAM HERMETO SA MOTTA
+ERRO: valor duplicado na chave, registro ignorado: MIRIAM TERESA PAZ LOPES
+ERRO: valor duplicado na chave, registro ignorado: MONICA VIEGAS ANDRADE
+ERRO: valor duplicado na chave, registro ignorado: NATALIA GUIMARAES DUARTE SATYRO
+ERRO: valor duplicado na chave, registro ignorado: NATHALIA SERNIZON GUIMARAES
+ERRO: valor duplicado na chave, registro ignorado: NELCY DELLA SANTINA MOHALLEM
+ERRO: valor duplicado na chave, registro ignorado: NELDER DE FIGUEIREDO GONTIJO
+ERRO: valor duplicado na chave, registro ignorado: NINA GABRIELA MOREIRA BRAGA ROSAS DE CASTRO
+ERRO: valor duplicado na chave, registro ignorado: OLIVEIRO CAETANO DE FREITAS NETO
+ERRO: valor duplicado na chave, registro ignorado: OMAR PARANAIBA VILELA NETO
+ERRO: valor duplicado na chave, registro ignorado: PABLO DANIEL CARRASCO CORREA
+ERRO: valor duplicado na chave, registro ignorado: PABLO LIMA SALDANHA
+ERRO: valor duplicado na chave, registro ignorado: PATRICIA COTTA MANCINI
+ERRO: valor duplicado na chave, registro ignorado: PATRICIA DIAS FRANCA HUCHET
+ERRO: valor duplicado na chave, registro ignorado: PATRICIA MARIA KAUARK LEITE
+ERRO: valor duplicado na chave, registro ignorado: PATRICIA NASCIMENTO SILVA
+ERRO: valor duplicado na chave, registro ignorado: PAULA ADRIANE PEREZ RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: PAULA BARGI DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: PAULA DE MIRANDA RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: PAULA GUIMARAES SIMOES
+ERRO: valor duplicado na chave, registro ignorado: PAULA MARTINS HORTA
+ERRO: valor duplicado na chave, registro ignorado: PAULO CARAMELLI
+ERRO: valor duplicado na chave, registro ignorado: PAULO ENRIQUE CARDOSO PEIXOTO
+ERRO: valor duplicado na chave, registro ignorado: PAULO HENRIQUE FERREIRA GALVAO
+ERRO: valor duplicado na chave, registro ignorado: PAULO SERGIO NASCIMENTO LOPES
+ERRO: valor duplicado na chave, registro ignorado: PAULO VINICIUS TREVIZOLI
+ERRO: valor duplicado na chave, registro ignorado: PEDRO HENRIQUE RODRIGUES PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: PEDRO OLMO STANCIOLI VAZ DE MELO
+ERRO: valor duplicado na chave, registro ignorado: PEDRO PIRES GOULART GUIMARAES
+ERRO: valor duplicado na chave, registro ignorado: PEDRO VASCONCELOS MAIA DO AMARAL
+ERRO: valor duplicado na chave, registro ignorado: PIETRO KIYOSHI MARUYAMA MENDONCA
+ERRO: valor duplicado na chave, registro ignorado: QUEILA DE SOUZA GARCIA
+ERRO: valor duplicado na chave, registro ignorado: RACHEL OLIVEIRA CASTILHO
+ERRO: valor duplicado na chave, registro ignorado: RAFAEL BEZERRA DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: RAFAEL MOREIRA CLARO
+ERRO: valor duplicado na chave, registro ignorado: RAFAEL PEREIRA LEITAO
+ERRO: valor duplicado na chave, registro ignorado: RAFAEL SAULO MARQUES RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: RAFAEL ZAMBELLI DE ALMEIDA PINTO
+ERRO: valor duplicado na chave, registro ignorado: RAFAELA SALGADO FERREIRA
+ERRO: valor duplicado na chave, registro ignorado: RAONI BARROS BAGNO
+ERRO: valor duplicado na chave, registro ignorado: RAONI GUERRA LUCAS RAJAO
+ERRO: valor duplicado na chave, registro ignorado: RAPHAEL ESCORSIM SZAWKA
+ERRO: valor duplicado na chave, registro ignorado: RAPHAEL NUNES DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: RAQUEL CARDOSO DE MELO MINARDI
+ERRO: valor duplicado na chave, registro ignorado: RAQUEL CONCEICAO FERREIRA
+ERRO: valor duplicado na chave, registro ignorado: RAQUEL ZANATTA COUTINHO
+ERRO: valor duplicado na chave, registro ignorado: REINALDO MARTINEZ PALHARES
+ERRO: valor duplicado na chave, registro ignorado: REINALDO MARTINIANO MARQUES
+ERRO: valor duplicado na chave, registro ignorado: REMO DE CASTRO RUSSO
+ERRO: valor duplicado na chave, registro ignorado: REMY DE PAIVA SANCHIS
+ERRO: valor duplicado na chave, registro ignorado: RENAN ALVES RESENDE
+ERRO: valor duplicado na chave, registro ignorado: RENAN CAMPOS CHISTE
+ERRO: valor duplicado na chave, registro ignorado: RENAN PEDRA DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: RENAN PEREIRA ALMEIDA
+ERRO: valor duplicado na chave, registro ignorado: RENAN SPRINGER DE FREITAS
+ERRO: valor duplicado na chave, registro ignorado: RENATA BARBOSA DE OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: RENATA DINIZ
+ERRO: valor duplicado na chave, registro ignorado: RENATO ANTONIO CELSO FERREIRA
+ERRO: valor duplicado na chave, registro ignorado: RENATO BORTOLOTI
+ERRO: valor duplicado na chave, registro ignorado: RENATO DE LIMA SANTOS
+ERRO: valor duplicado na chave, registro ignorado: RENATO SANTANA DE AGUIAR
+ERRO: valor duplicado na chave, registro ignorado: RENATO SANTIAGO GOMEZ
+ERRO: valor duplicado na chave, registro ignorado: RENATO VIDAL DA SILVA MARTINS
+ERRO: valor duplicado na chave, registro ignorado: RENES DE RESENDE MACHADO
+ERRO: valor duplicado na chave, registro ignorado: RICARDO ALVES DE MESQUITA
+ERRO: valor duplicado na chave, registro ignorado: RICARDO AUGUSTO DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: RICARDO FABRINO MENDONCA
+ERRO: valor duplicado na chave, registro ignorado: RICARDO HIROSHI CALDEIRA TAKAHASHI
+ERRO: valor duplicado na chave, registro ignorado: RICARDO NASCIMENTO ARAUJO
+ERRO: valor duplicado na chave, registro ignorado: RICARDO RIBEIRO DE CASTRO SOLAR
+ERRO: valor duplicado na chave, registro ignorado: RICARDO SANTIAGO GOMEZ
+ERRO: valor duplicado na chave, registro ignorado: RICARDO SARAIVA DE CAMARGO
+ERRO: valor duplicado na chave, registro ignorado: RICARDO TOSHIO FUJIWARA
+ERRO: valor duplicado na chave, registro ignorado: RICARDO TOSTES GAZZINELLI
+ERRO: valor duplicado na chave, registro ignorado: RICARDO WAGNER NUNES
+ERRO: valor duplicado na chave, registro ignorado: RITA DE CASSIA DE OLIVEIRA SEBASTIAO
+ERRO: valor duplicado na chave, registro ignorado: RITA DE CASSIA LUCENA VELLOSO
+ERRO: valor duplicado na chave, registro ignorado: ROBERT ALDO IQUIAPAZA COAGUILA
+ERRO: valor duplicado na chave, registro ignorado: ROBERTA GUIMARAES FRANCO FARIA DE ASSIS
+ERRO: valor duplicado na chave, registro ignorado: ROBERTA VIEIRA GONCALVES DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: ROBERTO ALEXANDRE DO CARMO SAID
+ERRO: valor duplicado na chave, registro ignorado: ROBERTO BRAGA FIGUEIREDO
+ERRO: valor duplicado na chave, registro ignorado: ROBERTO LUIZ MOREIRA
+ERRO: valor duplicado na chave, registro ignorado: ROBERTO MAGALHAES PANIAGO
+ERRO: valor duplicado na chave, registro ignorado: ROBERTO MAURICIO CARVALHO GUEDES
+ERRO: valor duplicado na chave, registro ignorado: ROCHEL MONTERO LAGO
+ERRO: valor duplicado na chave, registro ignorado: RODINEI AUGUSTI
+ERRO: valor duplicado na chave, registro ignorado: RODINEI FACCO PEGORARO
+ERRO: valor duplicado na chave, registro ignorado: RODNEY REZENDE SALDANHA
+ERRO: valor duplicado na chave, registro ignorado: RODOLFO CORDEIRO GIUNCHETTI
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO AFFONSO DE ALBUQUERQUE NOBREGA
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO ARAUJO LIMA RODRIGUES
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO BARRETO CALDAS
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO DOS SANTOS HORTA
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO GRIBEL LACERDA
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO GUERRA PEIXOTO
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO LAMBERT OREFICE
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO LASSAROTE LAVALL
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO MORENO MARQUES
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO OTAVIO SILVEIRA SILVA
+ERRO: valor duplicado na chave, registro ignorado: RODRIGO PATTO SA MOTTA
+ERRO: valor duplicado na chave, registro ignorado: RODRYGO LUIS TEODORO SANTOS
+ERRO: valor duplicado na chave, registro ignorado: ROGERIA SERAKIDES
+ERRO: valor duplicado na chave, registro ignorado: ROGERIO ANTONIO LOPES
+ERRO: valor duplicado na chave, registro ignorado: ROGERIO MAGALHAES PANIAGO
+ERRO: valor duplicado na chave, registro ignorado: RONALD KENNEDY LUZ
+ERRO: valor duplicado na chave, registro ignorado: ROQUE LUIZ DA SILVA PITANGUEIRA
+ERRO: valor duplicado na chave, registro ignorado: ROSALINE CRISTINA FIGUEIREDO E SILVA
+ERRO: valor duplicado na chave, registro ignorado: ROSANGELA HELENA LOSCHI
+ERRO: valor duplicado na chave, registro ignorado: ROSELENE ECCO
+ERRO: valor duplicado na chave, registro ignorado: ROSSIMIRIAM PEREIRA DE FREITAS
+ERRO: valor duplicado na chave, registro ignorado: ROSY MARY DOS SANTOS ISAIAS
+ERRO: valor duplicado na chave, registro ignorado: ROUSILEY CELI MOREIRA MAIA
+ERRO: valor duplicado na chave, registro ignorado: RUBEN CAIXETA DE QUEIROZ
+ERRO: valor duplicado na chave, registro ignorado: RUBEN DARIO SINISTERRA MILLAN
+ERRO: valor duplicado na chave, registro ignorado: RUDOLF HUEBNER
+ERRO: valor duplicado na chave, registro ignorado: RUI ROTHE NEVES
+ERRO: valor duplicado na chave, registro ignorado: SABRINA SEDLMAYER PINTO
+ERRO: valor duplicado na chave, registro ignorado: SAMUEL PENNA WANNER
+ERRO: valor duplicado na chave, registro ignorado: SAMUEL SILVA PENNA
+ERRO: valor duplicado na chave, registro ignorado: SANDRA REGINA GOULART ALMEIDA
+ERRO: valor duplicado na chave, registro ignorado: SANTUZA MARIA RIBEIRO TEIXEIRA
+ERRO: valor duplicado na chave, registro ignorado: SAUL MARTINS DE PAIVA
+ERRO: valor duplicado na chave, registro ignorado: SEBASTIAO JOSE NASCIMENTO DE PADUA
+ERRO: valor duplicado na chave, registro ignorado: SERGIO FREIRE GARCIA
+ERRO: valor duplicado na chave, registro ignorado: SERGIO HENRIQUE SOUSA SANTOS
+ERRO: valor duplicado na chave, registro ignorado: SERGIO TEIXEIRA DA FONSECA
+ERRO: valor duplicado na chave, registro ignorado: SERGIO WILLIAM VIANA PEIXOTO
+ERRO: valor duplicado na chave, registro ignorado: SILKE KAPP
+ERRO: valor duplicado na chave, registro ignorado: SILVERIO VISACRO FILHO
+ERRO: valor duplicado na chave, registro ignorado: SILVIA CAROLINA GUATIMOSIM FONSECA
+ERRO: valor duplicado na chave, registro ignorado: SILVIA HELENA PAIXAO ALENCAR
+ERRO: valor duplicado na chave, registro ignorado: SILVIA MARIA ALVES CORREA OLIVEIRA
+ERRO: valor duplicado na chave, registro ignorado: SILVIA NIETSCHE
+ERRO: valor duplicado na chave, registro ignorado: SILVIO SEGUNDO SALEJ HIGGINS
+ERRO: valor duplicado na chave, registro ignorado: SIMONE DE VASCONCELOS GENEROSO
+ERRO: valor duplicado na chave, registro ignorado: SIMONE MARIA ROCHA
+ERRO: valor duplicado na chave, registro ignorado: SIMONE ODILIA ANTUNES FERNANDES
+ERRO: valor duplicado na chave, registro ignorado: SOFIA MARIA CARRATO DINIZ
+ERRO: valor duplicado na chave, registro ignorado: SONIA CALDAS PESSOA
+ERRO: valor duplicado na chave, registro ignorado: SONIA DENISE FERREIRA ROCHA
+ERRO: valor duplicado na chave, registro ignorado: SONIA MARIA CARVALHO RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: STELA MARIS AGUIAR LEMOS
+ERRO: valor duplicado na chave, registro ignorado: STEPHANE DENIS ALBERT RENE PHILIPPE HUCHET
+ERRO: valor duplicado na chave, registro ignorado: STEYNER DE FRANCA CORTES
+ERRO: valor duplicado na chave, registro ignorado: SUELY MEIRELES REZENDE
+ERRO: valor duplicado na chave, registro ignorado: SUZANA DOS SANTOS GOMES
+ERRO: valor duplicado na chave, registro ignorado: TACIANA TOLEDO DE ALMEIDA ALBUQUERQUE
+ERRO: valor duplicado na chave, registro ignorado: TANIA COUTO MACHADO CHIANCA
+ERRO: valor duplicado na chave, registro ignorado: TARCILIA APARECIDA DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: TATIANA GARABINI CORNELISSEN
+ERRO: valor duplicado na chave, registro ignorado: TATIANE ALVES DA PAIXAO
+ERRO: valor duplicado na chave, registro ignorado: TATIANI UCELI MAIOLI
+ERRO: valor duplicado na chave, registro ignorado: TERESA CRISTINA DE ABREU FERRARI
+ERRO: valor duplicado na chave, registro ignorado: THALES REZENDE DE SOUZA
+ERRO: valor duplicado na chave, registro ignorado: THIAGO DE CASTRO GOMES
+ERRO: valor duplicado na chave, registro ignorado: THIAGO FERREIRA DE NORONHA
+ERRO: valor duplicado na chave, registro ignorado: THIAGO ROBERTO LIMA ROMERO
+ERRO: valor duplicado na chave, registro ignorado: THIAGO VERANO BRAGA
+ERRO: valor duplicado na chave, registro ignorado: THOMAS DA ROSA DE BUSTAMANTE
+ERRO: valor duplicado na chave, registro ignorado: TIAGO AMANCIO NOVO
+ERRO: valor duplicado na chave, registro ignorado: TULIO MATENCIO
+ERRO: valor duplicado na chave, registro ignorado: UENDE APARECIDA FIGUEIREDO GOMES
+ERRO: valor duplicado na chave, registro ignorado: ULRIKE AGATHE SCHRODER
+ERRO: valor duplicado na chave, registro ignorado: URSULA RUCHKYS DE AZEVEDO
+ERRO: valor duplicado na chave, registro ignorado: VALBERT NASCIMENTO CARDOSO
+ERRO: valor duplicado na chave, registro ignorado: VANESSA FERRAZ ALMEIDA NEVES
+ERRO: valor duplicado na chave, registro ignorado: VANESSA PINHO DA SILVA
+ERRO: valor duplicado na chave, registro ignorado: VEBER AFONSO FIGUEIREDO COSTA
+ERRO: valor duplicado na chave, registro ignorado: VERA LUCIA DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: VERLAINE FREITAS
+ERRO: valor duplicado na chave, registro ignorado: VERONICA ORTIZ ALVARENGA
+ERRO: valor duplicado na chave, registro ignorado: VICTOR COSTA DA SILVA CAMPOS
+ERRO: valor duplicado na chave, registro ignorado: VINICIUS DINIZ MAYRINK
+ERRO: valor duplicado na chave, registro ignorado: VINICIUS FERNANDES DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: VINICIUS GONCALVES MALTAROLLO
+ERRO: valor duplicado na chave, registro ignorado: VINICIUS MARIANO GONCALVES
+ERRO: valor duplicado na chave, registro ignorado: VIRGINIA SAMPAIO TEIXEIRA CIMINELLI
+ERRO: valor duplicado na chave, registro ignorado: VIVIAN RESENDE
+ERRO: valor duplicado na chave, registro ignorado: VIVIAN VASCONCELOS COSTA LITWINSKI
+ERRO: valor duplicado na chave, registro ignorado: WAGNER MEIRA JUNIOR
+ERRO: valor duplicado na chave, registro ignorado: WALBER HUGO DE BRITO
+ERRO: valor duplicado na chave, registro ignorado: WALDEREZ ORNELAS DUTRA
+ERRO: valor duplicado na chave, registro ignorado: WALLACE DO COUTO BOAVENTURA
+ERRO: valor duplicado na chave, registro ignorado: WALMIR MATOS CAMINHAS
+ERRO: valor duplicado na chave, registro ignorado: WANDER LUIZ VASCONCELOS
+ERRO: valor duplicado na chave, registro ignorado: WESLEN FABRICIO PIRES TEIXEIRA
+ERRO: valor duplicado na chave, registro ignorado: WHITE JOSE DOS SANTOS
+ERRO: valor duplicado na chave, registro ignorado: WILLIAM ROBSON SCHWARTZ
+ERRO: valor duplicado na chave, registro ignorado: WILLIAN RICARDO ROCHA
+ERRO: valor duplicado na chave, registro ignorado: ZENILDA DE LOURDES CARDEAL
+ERRO: valor duplicado na chave, registro ignorado: ZILMA SILVEIRA NOGUEIRA REIS
+ERRO: valor duplicado na chave, registro ignorado: ADRIANA OLIVEIRA COSTA
+ERRO: valor duplicado na chave, registro ignorado: ALICE MARA SERRA
+ERRO: valor duplicado na chave, registro ignorado: EDUARDO TADEU ROQUE AMARAL
+ERRO: valor duplicado na chave, registro ignorado: FELIPE BISAGGIO PEREIRA
+ERRO: valor duplicado na chave, registro ignorado: FERNANDO DO COUTO ROSA ALMEIDA
+ERRO: valor duplicado na chave, registro ignorado: LEONARDO DAVID TUFFI SANTOS
+ERRO: valor duplicado na chave, registro ignorado: LUCAS DE SOUZA BATISTA
+ERRO: valor duplicado na chave, registro ignorado: LUCIANA DE MICHELIS MENDONCA
+ERRO: valor duplicado na chave, registro ignorado: LUCIENE BRUNO VIEIRA
+ERRO: valor duplicado na chave, registro ignorado: LUIZ PAULO RIBEIRO
+ERRO: valor duplicado na chave, registro ignorado: MARCELO MACHADO VIANA
+ERRO: valor duplicado na chave, registro ignorado: MARCO ANTONIO SOUSA ALVES
+ERRO: valor duplicado na chave, registro ignorado: MARIA APARECIDA GOMES
+ERRO: valor duplicado na chave, registro ignorado: MARIA TEREZA FONSECA DIAS
+ERRO: valor duplicado na chave, registro ignorado: MARIANA CARVALHO DE MENEZES
+ERRO: valor duplicado na chave, registro ignorado: MARIANA DE LIMA E MUNIZ
+ERRO: valor duplicado na chave, registro ignorado: MELISSA ORLANDIN PREMAOR
+ERRO: valor duplicado na chave, registro ignorado: PATRICIA NASCIMENTO PENA
+ERRO: valor duplicado na chave, registro ignorado: RAQUEL GARCIA GONCALVES
+ERRO: valor duplicado na chave, registro ignorado: RICARDO SILVEIRA MARTINS
+ERRO: valor duplicado na chave, registro ignorado: ROGER WILLIAM CAMARA SILVA
+ERRO: valor duplicado na chave, registro ignorado: ROGERIO SANTOS MOL
+ERRO: valor duplicado na chave, registro ignorado: SUZANE LILIAN BEIER
+ERRO: valor duplicado na chave, registro ignorado: TALITA FERNANDA DAS GRACAS SILVA
+ERRO: valor duplicado na chave, registro ignorado: VICTOR FLORES MENDES
+
+Modo                        : bin-rec
+Registros lidos             : 719
+Registros previos no destino: 718
+Registros inseridos         : 0
+Registros duplicados        : 719
+Comparacoes na ordenacao    : 6694
+Comparacoes na busca        : 7604
+Comparacoes totais          : 14298
+Tempo total                 : 0.000274 s

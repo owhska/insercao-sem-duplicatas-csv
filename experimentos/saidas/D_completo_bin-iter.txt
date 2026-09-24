@@ -1,0 +1,11 @@
+ERRO: valor duplicado na chave, registro ignorado: MARCELO MACHADO VIANA
+
+Modo                        : bin-iter
+Registros lidos             : 719
+Registros previos no destino: 0
+Registros inseridos         : 718
+Registros duplicados        : 1
+Comparacoes na ordenacao    : 3738
+Comparacoes na busca        : 6887
+Comparacoes totais          : 10625
+Tempo total                 : 0.000155 s

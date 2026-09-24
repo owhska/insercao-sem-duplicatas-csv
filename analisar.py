@@ -31,6 +31,11 @@ def milhar(x, _):
     return f"{int(round(x)):,}".replace(",", ".")
 
 
+def titulo(ax, t, sub):
+    ax.set_title(t, loc="left", pad=20)
+    ax.text(0, 1.015, sub, transform=ax.transAxes, fontsize=8, color="#6b6a64", va="bottom")
+
+
 def salvar(fig, nome):
     fig.tight_layout()
     fig.savefig(os.path.join(SAIDA, nome), bbox_inches="tight")
@@ -160,7 +165,7 @@ ax.plot(g, g * (g - 1) / 2, color=TEO, lw=1.8, label="Previsto: N(N−1)/2")
 for m in ["seq-iter", "seq-rec"]:
     s = aq[aq.modo == m]
     ax.plot(s.inseridos, s.comp_total, MARCA[m], color=COR[m], ms=7 if m == "seq-iter" else 4, label=ROTULO[m])
-ax.set_title("Solução 1: comparações medidas × previstas (Q = 0)", loc="left")
+titulo(ax, "Solução 1: comparações observadas × previstas (Q = 0)", "Os pontos medidos caem exatamente sobre a curva teórica, nos dois modos: diferença nula em todos os pontos.")
 ax.set_xlabel("N (registros inseridos)")
 ax.set_ylabel("Comparações entre chaves")
 ax.yaxis.set_major_formatter(FuncFormatter(milhar))
@@ -174,7 +179,7 @@ ax.plot(gq, 160 * gq + 12720, color=TEO, lw=1.8, label="Previsto: 160·Q + 12.72
 for m in ["seq-iter", "seq-rec"]:
     s = c[c.modo == m]
     ax.plot(s.previos, s.comp_total, MARCA[m], color=COR[m], ms=7 if m == "seq-iter" else 4, label=ROTULO[m])
-ax.set_title("Solução 1: efeito de Q com N = 160 fixo", loc="left")
+titulo(ax, "Solução 1: efeito do cadastro prévio Q (N = 160 fixo)", "Com N fixo, a dependência em Q é uma reta de inclinação 160: o termo N·Q da fórmula.")
 ax.set_xlabel("Q (registros já existentes no destino)")
 ax.set_ylabel("Comparações entre chaves")
 ax.yaxis.set_major_formatter(FuncFormatter(milhar))
@@ -191,7 +196,7 @@ ax.plot(ns, ns * np.log2(ns) * 2, "--", color=TEO, lw=1.2, label="Referência 2�
 for m in ["bin-iter", "bin-rec"]:
     s = a[a.modo == m]
     ax.plot(s.lidos, s.comp_total, MARCA[m], color=COR[m], ms=6, label=ROTULO[m])
-ax.set_title("Solução 2: comparações medidas (Q = 0)", loc="left")
+titulo(ax, "Solução 2: comparações medidas (Q = 0)", "Todos os pontos caem dentro da faixa teórica e acompanham 2·N lg N.")
 ax.set_xlabel("N (registros novos)")
 ax.set_ylabel("Comparações entre chaves")
 ax.yaxis.set_major_formatter(FuncFormatter(milhar))
@@ -205,7 +210,7 @@ for m in ["seq-iter", "bin-iter", "bin-rec"]:
     ax.plot(s.lidos, s.comp_total, MARCA[m] + "-", color=COR[m], ms=6, lw=1.5, label=ROTULO[m])
 ax.set_xscale("log")
 ax.set_yscale("log")
-ax.set_title("Comparações: Solução 1 × Solução 2 (Q = 0)", loc="left")
+titulo(ax, "Comparações: Solução 1 × Solução 2 (Q = 0)", "Em log-log, a Solução 1 tem inclinação 2 e a Solução 2, próxima de 1.")
 ax.set_xlabel("N (escala log)")
 ax.set_ylabel("Comparações (escala log)")
 ax.grid(True, which="major")
@@ -225,7 +230,7 @@ ref = s.tempo_total_s.iloc[-1] * 1e3 * (nn * np.log2(nn)) / (nn[-1] * np.log2(nn
 ax.plot(nn, ref, "--", color=TEO, lw=1.2, label="Referência ∝ N lg N")
 ax.set_xscale("log")
 ax.set_yscale("log")
-ax.set_title("Tempo de execução medido (benchmark em memória)", loc="left")
+titulo(ax, "Tempo de execução (benchmark em memória)", "Mediana de 15 repetições; retas de referência proporcionais a N² e a N lg N.")
 ax.set_xlabel("N (escala log)")
 ax.set_ylabel("Tempo em ms (escala log, mediana de 15)")
 ax.grid(True, which="major")
@@ -235,11 +240,43 @@ salvar(fig, "g5_tempos_benchmark.png")
 fig, ax = plt.subplots(figsize=(7.2, 4.2))
 for m in ["seq-iter", "seq-rec", "bin-iter", "bin-rec"]:
     ax.plot(med.index, med[m], MARCA[m] + "-", color=COR[m], ms=5, lw=1.5, label=ROTULO[m])
-ax.set_title("Tempo do programa com os dados reais (Q = 0)", loc="left")
+titulo(ax, "Tempo do programa com os dados reais (Q = 0)", "Mediana de 15 execuções completas, incluindo a gravação no destino.")
 ax.set_xlabel("N (registros novos)")
 ax.set_ylabel("Tempo em ms (mediana de 15)")
 ax.grid(True, axis="y")
 ax.legend(fontsize=8)
 salvar(fig, "g6_tempos_dados_reais.png")
+
+s1 = a[a.modo == "seq-iter"].sort_values("inseridos")
+fig, ax = plt.subplots(figsize=(7.2, 4.2))
+ax.plot(s1.inseridos, s1.comp_total, "o-", color=COR["seq-iter"], ms=5, lw=1.8, label="Observado")
+ref = s1.inseridos.astype(float) ** 2 / 2
+ax.plot(s1.inseridos, ref, "--", color="#e8663d", lw=1.5, label="Referência N²/2")
+incl = np.polyfit(np.log(s1.inseridos), np.log(s1.comp_total), 1)[0]
+ax.set_xscale("log")
+ax.set_yscale("log")
+titulo(ax, "Solução 1: verificação de Θ(N²) em escala log-log", f"Ajuste por mínimos quadrados: inclinação {incl:.4f}".replace(".", ","))
+ax.set_xlabel("N (escala log)")
+ax.set_ylabel("Comparações (escala log)")
+ax.grid(True, which="major")
+ax.legend()
+salvar(fig, "g7_sol1_loglog.png")
+print("inclinacao log-log das comparacoes (Sol. 1):", round(incl, 4))
+
+pot = s1[s1.inseridos.isin([10, 20, 40, 80, 160, 320, 640])]
+razoes = pot.comp_total.values[1:] / pot.comp_total.values[:-1]
+rotulos = [f"{x}→{y}" for x, y in zip(pot.inseridos.values[:-1], pot.inseridos.values[1:])]
+fig, ax = plt.subplots(figsize=(7.2, 4.0))
+barras = ax.bar(rotulos, razoes, color=COR["seq-iter"], width=0.55)
+for b_, r_ in zip(barras, razoes):
+    ax.text(b_.get_x() + b_.get_width() / 2, r_ + 0.05, f"{r_:.3f}".replace(".", ","), ha="center", fontsize=8)
+ax.axhline(4, color="#e8663d", ls="--", lw=1.5, label="Limite assintótico = 4")
+titulo(ax, "Solução 1: fator de crescimento ao dobrar N", "A razão desce monotonicamente em direção a 4, como prevê um algoritmo quadrático.")
+ax.set_xlabel("Transição de N")
+ax.set_ylabel("T(2N) / T(N)")
+ax.set_ylim(0, 4.8)
+ax.legend(loc="lower right")
+salvar(fig, "g8_sol1_dobrar_n.png")
+print("razoes ao dobrar N:", razoes.round(4))
 
 print("\ngraficos gerados em", SAIDA)

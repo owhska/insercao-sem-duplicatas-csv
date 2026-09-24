@@ -1,0 +1,10 @@
+
+Modo                        : seq-iter
+Registros lidos             : 20
+Registros previos no destino: 0
+Registros inseridos         : 20
+Registros duplicados        : 0
+Comparacoes na ordenacao    : 0
+Comparacoes na busca        : 190
+Comparacoes totais          : 190
+Tempo total                 : 0.000006 s

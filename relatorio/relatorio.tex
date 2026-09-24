@@ -1,0 +1,864 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{times}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{array}
+
+\newcommand{\repositorio}{https://github.com/owhska/insercao-sem-duplicatas-csv}
+
+\captionsetup{font=small,labelfont={small,bf},textfont=it,labelsep=colon}
+\renewcommand{\lstlistingname}{Listing}
+\setlength{\parskip}{0.2em}
+
+\definecolor{fundocod}{HTML}{F5F5F5}
+\lstset{
+  language=C, basicstyle=\ttfamily\scriptsize, numbers=left, numberstyle=\tiny,
+  numbersep=6pt, backgroundcolor=\color{fundocod}, frame=single, rulecolor=\color{black!20},
+  breaklines=true, showstringspaces=false, tabsize=4, columns=fullflexible, keepspaces=true,
+}
+\lstdefinestyle{cmd}{language={}, numbers=none, basicstyle=\ttfamily\scriptsize}
+
+\newtheorem{proposicao}{Proposição}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{3cm}
+{\LARGE\bfseries Análise de Algoritmos Aplicada à Inserção\\[0.3em] sem Duplicatas em CSV\par}
+\vspace{0.8cm}
+{\large Comparação entre busca sequencial (iterativa e recursiva) e MergeSort com busca binária (iterativos e recursivos): análise teórica, demonstração por indução e validação experimental\par}
+\vspace{3cm}
+{\large Autores: Vitor Kenzo Matsunaga, Gustavo Alves, Matheus Brunes\par}
+\vspace{0.4cm}
+{\large Disciplina: Análise de Algoritmos --- Relatório 4\par}
+\vspace{0.4cm}
+{\large Professor: Zoe Roberto\par}
+\vspace{2cm}
+{\bfseries Repositório Git público\par}
+\vspace{0.2cm}
+{\ttfamily\small \url{\repositorio}\par}
+\vfill
+{Setembro de 2026\par}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Introdução}
+
+Este trabalho tem por objetivo implementar, em linguagem C, um serviço de importação de registros de bolsistas a partir de arquivos CSV, garantindo que nenhum valor da coluna utilizada como chave de unicidade seja cadastrado em duplicidade, e analisar rigorosamente o custo computacional dos algoritmos empregados na verificação de redundância. O programa recebe, pela linha de comando, o nome do arquivo CSV com os novos registros e o nome do arquivo CSV de destino; os registros válidos são inseridos ao final do destino.
+
+A verificação de duplicidade foi implementada de duas maneiras, correspondentes às duas soluções pedidas no enunciado:
+
+\begin{description}[leftmargin=1.2cm,style=nextline]
+  \item[Solução 1] busca sequencial sobre as chaves já presentes no destino, em versão iterativa e recursiva;
+  \item[Solução 2] carga das chaves em um vetor na memória principal, ordenação por MergeSort (versões iterativa e recursiva) e busca por duplicidade com busca binária (versões iterativa e recursiva).
+\end{description}
+
+Todas as implementações foram instrumentadas com contadores do número de comparações entre chaves (chamadas a \texttt{strcmp}). O objetivo central não é apenas mostrar que o programa funciona, mas confrontar previsões teóricas com evidências medidas. A análise parte de dois parâmetros: $Q$, a quantidade de registros já existentes no arquivo de destino no início da execução, e $N$, a quantidade de registros novos a inserir. Para a Solução 1, a função de custo deduzida é
+\begin{equation}
+T(N,Q)=N\cdot Q+\frac{N(N-1)}{2},
+\label{eq:t}
+\end{equation}
+demonstrada por indução matemática; para a Solução 2, o custo é $\Theta\big((N+Q)\lg(N+Q)\big)$, com limites inferior e superior deduzidos para cada fase. Os experimentos foram conduzidos sobre o arquivo \texttt{bolsistas-2025.csv}, obtido do Portal de Dados Abertos (\texttt{dados.gov.br}), variando $N$ de 10 a 718 com os dados reais e até 512.000 em um benchmark em memória, nos quatro modos de execução.
+
+Adiantam-se os resultados principais. Na Solução 1, em todas as execuções em que a hipótese de chaves distintas é satisfeita, a diferença entre o número de comparações previsto pela Equação~\eqref{eq:t} e o medido foi exatamente zero, nos dois modos. Na Solução 2, todas as contagens ficaram dentro dos limites teóricos. Para 8.000 registros, a Solução 2 foi 60 vezes mais rápida que a Solução 1. As versões recursivas têm a mesma complexidade temporal das iterativas, mas a busca sequencial recursiva foi cerca de 3 vezes mais lenta e usa pilha proporcional ao tamanho do cadastro.
+
+\section{Base de dados}
+
+\subsection{Descrição}
+
+O arquivo utilizado tem as seguintes características:
+
+\begin{itemize}[itemsep=1pt]
+  \item 719 registros de dados, além da linha de cabeçalho; separador vírgula, sem aspas; codificação Latin-1;
+  \item quatro colunas: \texttt{Nome} (nome do bolsista), \texttt{Modalidade} (\texttt{PQ}, Produtividade em Pesquisa, com 696 registros; \texttt{DT}, Produtividade em Desenvolvimento Tecnológico e Extensão Inovadora, com 23 registros), \texttt{Nivel} (nível da bolsa: \texttt{1A}, \texttt{1B}, \texttt{1C}, \texttt{1D}, \texttt{2}, \texttt{A}, \texttt{B}, \texttt{C}) e \texttt{Agência} (agência financiadora: CNPq, com 694 registros, e FAPEMIG, com 25 registros);
+  \item 718 nomes distintos, com maior nome de 43 caracteres.
+\end{itemize}
+
+\subsection{Coluna utilizada como chave de unicidade}
+
+A chave de unicidade escolhida é a coluna \texttt{Nome}. O cadastro principal deve conter cada bolsista uma única vez; um segundo registro com o mesmo nome é tratado como tentativa de recadastramento, ainda que \texttt{Modalidade}, \texttt{Nivel} e \texttt{Agência} sejam diferentes. O próprio arquivo original contém uma violação dessa regra: o nome MARCELO MACHADO VIANA aparece duas vezes, uma como \texttt{DT/C/CNPq} e outra como \texttt{PQ/2/FAPEMIG}. Esse é exatamente o tipo de registro que o programa deve rejeitar, e ele é usado no Experimento D.
+
+A escolha tem uma limitação conhecida: nomes de pessoas não são identificadores perfeitos, pois pode haver homônimos. Em uma aplicação real, um identificador como o CPF ou o número do processo seria preferível; o arquivo público, porém, não traz esse tipo de identificador, e o objeto de estudo deste trabalho é o custo da verificação de unicidade, que independe de qual coluna é usada como chave.
+
+\subsection{Verificação dos requisitos}
+\label{sec:requisitos}
+
+\begin{enumerate}[itemsep=1pt]
+  \item \textbf{Coluna cujos valores devem ser únicos:} \texttt{Nome}, pelas razões acima.
+  \item \textbf{Valores não ordenados no arquivo original:} o arquivo está organizado em dois blocos, primeiro os 694 registros do CNPq e depois os 25 da FAPEMIG, cada bloco em ordem alfabética de nome. A coluna \texttt{Nome} como um todo, portanto, não está ordenada: na transição entre os blocos o nome volta ao início do alfabeto. O arquivo é, no entanto, \emph{quase} ordenado, e essa característica tem efeito mensurável sobre o MergeSort (Seção~\ref{sec:quaseord}). Para que os experimentos principais não dependessem dessa quase-ordenação, os arquivos de novos registros usados nos testes foram gerados embaralhando os registros com semente fixa (Seção~\ref{sec:entradas}).
+\end{enumerate}
+
+\section{Descrição da solução implementada}
+
+O programa é um único executável em C, \texttt{copiador}, invocado da seguinte forma:
+
+\begin{lstlisting}[style=cmd]
+./copiador <novos.csv> <destino.csv> [seq-iter|seq-rec|bin-iter|bin-rec] [estatisticas.csv]
+\end{lstlisting}
+
+\begin{description}[leftmargin=1.2cm,style=nextline,itemsep=1pt]
+  \item[\texttt{novos.csv}] arquivo de onde os novos registros são lidos (a primeira linha é o cabeçalho);
+  \item[\texttt{destino.csv}] cadastro principal, ao final do qual os registros não redundantes são acrescentados. Se não existir, é criado com o cabeçalho do arquivo de novos registros;
+  \item[\texttt{modo}] parâmetro opcional que seleciona a implementação: \texttt{seq-iter} (padrão) e \texttt{seq-rec} para a Solução 1, \texttt{bin-iter} e \texttt{bin-rec} para a Solução 2;
+  \item[\texttt{estatisticas.csv}] parâmetro opcional; se informado, recebe ao final uma linha com os registros lidos, inseridos e duplicados, as comparações da ordenação e da busca e os tempos de execução.
+\end{description}
+
+Os dois primeiros argumentos são os exigidos pelo enunciado. A Solução 1 é a estratégia mais direta possível: o programa mantém em memória um vetor com as chaves já presentes no destino e, para cada novo registro, percorre esse vetor comparando chave a chave até encontrar uma igualdade ou esgotá-lo. A Solução 2 ordena as chaves com MergeSort e verifica a duplicidade com busca binária, de forma detalhada na Seção~\ref{sec:sol2}.
+
+Três decisões de implementação merecem registro. Primeiro, o destino é carregado por completo antes de começar a inserção, o que estabelece o valor de $Q$; sem essa etapa, o programa reinseriria chaves já cadastradas a cada nova execução. Segundo, a comparação considera exclusivamente a coluna \texttt{Nome}. Terceiro, uma redundância não interrompe a execução: ao encontrar uma chave repetida, o programa emite a mensagem \texttt{ERRO: valor duplicado na chave, registro ignorado: <nome>} e segue para o próximo registro. Um registro é rejeitado quando sua chave já está no destino ou quando já apareceu em um registro anterior do próprio arquivo de novos registros. As quatro implementações produzem arquivos de destino idênticos byte a byte em todos os experimentos, o que foi verificado por \emph{hash} MD5.
+
+\section{Explicação do funcionamento do programa}
+
+O fluxo de execução é o seguinte:
+\begin{enumerate}[itemsep=2pt]
+  \item \textbf{Validação dos argumentos.} Se o número de argumentos estiver fora do esperado ou o modo for inválido, o programa imprime a forma de uso em \texttt{stderr} e encerra com código de erro.
+  \item \textbf{Leitura dos novos registros.} O arquivo de novos registros é lido por completo; o cabeçalho é guardado, e para cada linha são armazenadas a linha inteira e a chave extraída pela função \texttt{extrair\_chave}.
+  \item \textbf{Preparação do destino.} Se o destino não existir ou estiver vazio, é criado com o cabeçalho; caso contrário, a função \texttt{garantir\_quebra\_final} assegura que ele termina em quebra de linha.
+  \item \textbf{Carga do cadastro existente.} A função \texttt{carregar\_chaves\_destino} lê o destino, ignora o cabeçalho e as linhas vazias e insere as chaves no vetor em memória. O valor retornado é $Q$.
+  \item \textbf{Verificação e inserção.} Na Solução 1, cada chave nova é procurada por busca sequencial (iterativa ou recursiva); se não for encontrada, a linha é gravada no destino e a chave passa a integrar o vetor. Na Solução 2, os vetores são ordenados por MergeSort e cada chave é verificada por busca binária (Seção~\ref{sec:sol2}).
+  \item \textbf{Relatório e estatísticas.} Ao final, o programa imprime um resumo na saída padrão e, se solicitado, acrescenta uma linha ao arquivo de estatísticas.
+\end{enumerate}
+
+A instrumentação é feita por dois contadores globais: \texttt{comp\_ordenacao}, incrementado a cada comparação da intercalação do MergeSort, e \texttt{comp\_busca}, incrementado a cada comparação das buscas. Essa é a definição operacional de comparação adotada neste trabalho: cada chamada a \texttt{strcmp} entre duas chaves.
+
+\section{Estruturas de dados utilizadas}
+
+A estrutura central é um vetor dinâmico de cadeias de caracteres:
+
+\begin{lstlisting}[caption={Estrutura de dados \texttt{Vetor}}]
+typedef struct {
+    char **itens;
+    size_t qtd;
+    size_t capacidade;
+} Vetor;
+\end{lstlisting}
+
+O campo \texttt{itens} é um vetor de ponteiros; cada posição aponta para uma cadeia alocada com o tamanho exato. O campo \texttt{qtd} guarda quantos itens estão armazenados, e \texttt{capacidade}, quantos caberiam sem realocação. O programa usa quatro vetores: as chaves do destino, as linhas dos novos registros, as chaves dos novos registros e, na Solução 2, uma cópia de ponteiros para as chaves novas, que é ordenada.
+
+\textbf{Crescimento amortizado.} Quando \texttt{qtd} alcança \texttt{capacidade}, a função \texttt{vetor\_inserir} dobra a capacidade com \texttt{realloc} (16 na primeira alocação). O dobramento garante que o custo total das realocações ao longo de $N$ inserções seja $O(N)$, isto é, $O(1)$ amortizado por inserção; o crescimento do vetor, portanto, não contribui para o termo dominante do custo, que vem das comparações.
+
+\textbf{Vetor auxiliar do MergeSort.} A intercalação usa um vetor auxiliar de ponteiros do mesmo tamanho do vetor ordenado, alocado uma única vez por ordenação.
+
+\section{Análise teórica da Solução 1}
+
+\subsection{Hipóteses}
+
+A análise adota as seguintes hipóteses:
+\begin{enumerate}[label=\textbf{(H\arabic*)},itemsep=1pt]
+  \item a verificação de redundância é feita por busca sequencial;
+  \item as $N$ chaves a serem inseridas são distintas entre si e distintas das chaves do destino;
+  \item o arquivo de destino inicia com $Q$ registros.
+\end{enumerate}
+
+A hipótese (H2) é a mais importante, pois torna a análise determinística: nenhuma busca encontra o que procura, e portanto toda busca percorre o vetor até o fim. Não existe caso médio nem melhor caso a considerar; há um único comportamento possível, que é o pior caso da busca sequencial.
+
+\subsection{Custo de uma inserção isolada}
+
+Considere a $i$-ésima inserção, com $i=1,2,\ldots,N$. Antes dela, o vetor contém as $Q$ chaves que já estavam no destino e as $i-1$ chaves inseridas pelas iterações anteriores, totalizando $Q+i-1$ elementos. Logo, a busca malsucedida executa
+\begin{equation}
+c_i=Q+i-1
+\label{eq:ci}
+\end{equation}
+comparações. O custo de cada inserção cresce linearmente com o número de inserções já feitas, porque o vetor contra o qual se compara cresce a cada passo.
+
+\subsection{Complexidade assintótica}
+
+Expandindo a Equação~\eqref{eq:t}:
+\[
+T(N,Q)=\frac{N^2}{2}+N\left(Q-\frac12\right).
+\]
+Para $Q$ constante, o termo dominante é $N^2/2$. Para o limite superior, tomando $N\ge\max(Q,2)$, tem-se $NQ\le N^2$ e $N(N-1)/2\le N^2/2$, logo
+\[
+T(N,Q)\le N^2+\frac{N^2}{2}=\frac32N^2,
+\]
+o que satisfaz $O(N^2)$ com $c=3/2$ e $n_0=\max(Q,2)$. Para o limite inferior, para $N\ge2$ vale $N-1\ge N/2$, logo
+\[
+T(N,Q)\ge\frac{N(N-1)}{2}\ge\frac{N^2}{4},
+\]
+o que satisfaz $\Omega(N^2)$ com $c=1/4$ e $n_0=2$. Das duas condições segue $T(N)=\Theta(N^2)$. Essa classificação não muda se $Q$ crescer proporcionalmente a $N$: se $Q=\alpha N$, então $T=(\alpha+1/2)N^2-N/2$, que continua sendo $\Theta(N^2)$, apenas com uma constante multiplicativa maior.
+
+\subsection{Comportamento quando $N$ dobra}
+
+Com $Q=0$, a razão entre o custo de $2N$ e o de $N$ chaves é
+\begin{equation}
+\frac{T(2N)}{T(N)}=\frac{2N(2N-1)}{N(N-1)}=\frac{4N-2}{N-1}.
+\label{eq:razao}
+\end{equation}
+Tomando o limite, $\lim_{N\to\infty}\frac{4N-2}{N-1}=4$: ao dobrar a quantidade de chaves, o número de comparações quadruplica. A convergência se dá por cima, e a distância até 4, que vale $\frac{2}{N-1}$, cai aproximadamente pela metade a cada duplicação de $N$ (passa a $\frac{2}{2N-1}$). O termo $NQ$, quando presente, não altera esse limite: para $Q$ fixo ele é linear em $N$ e, portanto, assintoticamente desprezível diante do termo quadrático; seu efeito é apenas retardar a convergência da razão para 4.
+
+\section{Dedução da função $T(N,Q)$}
+\label{sec:deducao}
+
+O total de comparações é a soma dos custos individuais das $N$ inserções. Usando a Equação~\eqref{eq:ci}:
+\begin{align}
+T(N,Q)&=\sum_{i=1}^{N}c_i=\sum_{i=1}^{N}(Q+i-1)\notag\\
+&=\sum_{i=1}^{N}Q+\sum_{i=1}^{N}(i-1)\notag\\
+&=N\cdot Q+\sum_{j=0}^{N-1}j\qquad(j=i-1)\notag\\
+&=N\cdot Q+\frac{(N-1)N}{2}\notag\\
+&=N\cdot Q+\frac{N(N-1)}{2}.\label{eq:deducao}
+\end{align}
+
+A fórmula tem uma leitura direta: o termo $N\cdot Q$ é o custo de comparar cada uma das $N$ chaves novas contra as $Q$ que já estavam no destino (um retângulo de $N$ por $Q$ comparações), e o termo $N(N-1)/2$ é o custo de comparar as chaves novas entre si: são $\binom N2$ pares não ordenados, cada um comparado exatamente uma vez.
+
+\textbf{Casos particulares.} Para $Q=0$, a fórmula se reduz a $T(N,0)=N(N-1)/2$. Para $Q=1$, ocorre a simplificação
+\begin{equation}
+T(N,1)=N+\frac{N(N-1)}{2}=\frac{N(N+1)}{2}.
+\label{eq:q1}
+\end{equation}
+
+\section{Demonstração por indução matemática}
+
+Demonstra-se, por indução sobre $N$, a validade da Equação~\eqref{eq:t}. Seja $Q\ge0$ fixo e defina-se a proposição
+\[
+P(N):\quad T(N,Q)=N\cdot Q+\frac{N(N-1)}{2}.
+\]
+
+\textbf{Caso base.} Para $N=1$, há uma única inserção; no momento em que ela ocorre, o vetor contém apenas os $Q$ registros iniciais, e a busca, malsucedida por (H2), percorre todos eles. Logo $T(1,Q)=Q$. Avaliando a fórmula em $N=1$: $1\cdot Q+\frac{1\cdot0}{2}=Q$. Os dois valores coincidem, logo $P(1)$ é verdadeira. (A fórmula também vale trivialmente para $N=0$, o que permite ancorar a indução em $N=0$ caso se prefira.)
+
+\textbf{Hipótese de indução.} Suponha que, para algum $k\ge1$, $P(k)$ seja verdadeira, isto é, $T(k,Q)=kQ+\frac{k(k-1)}{2}$.
+
+\textbf{Passo indutivo.} Considere a inserção de $k+1$ chaves distintas. As $k$ primeiras inserções são idênticas às do caso com $k$ chaves, custando, por hipótese de indução, $T(k,Q)$. Resta o custo da $(k+1)$-ésima inserção: o vetor contém então $Q+k$ elementos, e como a nova chave é distinta de todos eles, por (H2), a busca percorre o vetor inteiro, custando $Q+k$ comparações. Logo:
+\begin{align*}
+T(k+1,Q)&=T(k,Q)+(Q+k)\\
+&=kQ+\frac{k(k-1)}{2}+Q+k\\
+&=(k+1)Q+\frac{k(k-1)+2k}{2}\\
+&=(k+1)Q+\frac{k^2+k}{2}\\
+&=(k+1)Q+\frac{(k+1)k}{2}\\
+&=(k+1)Q+\frac{(k+1)\big((k+1)-1\big)}{2},
+\end{align*}
+que é precisamente a fórmula avaliada em $N=k+1$. Portanto $P(k+1)$ é verdadeira.
+
+\textbf{Conclusão.} Verificou-se que $P(1)$ é verdadeira e que, para todo $k\ge1$, $P(k)\Rightarrow P(k+1)$. Pelo princípio da indução matemática,
+\[
+T(N,Q)=N\cdot Q+\frac{N(N-1)}{2}\quad\text{para todo }N\ge1,
+\]
+sob as hipóteses (H1), (H2) e (H3). $\blacksquare$
+
+Cabe sublinhar o que a demonstração estabelece e o que não estabelece: ela prova que a fórmula descreve exatamente o número de comparações quando as chaves inseridas são distintas, mas nada afirma sobre execuções com redundâncias; nesses casos, uma busca pode terminar antes de percorrer o vetor todo. O Experimento D (Seção~\ref{sec:desvioD}) explora justamente essa fronteira.
+
+\section{Análise das duas implementações da busca sequencial}
+
+\subsection{Busca sequencial iterativa}
+
+\begin{lstlisting}[caption={Busca sequencial iterativa}]
+int busca_sequencial_iterativa(char **v, size_t n, const char *chave) {
+    size_t i;
+    for (i = 0; i < n; i++) {
+        comp_busca++;
+        if (strcmp(v[i], chave) == 0) return 1;
+    }
+    return 0;
+}
+\end{lstlisting}
+
+\textbf{Análise.} Tempo no pior caso $\Theta(n)$; no melhor caso, $\Theta(1)$; no caso médio, $\Theta(n)$. Espaço auxiliar $\Theta(1)$: apenas a variável de controle \texttt{i} é usada, independentemente do tamanho do vetor. Espaço total $\Theta(n)$, correspondente ao próprio cadastro.
+
+\subsection{Busca sequencial recursiva}
+
+\begin{lstlisting}[caption={Busca sequencial recursiva}]
+static int busca_sequencial_rec_aux(char **v, size_t n, const char *chave, size_t i) {
+    if (i >= n) return 0;
+    comp_busca++;
+    if (strcmp(v[i], chave) == 0) return 1;
+    return busca_sequencial_rec_aux(v, n, chave, i + 1);
+}
+
+int busca_sequencial_recursiva(char **v, size_t n, const char *chave) {
+    return busca_sequencial_rec_aux(v, n, chave, 0);
+}
+\end{lstlisting}
+
+\textbf{Análise.} As complexidades de tempo são idênticas às da versão iterativa: $\Theta(n)$ no pior e no caso médio, $\Theta(1)$ no melhor caso. A diferença está no espaço: cada chamada recursiva empilha uma nova moldura de ativação, e nenhuma é liberada antes do fim da busca, de modo que a profundidade da pilha chega a $n+1$ e o espaço auxiliar é $\Theta(n)$. O espaço total permanece $\Theta(n)+\Theta(n)=\Theta(n)$, mas com uma constante maior que a da versão iterativa.
+
+\textbf{Chamada de cauda.} A chamada recursiva é a última operação da função (chamada de cauda). Com \texttt{-O2}, o GCC transforma esse tipo de chamada em salto e compila a função recursiva como um laço, sem empilhar molduras, o que foi confirmado inspecionando o código de máquina gerado. Para que a versão recursiva medida seja de fato recursiva, o programa é compilado com \texttt{-fno-optimize-sibling-calls} (Seção~\ref{sec:ambiente}).
+
+\subsection{Comparação teórica entre iterativa e recursiva}
+
+\begin{table}[H]
+\centering
+\caption{Comparação teórica entre as implementações iterativa e recursiva da busca sequencial}
+\begin{tabular}{lll}
+\toprule
+Critério & Iterativa & Recursiva \\
+\midrule
+Tempo pior caso & $\Theta(n)$ & $\Theta(n)$ \\
+Tempo melhor caso & $\Theta(1)$ & $\Theta(1)$ \\
+Espaço auxiliar & $\Theta(1)$ & $\Theta(n)$ \\
+Risco de \emph{stack overflow} & Não & Sim ($n$ grande) \\
+\emph{Overhead} por elemento & Nenhum & Uma chamada de função \\
+Legibilidade & Alta & Média \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ambas têm a mesma complexidade temporal assintótica $\Theta(n)$, mas a iterativa é espacialmente superior ($\Theta(1)$ contra $\Theta(n)$), sem o risco de estouro de pilha em cadastros muito grandes.
+
+\subsection{Custo total da Solução 1}
+
+Como as duas implementações incrementam o contador exatamente uma vez por chamada a \texttt{strcmp}, percorrem o vetor na mesma ordem e param no mesmo ponto, o custo total da Solução 1, medido em número de comparações, é idêntico nos dois modos e segue a mesma função $T(N,Q)$ deduzida na Seção~\ref{sec:deducao}, com complexidade $\Theta\big(N(N+Q)\big)$. A diferença entre os modos manifesta-se apenas no tempo de execução, devido ao custo das chamadas de função, e no consumo de pilha (Seção~\ref{sec:tempoiterrec}). O espaço total é $\Theta(N+Q)$, dominado pelo vetor de chaves e pelas linhas carregadas.
+
+\section{Análise teórica da Solução 2}
+\label{sec:sol2}
+
+Em toda esta seção, $\lg$ denota logaritmo na base 2 e o custo é medido em comparações entre chaves.
+
+\subsection{Funcionamento}
+
+A Solução 2 funciona em duas fases.
+
+\textbf{Ordenação.} O vetor $D$ com as $Q$ chaves do destino é ordenado por MergeSort. Um segundo vetor $S$, com ponteiros para as $N$ chaves do arquivo de novos registros, também é ordenado por MergeSort. As duas versões do MergeSort usam o mesmo procedimento de intercalação, que é \emph{estável}: em caso de empate, o elemento da metade esquerda é copiado primeiro. A versão recursiva é a clássica \emph{top-down}; a iterativa é a \emph{bottom-up}, que intercala blocos de largura $1,2,4,\ldots$ até cobrir o vetor.
+
+\textbf{Verificação.} Para cada novo registro $r$, na ordem do arquivo:
+\begin{enumerate}[itemsep=1pt]
+  \item uma busca binária em $D$ verifica se a chave já existe no destino;
+  \item se não existe, uma busca binária em $S$ localiza a \emph{primeira} ocorrência da chave em $S$. Como a ordenação é estável, essa primeira ocorrência corresponde ao registro mais antigo com aquela chave. Se ela não é o próprio $r$ (comparação de ponteiros, sem \texttt{strcmp}), então $r$ repete a chave de um registro anterior e é rejeitado.
+\end{enumerate}
+
+Essa organização evita inserir chaves no meio de um vetor ordenado, o que exigiria deslocar elementos a cada inserção e custaria $\Theta(N+Q)$ movimentações por registro.
+
+\begin{lstlisting}[caption={Intercalação estável e MergeSort recursivo e iterativo}]
+static void intercalar(char **v, char **aux, size_t ini, size_t meio, size_t fim) {
+    size_t i = ini, j = meio, k = ini;
+    while (i < meio && j < fim) {
+        comp_ordenacao++;
+        if (strcmp(v[i], v[j]) <= 0) aux[k++] = v[i++];
+        else aux[k++] = v[j++];
+    }
+    while (i < meio) aux[k++] = v[i++];
+    while (j < fim) aux[k++] = v[j++];
+    memcpy(v + ini, aux + ini, (fim - ini) * sizeof(char *));
+}
+
+static void mergesort_rec_aux(char **v, char **aux, size_t ini, size_t fim) {
+    size_t meio;
+    if (fim - ini < 2) return;
+    meio = ini + (fim - ini) / 2;
+    mergesort_rec_aux(v, aux, ini, meio);
+    mergesort_rec_aux(v, aux, meio, fim);
+    intercalar(v, aux, ini, meio, fim);
+}
+
+void mergesort_iterativo(char **v, size_t n) {
+    char **aux;
+    size_t largura, ini, meio, fim;
+    if (n < 2) return;
+    aux = alocar_auxiliar(n);
+    for (largura = 1; largura < n; largura *= 2) {
+        for (ini = 0; ini + largura < n; ini += 2 * largura) {
+            meio = ini + largura;
+            fim = (ini + 2 * largura < n) ? ini + 2 * largura : n;
+            intercalar(v, aux, ini, meio, fim);
+        }
+    }
+    free(aux);
+}
+\end{lstlisting}
+
+\subsection{MergeSort recursivo}
+
+A intercalação de dois blocos ordenados com $a$ e $b$ elementos faz no máximo $a+b-1$ comparações (cada comparação coloca um elemento na saída, e o último sai sem comparação) e no mínimo $\min(a,b)$ (quando um bloco se esgota primeiro). O MergeSort recursivo divide $n$ em $\lfloor n/2\rfloor$ e $\lceil n/2\rceil$, logo o número de comparações no pior caso satisfaz
+\[
+W(1)=0,\qquad W(n)=W(\lfloor n/2\rfloor)+W(\lceil n/2\rceil)+n-1,
+\]
+cuja solução exata é $W(n)=n\lceil\lg n\rceil-2^{\lceil\lg n\rceil}+1$. O melhor caso satisfaz $B(n)=B(\lfloor n/2\rfloor)+B(\lceil n/2\rceil)+\lfloor n/2\rfloor$.
+
+\begin{proposicao}
+Para $n=2^k$, $k\ge0$: $W(n)=n\lg n-n+1$ e $B(n)=\frac n2\lg n$.
+\end{proposicao}
+
+\begin{proof}
+Por indução em $k$. Base $k=0$: $W(1)=0=1\cdot0-1+1$ e $B(1)=0=\frac12\cdot0$. Passo: supondo válido para $n=2^k$,
+\[
+W(2n)=2W(n)+2n-1=2(n\lg n-n+1)+2n-1=2n\lg n+1=2n\lg(2n)-2n+1,
+\]
+\[
+B(2n)=2B(n)+n=n\lg n+n=\tfrac{2n}{2}\lg(2n). \qedhere
+\]
+\end{proof}
+
+Como $\frac n2\lg n=B(n)\le C(n)\le W(n)\le n\lg n$ para potências de 2 (e com ajuste de constantes para $n$ geral), o MergeSort faz $\Theta(n\lg n)$ comparações em \emph{qualquer} entrada. O número exato de comparações depende da ordem dos dados: entradas já ordenadas se aproximam de $B(n)$ e entradas aleatórias, de $W(n)$.
+
+\textbf{Espaço.} A intercalação usa um vetor auxiliar de $n$ ponteiros: $\Theta(n)$. A recursão tem profundidade $\lceil\lg n\rceil$, acrescentando $\Theta(\lg n)$ de pilha. Espaço auxiliar total: $\Theta(n)+\Theta(\lg n)=\Theta(n)$.
+
+\subsection{MergeSort iterativo}
+
+A versão \emph{bottom-up} faz $\lceil\lg n\rceil$ passadas, com larguras de bloco $1,2,4,\ldots$. Em cada passada, cada elemento participa de no máximo uma intercalação, logo uma passada faz no máximo $n-1$ comparações; e em cada passada completa (blocos cheios) faz no mínimo cerca de $n/2$. O total fica, portanto, entre aproximadamente $\frac n2\lg n$ e $n\lceil\lg n\rceil$: $\Theta(n\lg n)$. Para $n$ potência de 2 as duas versões fazem exatamente as mesmas intercalações; para outros valores de $n$ os blocos são divididos de forma diferente e as contagens diferem ligeiramente, o que se observa nos experimentos. Os limites exatos da versão iterativa foram calculados simulando a sequência de intercalações (funções \texttt{ms\_melhor\_bottomup} e \texttt{ms\_pior\_bottomup} em \texttt{analisar.py}).
+
+\textbf{Espaço.} O mesmo vetor auxiliar de $n$ ponteiros, $\Theta(n)$, e apenas $\Theta(1)$ de variáveis de controle, sem pilha de recursão.
+
+\subsection{Busca binária iterativa e recursiva}
+
+\begin{lstlisting}[caption={Busca binária iterativa e recursiva (limite inferior)}]
+size_t busca_binaria_iterativa(char **v, size_t n, const char *chave) {
+    size_t lo = 0, hi = n, meio;
+    while (lo < hi) {
+        meio = lo + (hi - lo) / 2;
+        comp_busca++;
+        if (strcmp(v[meio], chave) < 0) lo = meio + 1;
+        else hi = meio;
+    }
+    return lo;
+}
+
+static size_t busca_binaria_rec_aux(char **v, const char *chave, size_t lo, size_t hi) {
+    size_t meio;
+    if (lo >= hi) return lo;
+    meio = lo + (hi - lo) / 2;
+    comp_busca++;
+    if (strcmp(v[meio], chave) < 0) return busca_binaria_rec_aux(v, chave, meio + 1, hi);
+    return busca_binaria_rec_aux(v, chave, lo, meio);
+}
+\end{lstlisting}
+
+As duas versões retornam a posição da primeira chave maior ou igual à procurada. Na busca em $D$, se essa posição é válida, faz-se mais uma comparação de igualdade, também contabilizada.
+
+\textbf{Tempo.} A cada iteração, um intervalo de tamanho $s$ passa a ter tamanho $\lfloor s/2\rfloor$ ou $\lfloor (s-1)/2\rfloor$. Logo o número de iterações (e de comparações) de uma busca em $n$ elementos está entre
+\[
+b_{\min}(n)=\lfloor\lg(n+1)\rfloor\qquad\text{e}\qquad b_{\max}(n)=\lfloor\lg n\rfloor+1,
+\]
+que diferem de no máximo uma unidade: a busca binária é $\Theta(\lg n)$ em qualquer caso, pois a versão implementada nunca termina antes de reduzir o intervalo a zero. As versões iterativa e recursiva fazem as mesmas comparações.
+
+\textbf{Espaço.} A iterativa usa $\Theta(1)$. A recursiva empilha uma moldura por iteração, com profundidade $\Theta(\lg n)$; mesmo para $n=10^9$ isso seria cerca de 30 molduras, sem risco de estouro.
+
+\begin{table}[H]
+\centering
+\caption{Comparação teórica entre as implementações iterativa e recursiva da Solução 2}
+\begin{tabular}{lll}
+\toprule
+Critério & Iterativa & Recursiva \\
+\midrule
+MergeSort: tempo (todos os casos) & $\Theta(n\lg n)$ & $\Theta(n\lg n)$ \\
+MergeSort: espaço auxiliar & $\Theta(n)$ & $\Theta(n)+\Theta(\lg n)=\Theta(n)$ \\
+Busca binária: tempo & $\Theta(\lg n)$ & $\Theta(\lg n)$ \\
+Busca binária: espaço auxiliar & $\Theta(1)$ & $\Theta(\lg n)$ (pilha) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Custo total da Solução 2}
+
+Com $Q$ chaves no destino e $N$ novos registros de chaves distintas, e notando por $C_{\text{ms}}(n)$ as comparações do MergeSort,
+\[
+T_2(N,Q)=C_{\text{ms}}(Q)+C_{\text{ms}}(N)+\sum_{r=1}^{N}\big[\,b_D+e+b_S\,\big],
+\]
+em que $b_D\in[b_{\min}(Q),b_{\max}(Q)]$ é o custo da busca em $D$, $e\in\{0,1\}$ é a comparação de igualdade e $b_S\in[b_{\min}(N),b_{\max}(N)]$ é o custo da busca em $S$. Assim,
+\[
+T_2(N,Q)=\Theta(Q\lg Q)+\Theta(N\lg N)+\Theta(N\lg Q)+\Theta(N\lg N)=\Theta\big((N+Q)\lg(N+Q)\big).
+\]
+Para $Q=0$, as duas fases somam aproximadamente $2N\lg N$ comparações.
+
+\textbf{Espaço.} Vetores $D$ e $S$ ($Q+N$ ponteiros), vetor auxiliar do MergeSort ($\max(Q,N)$ ponteiros) e as linhas dos novos registros: $\Theta(N+Q)$. As versões recursivas acrescentam apenas $\Theta(\lg(N+Q))$ de pilha.
+
+\subsection{Comparação teórica entre as Soluções 1 e 2}
+
+\begin{table}[H]
+\centering
+\caption{Comparação teórica entre as soluções, com $n=N+Q$}
+\begin{tabular}{lll}
+\toprule
+ & Solução 1 & Solução 2 \\
+\midrule
+Tempo (comparações) & $NQ+N(N-1)/2=\Theta(N\,n)$ & $\Theta(n\lg n)$ \\
+Tempo, $Q=0$ & $\approx N^2/2$ & $\approx 2N\lg N$ \\
+Espaço total & $\Theta(n)$ & $\Theta(n)$, com vetor auxiliar extra \\
+Pilha (versões recursivas) & $\Theta(n)$ & $\Theta(\lg n)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A Solução 2 é assintoticamente superior no tempo. No espaço ambas são lineares, mas a Solução 2 precisa de um vetor auxiliar a mais; em compensação, suas versões recursivas usam pilha logarítmica, enquanto a busca sequencial recursiva usa pilha linear. Igualando $N^2/2$ a $2N\lg N$, obtém-se $N\approx16$: abaixo disso a Solução 1 pode fazer menos comparações.
+
+\section{Metodologia experimental}
+
+\subsection{Ambiente}
+\label{sec:ambiente}
+
+Os experimentos foram executados em Linux x86-64 com GCC 13.3.0, com compilação por
+\begin{lstlisting}[style=cmd]
+gcc -O2 -fno-optimize-sibling-calls -Wall -Wextra -std=c99 -o src/copiador src/copiador.c src/algoritmos.c
+gcc -O2 -fno-optimize-sibling-calls -Wall -Wextra -std=c99 -o src/bench src/bench.c src/algoritmos.c
+\end{lstlisting}
+O código também compila no Windows (MSYS2). O nível de otimização é irrelevante para a contagem de comparações, que é uma contagem de eventos discretos do algoritmo; ele é relevante, porém, para o tempo e para o uso de pilha, e por isso a opção \texttt{-fno-optimize-sibling-calls} é usada para impedir que as recursões de cauda sejam convertidas em laços. Toda a bateria é executada pelo script \texttt{rodar\_experimentos.sh}, e a análise, pelo \texttt{analisar.py}.
+
+\subsection{Preparação das entradas}
+\label{sec:entradas}
+
+O arquivo \texttt{bolsistas-2025.csv} contém 719 registros e 718 nomes distintos; há exatamente uma redundância real, o nome MARCELO MACHADO VIANA. O script \texttt{preparar\_entradas.py} extrai os 718 registros de nomes distintos, embaralha-os com semente fixa (2026) e gera os arquivos \texttt{novos\_N.csv} com os $N$ primeiros registros, para $N\in\{10,20,40,80,160,320,640,718\}$, o que assegura o cumprimento da hipótese (H2). Os arquivos \texttt{previos\_Q.csv}, usados como destino inicial, contêm os registros das posições 160 a $160+Q-1$ da mesma lista embaralhada, e portanto são reais e distintos dos 160 primeiros.
+
+\subsection{Os experimentos}
+
+\begin{description}[leftmargin=1cm,style=nextline,itemsep=2pt]
+  \item[Experimento A ($Q=0$)] Destino iniciando vazio, para os oito valores de $N$. Na Solução 1, testa o termo quadrático isoladamente; previsão: $N(N-1)/2$.
+  \item[Experimento C ($Q$ variável)] $N=160$ fixo, com $Q\in\{0,10,20,40,80,160\}$. Na Solução 1, isola o termo $N\cdot Q$: a fórmula prevê dependência linear em $Q$, com inclinação 160.
+  \item[Experimento D (arquivo completo)] Arquivo \texttt{bolsistas-2025.csv} integral, na ordem original, com a redundância real presente, e destino vazio. A hipótese (H2) é violada de propósito.
+  \item[Experimento E (reexecução)] O programa é executado novamente sobre o destino preenchido pelo Experimento D ($Q=718$). Todos os 719 registros são redundantes e nada é inserido.
+  \item[Tempos com dados reais] Para cada $N$ do Experimento A e cada modo, 15 execuções completas do programa; usa-se a mediana.
+  \item[Benchmark em memória] O programa \texttt{bench} executa as duas soluções sem leitura e escrita de arquivos, com chaves geradas a partir dos nomes reais (acrescidos de um sufixo numérico para torná-las distintas) e embaralhadas. Solução 1: $N$ de 1.000 a 8.000; Solução 2: $N$ de 1.000 a 512.000. Usa-se a mediana de 15 repetições. Esse experimento é necessário porque, com apenas 718 registros, os tempos da Solução 2 ficam na casa de décimos de milissegundo e são dominados por leitura e escrita.
+\end{description}
+
+\subsection{Execução nos quatro modos}
+
+Cada experimento foi executado nos quatro modos (\texttt{seq-iter}, \texttt{seq-rec}, \texttt{bin-iter} e \texttt{bin-rec}). Por modo, os Experimentos A e C somam 14 execuções sob a hipótese (H2), e D e E, 2 fora dela: ao todo, 64 execuções para contagem de comparações. A medição de tempo com dados reais somou mais 480 execuções (8 valores de $N$, 4 modos, 15 repetições). Todos os arquivos de entrada, destinos, saídas e estatísticas estão no diretório \texttt{experimentos/} do repositório.
+
+\section{Tabelas e gráficos dos experimentos}
+
+\subsection{Solução 1: Experimento A}
+
+\begin{table}[H]
+\centering
+\caption{Solução 1, Experimento A ($Q=0$): comparações iterativa e recursiva}
+\begin{tabular}{rrrrr}
+\toprule
+$N$ & Comp.\ iter. & Comp.\ rec. & Previsto $T(N,0)$ & Diferença \\
+\midrule
+10 & 45 & 45 & 45 & 0 \\
+20 & 190 & 190 & 190 & 0 \\
+40 & 780 & 780 & 780 & 0 \\
+80 & 3.160 & 3.160 & 3.160 & 0 \\
+160 & 12.720 & 12.720 & 12.720 & 0 \\
+320 & 51.040 & 51.040 & 51.040 & 0 \\
+640 & 204.480 & 204.480 & 204.480 & 0 \\
+718 & 257.403 & 257.403 & 257.403 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A diferença é nula em todos os pontos, em ambos os modos de busca.
+
+\subsection{Solução 1: Experimento C}
+
+\begin{table}[H]
+\centering
+\caption{Solução 1, Experimento C ($N=160$ fixo): isolamento do termo $N\cdot Q$}
+\begin{tabular}{rrrrr}
+\toprule
+$Q$ & Comp.\ iter. & Comp.\ rec. & Previsto $T(160,Q)$ & Diferença \\
+\midrule
+0 & 12.720 & 12.720 & 12.720 & 0 \\
+10 & 14.320 & 14.320 & 14.320 & 0 \\
+20 & 15.920 & 15.920 & 15.920 & 0 \\
+40 & 19.120 & 19.120 & 19.120 & 0 \\
+80 & 25.520 & 25.520 & 25.520 & 0 \\
+160 & 38.320 & 38.320 & 38.320 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Cada incremento de 10 em $Q$ acrescenta exatamente 1.600 comparações, isto é, $160\times10$, em ambos os modos.
+
+\subsection{Solução 1: gráficos}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{../graficos/g1_sol1_observado_previsto.png}
+\caption{Comparações observadas (pontos) sobre a curva teórica $N(N-1)/2$ (linha), Experimento A. Os dois modos se sobrepõem e não há ponto fora da curva: a sobreposição é exata, não aproximada.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{../graficos/g7_sol1_loglog.png}
+\caption{Os mesmos dados em escala log-log. O ajuste por mínimos quadrados sobre os dados medidos resulta em inclinação 2,0198, coerente com $\Theta(N^2)$.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{../graficos/g8_sol1_dobrar_n.png}
+\caption{Razão $T(2N)/T(N)$ medida em cada duplicação de $N$. A razão decresce monotonicamente em direção a 4, exatamente como prevê a Equação~\eqref{eq:razao}.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{../graficos/g2_sol1_termo_nq.png}
+\caption{Experimento C. Com $N=160$ fixo, as comparações crescem linearmente com $Q$, sobre a reta $160Q+12.720$: confirmação direta do termo $N\cdot Q$ da fórmula.}
+\end{figure}
+
+\subsection{Solução 1: Experimentos D e E}
+
+\begin{table}[H]
+\centering
+\caption{Solução 1 com redundâncias reais, fora da hipótese (H2) (mesmos valores nos dois modos)}
+\begin{tabular}{lrrrr}
+\toprule
+Experimento & Registros lidos & Inseridos & Redundantes & Comparações \\
+\midrule
+D --- arquivo completo, $Q=0$ & 719 & 718 & 1 & 257.841 \\
+E --- reexecução, $Q=718$ & 719 & 0 & 719 & 258.559 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+O Experimento D insere os mesmos 718 nomes do último ponto do Experimento A, mas registra 438 comparações a mais, em ambos os modos de busca. A explicação está na Seção~\ref{sec:desvioD}.
+
+\subsection{Solução 2: Experimento A}
+
+A Tabela~\ref{tab:sol2A} mostra as comparações de cada fase e a faixa teórica [mínimo, máximo] deduzida na Seção~\ref{sec:sol2}. A busca binária faz o mesmo número de comparações nos dois modos.
+
+\begin{table}[H]
+\centering
+\caption{Solução 2, Experimento A ($Q=0$): comparações medidas e faixas teóricas}
+\label{tab:sol2A}
+\small
+\begin{tabular}{rrrrrrr}
+\toprule
+$N$ & MS iterativo & faixa & MS recursivo & faixa & Busca binária & faixa \\
+\midrule
+10 & 27 & [15, 27] & 22 & [15, 25] & 36 & [30, 40] \\
+20 & 67 & [40, 73] & 64 & [40, 69] & 90 & [80, 100] \\
+40 & 177 & [100, 185] & 167 & [100, 177] & 218 & [200, 240] \\
+80 & 420 & [240, 449] & 412 & [240, 433] & 514 & [480, 560] \\
+160 & 1.004 & [560, 1.057] & 966 & [560, 1.025] & 1.186 & [1.120, 1.280] \\
+320 & 2.343 & [1.280, 2.433] & 2.264 & [1.280, 2.369] & 2.690 & [2.560, 2.880] \\
+640 & 5.329 & [2.880, 5.505] & 5.173 & [2.880, 5.377] & 6.018 & [5.760, 6.400] \\
+718 & 6.024 & [3.267, 6.227] & 5.921 & [3.267, 6.157] & 6.876 & [6.462, 7.180] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{../graficos/g3_sol2_comparacoes.png}
+\caption{Solução 2, Experimento A: comparações totais medidas dentro da faixa teórica, próximas de $2N\lg N$.}
+\end{figure}
+
+\subsection{Solução 2: Experimento C}
+
+\begin{table}[H]
+\centering
+\caption{Solução 2, Experimento C ($N=160$ fixo): comparações totais (MergeSort + busca binária)}
+\begin{tabular}{rrrr}
+\toprule
+$Q$ & Iterativa & Recursiva & Solução 1 (para referência) \\
+\midrule
+0 & 2.190 & 2.152 & 12.720 \\
+10 & 2.919 & 2.878 & 14.320 \\
+20 & 3.161 & 3.117 & 15.920 \\
+40 & 3.413 & 3.362 & 19.120 \\
+80 & 3.787 & 3.728 & 25.520 \\
+160 & 4.560 & 4.483 & 38.320 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Solução 2: Experimentos D e E}
+
+\begin{table}[H]
+\centering
+\caption{Solução 2 com o arquivo na ordem original (D) e na reexecução (E)}
+\begin{tabular}{lrrrr}
+\toprule
+Experimento & MS iterativo & MS recursivo & Busca binária & Redundantes \\
+\midrule
+A, $N=718$ (embaralhado) & 6.024 & 5.921 & 6.876 & 0 \\
+D, $N=719$ (ordem original) & 3.738 & 3.353 & 6.887 & 1 \\
+E, $N=719$, $Q=718$ & 7.471 & 6.694 & 7.604 & 719 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Tempos de execução}
+
+\begin{table}[H]
+\centering
+\caption{Benchmark em memória, $Q=0$: tempo total em milissegundos (mediana de 15 repetições)}
+\begin{tabular}{rrrrr}
+\toprule
+$N$ & Seq.\ iterativa & Seq.\ recursiva & Bin.\ iterativa & Bin.\ recursiva \\
+\midrule
+1.000 & 2,963 & 8,349 & 0,250 & 0,276 \\
+2.000 & 11,925 & 36,274 & 0,638 & 0,667 \\
+4.000 & 48,931 & 149,041 & 1,477 & 1,592 \\
+8.000 & 199,481 & 609,557 & 3,313 & 3,445 \\
+16.000 & --- & --- & 8,055 & 8,340 \\
+32.000 & --- & --- & 17,994 & 19,062 \\
+64.000 & --- & --- & 41,675 & 41,771 \\
+128.000 & --- & --- & 96,319 & 97,624 \\
+256.000 & --- & --- & 226,898 & 233,551 \\
+512.000 & --- & --- & 527,291 & 566,208 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{../graficos/g5_tempos_benchmark.png}
+\caption{Tempos do benchmark em escala log-log, com retas de referência proporcionais a $N^2$ e a $N\lg N$.}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Tempo do programa com os arquivos reais, $Q=0$, em milissegundos (mediana de 15 execuções; inclui a gravação no destino)}
+\begin{tabular}{rrrrr}
+\toprule
+$N$ & Seq.\ iterativa & Seq.\ recursiva & Bin.\ iterativa & Bin.\ recursiva \\
+\midrule
+10 & 0,0025 & 0,0029 & 0,0050 & 0,0051 \\
+20 & 0,0059 & 0,0061 & 0,0075 & 0,0081 \\
+40 & 0,0126 & 0,0134 & 0,0143 & 0,0152 \\
+80 & 0,0256 & 0,0444 & 0,0248 & 0,0270 \\
+160 & 0,0845 & 0,1815 & 0,0548 & 0,0572 \\
+320 & 0,2815 & 0,7400 & 0,1137 & 0,1182 \\
+640 & 1,0394 & 2,9875 & 0,2334 & 0,2434 \\
+718 & 1,2809 & 3,7721 & 0,2633 & 0,2872 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{../graficos/g6_tempos_dados_reais.png}
+\caption{Tempo de execução medido com os dados reais. A partir de $N\approx80$ a Solução 2 passa a ser mais rápida.}
+\end{figure}
+
+\section{Comparação entre os resultados teóricos e empíricos}
+
+\subsection{Aderência quantitativa da Solução 1}
+
+Nos Experimentos A e C, as 14 configurações em que a hipótese (H2) é satisfeita, executadas nos dois modos de busca (28 execuções), a diferença entre observado e previsto foi zero em todos os pontos, sem exceção. Não se trata de uma aproximação com erro pequeno, mas de coincidência exata dígito a dígito, inclusive em valores da ordem de $2{,}5\times10^5$ comparações.
+
+Dois aspectos distintos da fórmula foram testados separadamente: o termo quadrático $N(N-1)/2$ (Experimento A) e o termo linear $N\cdot Q$ (Experimento C, mantendo $N$ fixo e variando $Q$: cada acréscimo de 10 registros prévios produziu exatamente 1.600 comparações adicionais).
+
+\subsection{Taxa de crescimento ao dobrar $N$}
+
+\begin{table}[H]
+\centering
+\caption{Fator de crescimento observado ao dobrar $N$ (Solução 1), comparado ao valor exato previsto}
+\begin{tabular}{lrrr}
+\toprule
+Transição & Razão medida & Previsto por $(4N-2)/(N-1)$ & Diferença \\
+\midrule
+$10\to20$ & 4,2222 & 4,2222 & 0,0000 \\
+$20\to40$ & 4,1053 & 4,1053 & 0,0000 \\
+$40\to80$ & 4,0513 & 4,0513 & 0,0000 \\
+$80\to160$ & 4,0253 & 4,0253 & 0,0000 \\
+$160\to320$ & 4,0126 & 4,0126 & 0,0000 \\
+$320\to640$ & 4,0063 & 4,0063 & 0,0000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A concordância é total, e o padrão de convergência também é o previsto: a razão nunca é exatamente 4 para $N$ finito, aproxima-se de 4 por valores maiores, e a distância até 4, que vale $2/(N-1)$, reduz-se aproximadamente pela metade a cada duplicação de $N$.
+
+\subsection{O desvio do Experimento D, e por que ele é esperado}
+\label{sec:desvioD}
+
+Comparando com o último ponto do Experimento A, que insere os mesmos 718 nomes: $257.841-257.403=438$. O arquivo completo tem 719 registros, dos quais 718 são inserções e um é redundante. As 718 inserções custam, pela fórmula, $718\times717/2=257.403$ comparações. Resta o custo da busca pelo registro redundante: a segunda ocorrência de MARCELO MACHADO VIANA é o 705.º registro do arquivo; quando ela é lida, o vetor tem 704 nomes, mas a busca sequencial interrompe-se ao encontrar a igualdade na posição 438, onde o nome foi inserido, consumindo 438 comparações em vez de 704. Logo $257.403+438=257.841$, exatamente o valor medido, em ambos os modos de busca.
+
+O Experimento E confirma a mesma mecânica em regime extremo: com o destino contendo os 718 nomes e nenhuma inserção possível, cada uma das 719 buscas é bem-sucedida e termina na posição em que o nome está armazenado. Como esses nomes ocupam as posições 1 a 718 na mesma ordem do arquivo, o total previsto é $\sum_{i=1}^{718}i+438=258.121+438=258.559$, precisamente o valor medido.
+
+\subsection{Aderência quantitativa da Solução 2}
+
+Nas 28 execuções da Solução 2 nos Experimentos A e C, as contagens da ordenação e da busca ficaram dentro das faixas teóricas. Com entradas embaralhadas, o MergeSort ficou próximo do pior caso (entre 88\% e 100\% do máximo teórico, e acima de 94\% para $N\ge40$), como se espera para dados em ordem aleatória. A busca binária ficou no interior da sua faixa estreita, de largura $N$. No benchmark, a razão entre comparações totais e $N\lg N$ ficou entre 1,88 e 1,93 para $N$ de 1.000 a 512.000, estável e próxima do valor 2 previsto para $Q=0$ (a diferença vem dos termos lineares negativos de $W(n)$).
+
+No Experimento C, o efeito de $Q$ é logarítmico, e não linear como na Solução 1: passar de $Q=80$ para $Q=160$ acrescenta cerca de 770 comparações, das quais a maior parte vem da ordenação de $D$ ($\Theta(Q\lg Q)$) e apenas 184 das buscas, que ganham cerca de uma iteração cada quando $Q$ dobra. Na Solução 1, o mesmo acréscimo de $Q$ custou 12.800 comparações.
+
+\subsection{O efeito da quase-ordenação do arquivo original}
+\label{sec:quaseord}
+
+No Experimento D, o MergeSort recursivo fez 3.353 comparações, contra 5.921 com os mesmos nomes embaralhados, e ficou próximo do melhor caso $B(718)=3.267$. Isso acontece porque o arquivo original é formado por dois blocos já ordenados (Seção~\ref{sec:requisitos}): quase todas as intercalações esgotam um dos lados cedo. A ordem dos dados altera a constante, mas não a classe $\Theta(n\lg n)$, exatamente como previsto. A duplicata real foi detectada pelos quatro modos, e os destinos gerados são idênticos aos da Solução 1.
+
+\subsection{Comparação de tempo entre iterativa e recursiva}
+\label{sec:tempoiterrec}
+
+\textbf{Busca sequencial.} As duas versões fazem as mesmas comparações, mas a recursiva foi de 2,8 a 3,1 vezes mais lenta no benchmark e cerca de 2,9 vezes mais lenta com os dados reais para $N=718$. A razão é que a recursiva executa uma chamada de função por elemento visitado (empilhar argumentos e endereço de retorno, saltar, retornar), e esse custo é comparável ao de uma comparação de nomes que geralmente difere logo nos primeiros caracteres. É uma diferença de constante, não de classe de complexidade.
+
+A diferença estrutural mais relevante permanece no espaço auxiliar, e ela também foi observada na prática: com a pilha padrão de 8 MB do Linux, a busca recursiva executou normalmente com um destino de 100.000 registros, mas o programa foi encerrado por estouro de pilha (falha de segmentação) com 200.000. A versão iterativa não tem esse limite. No Windows, cuja pilha padrão é de 1 MB, o limite seria cerca de oito vezes menor.
+
+\textbf{MergeSort e busca binária.} Como previsto, as diferenças são pequenas. No MergeSort, as duas versões fazem praticamente o mesmo trabalho (a recursiva faz cerca de $2n$ chamadas no total, desprezíveis diante das $n\lg n$ comparações), e a recursiva chegou a ser um pouco mais rápida para $N$ grande, provavelmente pela melhor localidade de acesso da divisão \emph{top-down}. Na busca binária recursiva há apenas cerca de $\lg n$ chamadas por busca, e a fase de busca foi entre 2\% e 18\% mais lenta que a iterativa. A pilha usada por ela é logarítmica e nunca representa risco.
+
+\subsection{Crescimento do tempo}
+
+\textbf{Solução 1.} O ajuste por mínimos quadrados do logaritmo do tempo contra $\lg N$, no benchmark, dá inclinação 2,026 na versão iterativa e 2,061 na recursiva, compatíveis com $\Theta(N^2)$. As razões $t(2N)/t(N)$ medidas foram 4,03, 4,10 e 4,08 (iterativa), próximas do valor 4 previsto pela Equação~\eqref{eq:razao}. Diferentemente das contagens, os tempos têm ruído (escalonamento, \emph{cache}, frequência do processador), por isso a concordância é aproximada.
+
+\textbf{Solução 2.} As razões $t(2N)/t(N)$ ficaram entre 2,2 e 2,6, e a inclinação log-log foi 1,22 na versão iterativa e 1,21 na recursiva. Para $N\lg N$ nessa faixa de $N$, a inclinação teórica local é $1+1/\ln N$, entre 1,08 e 1,14. O tempo cresce, portanto, um pouco mais depressa que as comparações: o tempo por unidade de $N\lg N$ subiu de 25 ns para 54 ns. Isso não contradiz a análise, que conta comparações no modelo em que acessar qualquer posição da memória custa o mesmo. Na máquina real, à medida que $N$ cresce, os vetores e as cadeias deixam de caber na memória \emph{cache}, e a busca binária e a intercalação acessam posições distantes, cada vez mais lentas. O número de operações segue $\Theta(N\lg N)$; o custo de cada operação é que aumenta.
+
+\subsection{Solução 1 $\times$ Solução 2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{../graficos/g4_sol1_x_sol2_comparacoes.png}
+\caption{Comparações das duas soluções com os dados reais, em escala log-log: inclinação 2 para a Solução 1 e próxima de 1 para a Solução 2.}
+\end{figure}
+
+A teoria previu que a Solução 1 poderia fazer menos comparações para $N$ muito pequeno (cruzamento em torno de $N\approx16$). De fato, com $N=10$ a Solução 1 fez 45 comparações e a Solução 2, de 58 a 63; com $N=20$ a Solução 2 já faz menos (154 a 157, contra 190). Com os dados reais, a Solução 2 passa a ser mais rápida em tempo a partir de $N\approx80$; para $N=718$, faz 20 vezes menos comparações e é 4,9 vezes mais rápida, pois parte do tempo é gasto em leitura e escrita, comum às duas.
+
+No benchmark, para $N=8.000$, a Solução 1 fez 162 vezes mais comparações que a Solução 2 (31.996.000 contra 197.558) e foi 60 vezes mais lenta. A diferença entre os fatores 162 e 60 reflete o custo por comparação: a busca sequencial percorre o vetor em ordem, o que é favorável à \emph{cache}, enquanto a Solução 2 acessa posições distantes e ainda copia dados na intercalação.
+
+\section{Discussão dos resultados}
+
+\textbf{Os dados empíricos confirmam as hipóteses de complexidade temporal propostas?} Sim. Na Solução 1, em 28 execuções sob as hipóteses da análise, nos dois modos de busca, a diferença entre previsto e medido foi zero em todas; a inclinação do ajuste log-log das comparações é 2,0198 e a razão $T(2N)/T(N)$ converge para 4, ambas assinaturas de crescimento quadrático. Na Solução 2, todas as contagens ficaram dentro dos limites teóricos, e a razão entre comparações e $N\lg N$ permaneceu estável.
+
+\textbf{Existem diferenças entre valores teóricos e medidos?} Nas contagens de comparações da Solução 1 não há diferença alguma sob (H2). Isso se explica pela natureza da grandeza medida: o contador registra um evento discreto do algoritmo, cada execução de \texttt{strcmp}, e não um intervalo de tempo; não há, portanto, fontes de ruído. Há diferença, sim, no Experimento D: 438 comparações acima do previsto, causada pela violação deliberada da hipótese (H2), e não por erro do modelo. Na Solução 2, a teoria fornece faixas e não um valor exato, porque o número de comparações do MergeSort depende da ordem dos dados. Nos tempos há diferenças pequenas, esperadas pelo ruído de medição e, na Solução 2, pelo efeito da hierarquia de memória.
+
+\textbf{Iterativa e recursiva produzem o mesmo resultado?} Em número de comparações da busca, sim, em todos os experimentos: as versões percorrem os dados na mesma ordem e param no mesmo ponto. Os MergeSorts diferem ligeiramente nas contagens, porque dividem o vetor de formas diferentes, mas ambos são $\Theta(n\lg n)$. A diferença está no espaço (pilha $\Theta(n)$ na busca sequencial recursiva e $\Theta(\lg n)$ nas recursões da Solução 2) e no tempo, que é cerca de 3 vezes maior na busca sequencial recursiva e quase igual nas demais.
+
+\textbf{Os resultados sustentam a demonstração matemática?} Sustentam, com a ressalva de que experimentos não demonstram teoremas: a prova por indução estabelece a fórmula para todo $N\ge1$ por dedução lógica. O que os experimentos fazem é validar que a modelagem do custo de cada inserção está correta e que o programa implementado, em todas as variantes, é de fato o algoritmo analisado.
+
+\textbf{Implicação prática.} A classificação $\Theta(N^2)$ diz que a Solução 1 não escala: para os 718 nomes deste arquivo, a execução é instantânea, mas um cadastro de 100.000 bolsistas exigiria cerca de $5\times10^9$ comparações, e 1.000.000 levaria a $5\times10^{11}$, inviável na prática. A Solução 2 faria cerca de $4\times10^7$ comparações para um milhão de registros. O gargalo está na estrutura de dados e no algoritmo de busca, não na linguagem, na máquina, nem na escolha entre iteração e recursão. Uma tabela de dispersão reduziria ainda mais o custo esperado, para $O(N+Q)$.
+
+\section{Conclusão}
+
+O trabalho implementou em C o serviço de importação de bolsistas com detecção de redundância na coluna \texttt{Nome}, usando o arquivo \texttt{bolsistas-2025.csv} do Portal de Dados Abertos, em quatro variantes: busca sequencial iterativa e recursiva (Solução 1) e MergeSort seguido de busca binária, ambos em versões iterativa e recursiva (Solução 2). O algoritmo foi instrumentado com contadores de comparações, e a análise relacionou as funções deduzidas, as demonstrações formais, os dados medidos e as classificações assintóticas.
+
+Na Solução 1, a função deduzida foi $T(N,Q)=N\cdot Q+N(N-1)/2$, obtida somando os custos individuais das $N$ inserções, cada uma percorrendo um vetor de $Q+i-1$ chaves, e demonstrada por indução para todo $N\ge1$. Os dados confirmaram a fórmula sem nenhuma margem de erro nas 28 execuções sob a hipótese de distinção, e a única divergência, no experimento com o arquivo completo, foi explicada exatamente pelo encerramento antecipado da busca na posição 438. As versões iterativa e recursiva fazem as mesmas comparações, mas diferem no espaço auxiliar ($\Theta(1)$ contra $\Theta(n)$) e no tempo: a recursiva foi cerca de 3 vezes mais lenta e falhou por estouro de pilha com 200.000 registros.
+
+Na Solução 2, o MergeSort tem custo $\Theta(n\lg n)$ em qualquer entrada e espaço auxiliar $\Theta(n)$ nas duas versões, com $\Theta(\lg n)$ de pilha adicional na recursiva; a busca binária tem custo $\Theta(\lg n)$, com espaço $\Theta(1)$ na iterativa e $\Theta(\lg n)$ na recursiva. O custo total é $\Theta((N+Q)\lg(N+Q))$. Todas as contagens ficaram dentro dos limites teóricos, e a quase-ordenação do arquivo original levou o MergeSort para perto do melhor caso, como previsto. O tempo cresceu um pouco mais rápido que $N\lg N$ por efeito da hierarquia de memória, fator que o modelo de contagem de comparações não considera.
+
+A classificação assintótica da Solução 1 é $\Theta(N^2)$ para $Q$ constante, e a da Solução 2, $\Theta(N\lg N)$. A Solução 2 foi 60 vezes mais rápida para 8.000 registros, enquanto para cadastros muito pequenos a Solução 1 é competitiva. A lição que fica é que a Solução 1 está correta e é inadequada ao mesmo tempo: resolve o problema especificado, mas não escala; a intervenção necessária está na estrutura de dados e no algoritmo que sustentam a verificação de redundância, e não na escolha entre iteração e recursão, que altera apenas constantes e o uso de pilha.
+
+\section{Repositório Git}
+
+Todo o material deste trabalho está versionado em repositório Git público:
+
+\begin{center}\ttfamily\url{\repositorio}\end{center}
+
+O repositório contém:
+\begin{itemize}[itemsep=1pt]
+  \item \texttt{src/algoritmos.c} e \texttt{src/algoritmos.h}: buscas sequenciais, MergeSorts, buscas binárias e contadores;
+  \item \texttt{src/copiador.c}: programa principal; \texttt{src/bench.c}: benchmark em memória;
+  \item \texttt{dados/bolsistas-2025.csv}: arquivo de entrada original;
+  \item \texttt{experimentos/entradas/}: arquivos utilizados nos testes;
+  \item \texttt{experimentos/estatisticas/}: arquivos CSV gerados nos experimentos;
+  \item \texttt{experimentos/destinos/} e \texttt{experimentos/saidas/}: arquivos de destino e saídas padrão produzidas pelo programa;
+  \item \texttt{Makefile}, \texttt{preparar\_entradas.py} e \texttt{rodar\_experimentos.sh}: compilação, geração das entradas e execução da bateria completa;
+  \item \texttt{analisar.py}: confronto com o modelo teórico e geração dos gráficos;
+  \item \texttt{graficos/}: gráficos deste relatório;
+  \item \texttt{README.md}: instruções de compilação e de execução;
+  \item \texttt{relatorio/}: fonte e PDF deste relatório.
+\end{itemize}
+
+\textbf{Compilação:}
+\begin{lstlisting}[style=cmd]
+make
+\end{lstlisting}
+
+\textbf{Execução:}
+\begin{lstlisting}[style=cmd]
+./src/copiador dados/bolsistas-2025.csv cadastro.csv
+./src/copiador dados/bolsistas-2025.csv cadastro.csv bin-rec estatisticas.csv
+./rodar_experimentos.sh && python3 analisar.py
+\end{lstlisting}
+
+\appendix
+\section{Código-fonte completo}
+
+\lstinputlisting[caption={\texttt{algoritmos.h}}]{../src/algoritmos.h}
+\lstinputlisting[caption={\texttt{algoritmos.c}}]{../src/algoritmos.c}
+\lstinputlisting[caption={\texttt{copiador.c}}]{../src/copiador.c}
+\lstinputlisting[caption={\texttt{bench.c}}]{../src/bench.c}
+
+\end{document}

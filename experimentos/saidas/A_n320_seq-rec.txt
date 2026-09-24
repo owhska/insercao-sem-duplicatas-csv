@@ -1,0 +1,10 @@
+
+Modo                        : seq-rec
+Registros lidos             : 320
+Registros previos no destino: 0
+Registros inseridos         : 320
+Registros duplicados        : 0
+Comparacoes na ordenacao    : 0
+Comparacoes na busca        : 51040
+Comparacoes totais          : 51040
+Tempo total                 : 0.000743 s

@@ -1,0 +1,10 @@
+
+Modo                        : bin-rec
+Registros lidos             : 160
+Registros previos no destino: 20
+Registros inseridos         : 160
+Registros duplicados        : 0
+Comparacoes na ordenacao    : 1029
+Comparacoes na busca        : 2088
+Comparacoes totais          : 3117
+Tempo total                 : 0.000131 s

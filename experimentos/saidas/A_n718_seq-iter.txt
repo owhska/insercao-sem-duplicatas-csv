@@ -1,0 +1,10 @@
+
+Modo                        : seq-iter
+Registros lidos             : 718
+Registros previos no destino: 0
+Registros inseridos         : 718
+Registros duplicados        : 0
+Comparacoes na ordenacao    : 0
+Comparacoes na busca        : 257403
+Comparacoes totais          : 257403
+Tempo total                 : 0.001258 s
