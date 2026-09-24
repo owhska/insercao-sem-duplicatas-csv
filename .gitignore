@@ -1,0 +1,23 @@
+# Executáveis
+src/copiador
+src/copiador.exe
+*.o
+*.obj
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Temporários na raiz (testes manuais)
+cad_*_tmp.csv
+teste_*.csv
+estatisticas_iter_10x.csv
+estatisticas_rec_10x.csv
+cadastro_teste*.csv
+estatisticas_teste*.csv
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.swp

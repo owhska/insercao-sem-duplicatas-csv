@@ -3,6 +3,28 @@
 #include <string.h>
 #include <time.h>
 
+/* ============================================================
+ * Medição de tempo portátil (Windows + Linux/macOS)
+ * ------------------------------------------------------------
+ * - Windows: usa QueryPerformanceCounter (alta resolução).
+ * - Linux/macOS: usa clock_gettime(CLOCK_MONOTONIC).
+ * ============================================================ */
+#if defined(_WIN32) || defined(_WIN64)
+    #include <windows.h>
+    static double agora_segundos(void) {
+        LARGE_INTEGER freq, cont;
+        QueryPerformanceFrequency(&freq);
+        QueryPerformanceCounter(&cont);
+        return (double)cont.QuadPart / (double)freq.QuadPart;
+    }
+#else
+    static double agora_segundos(void) {
+        struct timespec ts;
+        clock_gettime(CLOCK_MONOTONIC, &ts);
+        return (double)ts.tv_sec + (double)ts.tv_nsec / 1e9;
+    }
+#endif
+
 #define MAX_LINHA 1024
 #define MAX_NOME  512
 #define CABECALHO "Nome,Modalidade,Nivel,Agencia"
@@ -120,7 +142,8 @@ size_t carregar_destino(const char *caminho, Cadastro *c) {
         extrair_nome(linha, nome);
         if (cadastro_inserir(c, nome) != 0) {
             fprintf(stderr, "ERRO: memoria insuficiente ao carregar o destino.\n");
-            fclose(fp); exit(EXIT_FAILURE);
+            fclose(fp);
+            exit(EXIT_FAILURE);
         }
     }
     fclose(fp);
@@ -154,8 +177,7 @@ int main(int argc, char *argv[]) {
     FILE *origem, *destino;
     char linha[MAX_LINHA], nome[MAX_NOME];
     size_t q_inicial, inseridos = 0, redundantes = 0, lidos = 0;
-    struct timespec t0, t1;
-    double tempo_s;
+    double t0, t1, tempo_s;
 
     if (argc < 4 || argc > 5) {
         fprintf(stderr,
@@ -177,16 +199,21 @@ int main(int argc, char *argv[]) {
     q_inicial = carregar_destino(argv[2], &cadastro);
 
     origem = fopen(argv[1], "r");
-    if (!origem) { perror("ERRO ao abrir origem"); cadastro_liberar(&cadastro); return EXIT_FAILURE; }
+    if (!origem) {
+        perror("ERRO ao abrir origem");
+        cadastro_liberar(&cadastro);
+        return EXIT_FAILURE;
+    }
 
     destino = fopen(argv[2], "a");
     if (!destino) {
         perror("ERRO ao abrir destino");
-        fclose(origem); cadastro_liberar(&cadastro);
+        fclose(origem);
+        cadastro_liberar(&cadastro);
         return EXIT_FAILURE;
     }
 
-    clock_gettime(CLOCK_MONOTONIC, &t0);
+    t0 = agora_segundos();
 
     while (fgets(linha, sizeof(linha), origem)) {
         remover_fim_de_linha(linha);
@@ -203,16 +230,17 @@ int main(int argc, char *argv[]) {
         fprintf(destino, "%s\n", linha);
 
         if (cadastro_inserir(&cadastro, nome) != 0) {
-            fprintf(stderr, "ERRO: memoria insuficiente.\n");
-            fclose(origem); fclose(destino);
+            fprintf(stderr, "ERRO: memoria insuficiente ao inserir o nome.\n");
+            fclose(origem);
+            fclose(destino);
             cadastro_liberar(&cadastro);
             return EXIT_FAILURE;
         }
         inseridos++;
     }
 
-    clock_gettime(CLOCK_MONOTONIC, &t1);
-    tempo_s = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
+    t1 = agora_segundos();
+    tempo_s = t1 - t0;
 
     fclose(origem);
     fclose(destino);
