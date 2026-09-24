@@ -1,221 +1,81 @@
 #!/bin/bash
 set -e
 
-# ------------------------------------------------------------------
-# Caminhos base
-# ------------------------------------------------------------------
 BASE="$(cd "$(dirname "$0")" && pwd)"
 cd "$BASE"
 
 BIN="$BASE/src/copiador"
-DADOS="$BASE/dados"
+BENCH="$BASE/src/bench"
+[ -f "${BIN}.exe" ] && BIN="${BIN}.exe"
+[ -f "${BENCH}.exe" ] && BENCH="${BENCH}.exe"
+
+ORIGEM="$BASE/dados/bolsistas-2025.csv"
 EXP="$BASE/experimentos"
-ORIGEM="$DADOS/bolsistas-2025.csv"
+ENT="$EXP/entradas"
+DST="$EXP/destinos"
+EST="$EXP/estatisticas"
+SAI="$EXP/saidas"
+MODOS="seq-iter seq-rec bin-iter bin-rec"
+REPS="${REPS:-15}"
 
-# No Windows o executável sai como .exe
-if [ -f "${BIN}.exe" ]; then
-    BIN="${BIN}.exe"
-fi
+if python3 --version >/dev/null 2>&1; then PY=python3
+elif python --version >/dev/null 2>&1; then PY=python
+elif py --version >/dev/null 2>&1; then PY=py
+else echo "ERRO: Python nao encontrado." >&2; exit 1; fi
 
-# ------------------------------------------------------------------
-# Conversao de caminho Unix -> Windows quando cygpath existe
-# (Git Bash usa /c/Users/..., Python do Windows precisa C:\Users\...)
-# ------------------------------------------------------------------
-converter() {
-    if command -v cygpath >/dev/null 2>&1; then
-        cygpath -w "$1"
-    else
-        echo "$1"
-    fi
-}
-
-ORIGEM_PY=$(converter "$ORIGEM")
-ENTRADAS_PY=$(converter "$EXP/entradas")
-
-# ------------------------------------------------------------------
-# Cria pastas e limpa execucoes anteriores
-# ------------------------------------------------------------------
-mkdir -p "$EXP/entradas" "$EXP/destinos" "$EXP/estatisticas" "$EXP/saidas"
-rm -f "$EXP"/entradas/*.csv "$EXP"/destinos/*.csv "$EXP"/estatisticas/*.csv "$EXP"/saidas/*.txt
-
-# ------------------------------------------------------------------
-# Compila
-# ------------------------------------------------------------------
 echo ">> Compilando"
 make -C "$BASE" --no-print-directory
 
-# ------------------------------------------------------------------
-# Detecta Python (testa de fato com --version para ignorar o alias
-# fantasma da Microsoft Store)
-# ------------------------------------------------------------------
-if python --version >/dev/null 2>&1; then
-    PY=python
-elif python3 --version >/dev/null 2>&1; then
-    PY=python3
-elif py --version >/dev/null 2>&1; then
-    PY=py
-else
-    echo "ERRO: Python nao encontrado no PATH." >&2
-    echo "Instale em https://www.python.org/downloads/ marcando 'Add Python to PATH'." >&2
-    exit 1
-fi
+rm -rf "$EXP"
+mkdir -p "$ENT" "$DST" "$EST" "$SAI"
 
-echo ">> Python detectado: $PY ($($PY --version 2>&1))"
+echo ">> Gerando entradas"
+"$PY" "$BASE/preparar_entradas.py"
 
-CABECALHO="Nome,Modalidade,Nivel,Agencia"
-TAMANHOS="10 20 40 80 160 320 640"
+NS="10 20 40 80 160 320 640 718"
 
-# ------------------------------------------------------------------
-# Gera os recortes de entrada com nomes distintos
-# ------------------------------------------------------------------
-echo ">> Gerando os recortes de entrada com nomes distintos"
-"$PY" - "$ORIGEM_PY" "$ENTRADAS_PY" $TAMANHOS <<'PY'
-import sys, os
-
-origem, saida = sys.argv[1], sys.argv[2]
-tamanhos = [int(x) for x in sys.argv[3:]]
-
-linhas = open(origem, encoding="latin-1").read().splitlines()
-linhas = [l for l in linhas if l.strip()]
-dados = linhas[1:]
-
-vistos, unicas = set(), []
-for linha in dados:
-    nome = linha.split(",")[0]
-    if nome not in vistos:
-        vistos.add(nome)
-        unicas.append(linha)
-
-for n in tamanhos + [len(unicas)]:
-    if n > len(unicas):
-        continue
-    caminho = os.path.join(saida, f"origem_{n}.csv")
-    with open(caminho, "w", encoding="latin-1") as f:
-        f.write("Nome,Modalidade,Nivel,Agencia\n")
-        for linha in unicas[:n]:
-            f.write(linha + "\n")
-
-for q in [10, 20, 40, 80, 160]:
-    caminho = os.path.join(saida, f"previos_{q}.csv")
-    with open(caminho, "w", encoding="latin-1") as f:
-        f.write("Nome,Modalidade,Nivel,Agencia\n")
-        for i in range(q):
-            f.write(f"CADASTRO PREVIO {i:04d},PQ,C,CNPq\n")
-
-print(f"nomes distintos no arquivo original: {len(unicas)}")
-PY
-
-# ------------------------------------------------------------------
-# Calcula total de nomes distintos com Python
-# ------------------------------------------------------------------
-TOTAL_UNICOS=$("$PY" -c "
-linhas=[l for l in open(r'$ORIGEM_PY',encoding='latin-1').read().splitlines() if l.strip()][1:]
-print(len({l.split(',')[0] for l in linhas}))")
-
-echo ">> Total de nomes distintos: $TOTAL_UNICOS"
-
-# ------------------------------------------------------------------
-# Funcao auxiliar: executa um experimento em ambos os modos
-#   $1 = rotulo curto (ex: A_q0_n10)
-#   $2 = arquivo de origem
-#   $3 = arquivo de destino base (sem extensao de modo)
-#   $4 = arquivo de estatisticas base (sem extensao de modo)
-#   $5 = (opcional) arquivo de previos, copiado para o destino antes
-# ------------------------------------------------------------------
-rodar_ambos_modos() {
-    local rotulo="$1"
-    local origem="$2"
-    local dest_base="$3"
-    local est_base="$4"
-    local previo="${5:-}"
-
-    for MODO in iter rec; do
-        local DEST="${dest_base}_${MODO}.csv"
-        local EST="${est_base}_${MODO}.csv"
-        local SAI="$EXP/saidas/${rotulo}_${MODO}.txt"
-
-        rm -f "$DEST"
-        if [ -n "$previo" ]; then
-            cp "$previo" "$DEST"
-        fi
-
-        "$BIN" "$origem" "$DEST" "$EST" "$MODO" > "$SAI"
+rodar() {
+    local rotulo="$1" novos="$2" previo="$3" est="$4"
+    for M in $MODOS; do
+        local D="$DST/${rotulo}_${M}.csv"
+        rm -f "$D"
+        [ -n "$previo" ] && cp "$previo" "$D"
+        "$BIN" "$novos" "$D" "$M" "$est" > "$SAI/${rotulo}_${M}.txt"
     done
 }
 
-# ------------------------------------------------------------------
-# Experimento A - destino vazio (Q = 0)
-# ------------------------------------------------------------------
-echo ">> Experimento A - destino vazio (Q = 0)"
-for N in $TAMANHOS $TOTAL_UNICOS; do
-    rodar_ambos_modos "A_q0_n${N}" \
-        "$EXP/entradas/origem_${N}.csv" \
-        "$EXP/destinos/A_q0_n${N}" \
-        "$EXP/estatisticas/A_destino_vazio"
+echo ">> Experimento A (Q = 0, N variavel)"
+for N in $NS; do
+    rodar "A_n${N}" "$ENT/novos_${N}.csv" "" "$EST/A.csv"
 done
 
-# ------------------------------------------------------------------
-# Experimento B - destino com 1 cadastro previo (Q = 1)
-# ------------------------------------------------------------------
-echo ">> Experimento B - destino com 1 cadastro previo (Q = 1)"
-for N in $TAMANHOS $TOTAL_UNICOS; do
-    PREVIO="$EXP/entradas/previo_q1.csv"
-    printf '%s\nCADASTRO PREVIO 0000,PQ,C,CNPq\n' "$CABECALHO" > "$PREVIO"
-    rodar_ambos_modos "B_q1_n${N}" \
-        "$EXP/entradas/origem_${N}.csv" \
-        "$EXP/destinos/B_q1_n${N}" \
-        "$EXP/estatisticas/B_q1" \
-        "$PREVIO"
-done
-
-# ------------------------------------------------------------------
-# Experimento C - N = 160 fixo, Q variavel
-# ------------------------------------------------------------------
-echo ">> Experimento C - N = 160 fixo, Q variavel"
+echo ">> Experimento C (N = 160, Q variavel)"
 for Q in 0 10 20 40 80 160; do
-    if [ "$Q" -eq 0 ]; then
-        PREVIO=""
-    else
-        PREVIO="$EXP/entradas/previos_${Q}.csv"
-    fi
-    rodar_ambos_modos "C_n160_q${Q}" \
-        "$EXP/entradas/origem_160.csv" \
-        "$EXP/destinos/C_n160_q${Q}" \
-        "$EXP/estatisticas/C_q_variavel" \
-        "$PREVIO"
+    P=""; [ "$Q" -gt 0 ] && P="$ENT/previos_${Q}.csv"
+    rodar "C_q${Q}" "$ENT/novos_160.csv" "$P" "$EST/C.csv"
 done
 
-# ------------------------------------------------------------------
-# Experimento D - arquivo original completo (com redundancias reais)
-# ------------------------------------------------------------------
-echo ">> Experimento D - arquivo original completo"
-for MODO in iter rec; do
-    DEST="$EXP/destinos/D_arquivo_completo_${MODO}.csv"
-    EST="$EXP/estatisticas/D_arquivo_completo_${MODO}.csv"
-    rm -f "$DEST"
-    "$BIN" "$ORIGEM" "$DEST" "$EST" "$MODO" \
-        > "$EXP/saidas/D_arquivo_completo_${MODO}.txt"
+echo ">> Experimento D (arquivo original completo, Q = 0)"
+rodar "D_completo" "$ORIGEM" "" "$EST/D.csv"
+
+echo ">> Experimento E (reexecucao sobre o destino do Experimento D)"
+for M in $MODOS; do
+    cp "$DST/D_completo_${M}.csv" "$DST/E_reexecucao_${M}.csv"
+    "$BIN" "$ORIGEM" "$DST/E_reexecucao_${M}.csv" "$M" "$EST/E.csv" > "$SAI/E_reexecucao_${M}.txt"
 done
 
-# ------------------------------------------------------------------
-# Experimento E - reexecucao sobre destino ja preenchido
-# ------------------------------------------------------------------
-echo ">> Experimento E - reexecucao sobre destino ja preenchido"
-for MODO in iter rec; do
-    DEST="$EXP/destinos/E_reexecucao_${MODO}.csv"
-    EST="$EXP/estatisticas/E_reexecucao_${MODO}.csv"
-    cp "$EXP/destinos/D_arquivo_completo_${MODO}.csv" "$DEST"
-    "$BIN" "$ORIGEM" "$DEST" "$EST" "$MODO" \
-        > "$EXP/saidas/E_reexecucao_${MODO}.txt"
+echo ">> Tempos com dados reais ($REPS repeticoes por ponto)"
+for N in $NS; do
+    for M in $MODOS; do
+        for R in $(seq "$REPS"); do
+            rm -f "$DST/tmp.csv"
+            "$BIN" "$ENT/novos_${N}.csv" "$DST/tmp.csv" "$M" "$EST/tempos_reais.csv" > /dev/null
+        done
+    done
 done
+rm -f "$DST/tmp.csv"
 
-# ------------------------------------------------------------------
-# Resumo final
-# ------------------------------------------------------------------
-echo ""
-echo ">> Concluido"
-echo ">> Estatisticas geradas:"
-for f in "$EXP"/estatisticas/*.csv; do
-    echo "--- $(basename "$f")"
-    cat "$f"
-done
+echo ">> Benchmark em memoria (mediana de $REPS repeticoes)"
+"$BENCH" "$ORIGEM" "$REPS" > "$EST/bench.csv"
+
+echo ">> Concluido. Rode: $PY analisar.py"

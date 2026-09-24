@@ -1,14 +1,15 @@
 CC      = gcc
-CFLAGS  = -O2 -Wall -Wextra -std=c99
-TARGET  = src/copiador
-SRC     = src/copiador.c
+CFLAGS  = -O2 -fno-optimize-sibling-calls -Wall -Wextra -std=c99
 
-all: $(TARGET)
+all: src/copiador src/bench
 
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
+src/copiador: src/copiador.c src/algoritmos.c src/algoritmos.h
+	$(CC) $(CFLAGS) -o src/copiador src/copiador.c src/algoritmos.c
+
+src/bench: src/bench.c src/algoritmos.c src/algoritmos.h
+	$(CC) $(CFLAGS) -o src/bench src/bench.c src/algoritmos.c
 
 clean:
-	rm -f $(TARGET)
+	rm -f src/copiador src/copiador.exe src/bench src/bench.exe
 
 .PHONY: all clean
