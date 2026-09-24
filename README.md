@@ -1,7 +1,5 @@
 # Análise de Algoritmos — Busca Sequencial Iterativa e Recursiva
 
-Trabalho da disciplina de Análise de Algoritmos.
-
 ## Descrição
 
 Programa em C que insere registros de um CSV em outro, sem duplicatas,
