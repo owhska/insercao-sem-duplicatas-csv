@@ -2,7 +2,6 @@
 
 ## Descrição
 
-
 Programa em C que insere registros de um CSV em outro, sem duplicatas,
 usando **busca sequencial** como chave de unicidade. Compara duas
 implementações: **iterativa** e **recursiva**.
