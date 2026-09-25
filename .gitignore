@@ -1,25 +1,16 @@
-# Executáveis
 src/copiador
 src/copiador.exe
 src/bench
 src/bench.exe
 *.o
 *.obj
-
-# Python
 __pycache__/
 *.pyc
-*.pyo
-
-# Temporários na raiz (testes manuais)
-cad_*_tmp.csv
-teste_*.csv
-estatisticas_iter_10x.csv
-estatisticas_rec_10x.csv
-cadastro_teste*.csv
-estatisticas_teste*.csv
-
-# Sistema
+relatorio/*.aux
+relatorio/*.log
+relatorio/*.out
+relatorio/*.toc
+relatorio/*.fls
+relatorio/*.fdb_latexmk
 .DS_Store
 Thumbs.db
-*.swp

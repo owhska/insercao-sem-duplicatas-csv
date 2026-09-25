@@ -31,6 +31,7 @@
 \lstdefinestyle{cmd}{language={}, numbers=none, basicstyle=\ttfamily\scriptsize}
 
 \newtheorem{proposicao}{Proposição}
+\newtheorem{lema}{Lema}
 
 \begin{document}
 
@@ -73,7 +74,7 @@ Todas as implementações foram instrumentadas com contadores do número de comp
 T(N,Q)=N\cdot Q+\frac{N(N-1)}{2},
 \label{eq:t}
 \end{equation}
-demonstrada por indução matemática; para a Solução 2, o custo é $\Theta\big((N+Q)\lg(N+Q)\big)$, com limites inferior e superior deduzidos para cada fase. Os experimentos foram conduzidos sobre o arquivo \texttt{bolsistas-2025.csv}, obtido do Portal de Dados Abertos (\texttt{dados.gov.br}), variando $N$ de 10 a 718 com os dados reais e até 512.000 em um benchmark em memória, nos quatro modos de execução.
+obtida da relação de recorrência $T(N,Q)=T(N-1,Q)+(Q+N-1)$ e demonstrada por indução forte; para a Solução 2, as recorrências do MergeSort e da busca binária são resolvidas e seus limites demonstrados por indução forte para todo $n$, o que dá custo $\Theta\big((N+Q)\lg(N+Q)\big)$. Os experimentos foram conduzidos sobre o arquivo \texttt{bolsistas-2025.csv}, obtido do Portal de Dados Abertos (\texttt{dados.gov.br}), variando $N$ de 10 a 718 com os dados reais e até 512.000 em um benchmark em memória, nos quatro modos de execução.
 
 Adiantam-se os resultados principais. Na Solução 1, em todas as execuções em que a hipótese de chaves distintas é satisfeita, a diferença entre o número de comparações previsto pela Equação~\eqref{eq:t} e o medido foi exatamente zero, nos dois modos. Na Solução 2, todas as contagens ficaram dentro dos limites teóricos. Para 8.000 registros, a Solução 2 foi 60 vezes mais rápida que a Solução 1. As versões recursivas têm a mesma complexidade temporal das iterativas, mas a busca sequencial recursiva foi cerca de 3 vezes mais lenta e usa pilha proporcional ao tamanho do cadastro.
 
@@ -221,33 +222,60 @@ T(N,1)=N+\frac{N(N-1)}{2}=\frac{N(N+1)}{2}.
 \label{eq:q1}
 \end{equation}
 
-\section{Demonstração por indução matemática}
+\section{Demonstração por indução forte}
+\label{sec:inducao}
 
-Demonstra-se, por indução sobre $N$, a validade da Equação~\eqref{eq:t}. Seja $Q\ge0$ fixo e defina-se a proposição
+\subsection{Relação de recorrência}
+
+Pela Equação~\eqref{eq:ci}, sob (H2) a $N$-ésima inserção faz uma busca malsucedida sobre $Q+N-1$ chaves. O custo de inserir $N$ chaves é, portanto, o custo de inserir as $N-1$ primeiras mais o custo da última, o que dá a relação de recorrência
+\begin{equation}
+T(0,Q)=0,\qquad T(N,Q)=T(N-1,Q)+(Q+N-1)\quad\text{para }N\ge1.
+\label{eq:rec1}
+\end{equation}
+A Equação~\eqref{eq:t} é a forma fechada dessa recorrência. A seguir, demonstra-se por indução forte que ela é a única solução.
+
+\subsection{Princípio da indução forte}
+
+Seja $P(N)$ uma proposição sobre os inteiros $N\ge n_0$. Se (i) $P(n_0)$ é verdadeira e (ii) para todo $N>n_0$, a validade de $P(j)$ para \emph{todos} os $j$ com $n_0\le j<N$ implica a validade de $P(N)$, então $P(N)$ é verdadeira para todo $N\ge n_0$. A diferença para a indução simples é a hipótese: em vez de supor apenas $P(N-1)$, supõe-se a proposição verdadeira para todos os valores menores que $N$. Isso é indispensável quando a recorrência remete a valores que não são o imediatamente anterior, como $\lfloor n/2\rfloor$ e $\lceil n/2\rceil$ no MergeSort e na busca binária (Seção~\ref{sec:sol2}).
+
+\subsection{Demonstração}
+
+\begin{proposicao}
+\label{prop:t1}
+Sob (H1), (H2) e (H3), para todo $Q\ge0$ fixo e todo $N\ge0$,
 \[
 P(N):\quad T(N,Q)=N\cdot Q+\frac{N(N-1)}{2}.
 \]
+\end{proposicao}
 
-\textbf{Caso base.} Para $N=1$, há uma única inserção; no momento em que ela ocorre, o vetor contém apenas os $Q$ registros iniciais, e a busca, malsucedida por (H2), percorre todos eles. Logo $T(1,Q)=Q$. Avaliando a fórmula em $N=1$: $1\cdot Q+\frac{1\cdot0}{2}=Q$. Os dois valores coincidem, logo $P(1)$ é verdadeira. (A fórmula também vale trivialmente para $N=0$, o que permite ancorar a indução em $N=0$ caso se prefira.)
+\begin{proof}
+Por indução forte em $N$, com $n_0=0$.
 
-\textbf{Hipótese de indução.} Suponha que, para algum $k\ge1$, $P(k)$ seja verdadeira, isto é, $T(k,Q)=kQ+\frac{k(k-1)}{2}$.
+\textbf{Caso base} ($N=0$). Nenhuma inserção é feita e nenhuma comparação ocorre: $T(0,Q)=0$. A fórmula dá $0\cdot Q+\frac{0\cdot(-1)}{2}=0$. Logo $P(0)$ é verdadeira. Como verificação adicional, para $N=1$ a única busca percorre as $Q$ chaves iniciais, $T(1,Q)=Q$, e a fórmula dá $1\cdot Q+\frac{1\cdot0}{2}=Q$.
 
-\textbf{Passo indutivo.} Considere a inserção de $k+1$ chaves distintas. As $k$ primeiras inserções são idênticas às do caso com $k$ chaves, custando, por hipótese de indução, $T(k,Q)$. Resta o custo da $(k+1)$-ésima inserção: o vetor contém então $Q+k$ elementos, e como a nova chave é distinta de todos eles, por (H2), a busca percorre o vetor inteiro, custando $Q+k$ comparações. Logo:
-\begin{align*}
-T(k+1,Q)&=T(k,Q)+(Q+k)\\
-&=kQ+\frac{k(k-1)}{2}+Q+k\\
-&=(k+1)Q+\frac{k(k-1)+2k}{2}\\
-&=(k+1)Q+\frac{k^2+k}{2}\\
-&=(k+1)Q+\frac{(k+1)k}{2}\\
-&=(k+1)Q+\frac{(k+1)\big((k+1)-1\big)}{2},
-\end{align*}
-que é precisamente a fórmula avaliada em $N=k+1$. Portanto $P(k+1)$ é verdadeira.
-
-\textbf{Conclusão.} Verificou-se que $P(1)$ é verdadeira e que, para todo $k\ge1$, $P(k)\Rightarrow P(k+1)$. Pelo princípio da indução matemática,
+\textbf{Hipótese de indução forte.} Seja $N\ge1$ e suponha que $P(j)$ seja verdadeira para todo $j$ com $0\le j<N$, isto é,
 \[
-T(N,Q)=N\cdot Q+\frac{N(N-1)}{2}\quad\text{para todo }N\ge1,
+T(j,Q)=jQ+\frac{j(j-1)}{2}\qquad\text{para todo }0\le j<N.
 \]
-sob as hipóteses (H1), (H2) e (H3). $\blacksquare$
+
+\textbf{Passo indutivo.} Considere a inserção de $N$ chaves distintas. As $N-1$ primeiras inserções são idênticas às do caso com $N-1$ chaves. Na $N$-ésima, o vetor contém $Q+N-1$ elementos, todos diferentes da nova chave por (H2), e a busca percorre o vetor inteiro. Isso é exatamente a recorrência~\eqref{eq:rec1}. Como $0\le N-1<N$, a hipótese de indução forte vale para $j=N-1$, e
+\begin{align*}
+T(N,Q)&=T(N-1,Q)+(Q+N-1)\\
+&=(N-1)Q+\frac{(N-1)(N-2)}{2}+Q+(N-1)\\
+&=NQ+\frac{(N-1)(N-2)+2(N-1)}{2}\\
+&=NQ+\frac{(N-1)\big((N-2)+2\big)}{2}\\
+&=NQ+\frac{N(N-1)}{2},
+\end{align*}
+que é precisamente $P(N)$.
+
+\textbf{Conclusão.} $P(0)$ é verdadeira e, para todo $N\ge1$, a validade de $P(0),\ldots,P(N-1)$ implica a de $P(N)$. Pelo princípio da indução forte,
+\[
+T(N,Q)=N\cdot Q+\frac{N(N-1)}{2}\quad\text{para todo }N\ge0,
+\]
+sob as hipóteses (H1), (H2) e (H3).
+\end{proof}
+
+Nesta recorrência, o passo só precisa da hipótese em $j=N-1$; a indução forte é usada aqui para manter o mesmo formato de demonstração das Proposições~\ref{prop:ms}, \ref{prop:msinf} e~\ref{prop:bb}, nas quais ela é necessária.
 
 Cabe sublinhar o que a demonstração estabelece e o que não estabelece: ela prova que a fórmula descreve exatamente o número de comparações quando as chaves inseridas são distintas, mas nada afirma sobre execuções com redundâncias; nesses casos, uma busca pode terminar antes de percorrer o vetor todo. O Experimento D (Seção~\ref{sec:desvioD}) explora justamente essa fronteira.
 
@@ -371,27 +399,97 @@ void mergesort_iterativo(char **v, size_t n) {
 
 \subsection{MergeSort recursivo}
 
-A intercalação de dois blocos ordenados com $a$ e $b$ elementos faz no máximo $a+b-1$ comparações (cada comparação coloca um elemento na saída, e o último sai sem comparação) e no mínimo $\min(a,b)$ (quando um bloco se esgota primeiro). O MergeSort recursivo divide $n$ em $\lfloor n/2\rfloor$ e $\lceil n/2\rceil$, logo o número de comparações no pior caso satisfaz
-\[
-W(1)=0,\qquad W(n)=W(\lfloor n/2\rfloor)+W(\lceil n/2\rceil)+n-1,
-\]
-cuja solução exata é $W(n)=n\lceil\lg n\rceil-2^{\lceil\lg n\rceil}+1$. O melhor caso satisfaz $B(n)=B(\lfloor n/2\rfloor)+B(\lceil n/2\rceil)+\lfloor n/2\rfloor$.
+\textbf{Relação de recorrência.} A intercalação de dois blocos ordenados com $a$ e $b$ elementos faz no máximo $a+b-1$ comparações (cada comparação coloca um elemento na saída, e o último sai sem comparação) e no mínimo $\min(a,b)$ (quando um bloco se esgota primeiro). O MergeSort recursivo divide $n$ em $a=\lfloor n/2\rfloor$ e $b=\lceil n/2\rceil$, ordena cada metade recursivamente e intercala. Logo, o número de comparações $C(n)$ de uma execução qualquer satisfaz
+\begin{equation}
+C(1)=0,\qquad C(n)=C_{\text{esq}}(\lfloor n/2\rfloor)+C_{\text{dir}}(\lceil n/2\rceil)+c_{\text{int}}(n),\quad \lfloor n/2\rfloor\le c_{\text{int}}(n)\le n-1,
+\label{eq:recms}
+\end{equation}
+e o pior caso satisfaz a recorrência
+\begin{equation}
+W(1)=0,\qquad W(n)=W(\lfloor n/2\rfloor)+W(\lceil n/2\rceil)+n-1\quad\text{para }n\ge2.
+\label{eq:recW}
+\end{equation}
+Como o passo remete a $\lfloor n/2\rfloor$ e $\lceil n/2\rceil$, e não a $n-1$, as demonstrações a seguir usam indução forte. Elas valem para \emph{todo} $n\ge1$, e não apenas para potências de 2.
 
-\begin{proposicao}
-Para $n=2^k$, $k\ge0$: $W(n)=n\lg n-n+1$ e $B(n)=\frac n2\lg n$.
+\begin{lema}
+\label{lema:lg}
+Para todo inteiro $x\ge2$: (a) $\lfloor\lg\lfloor x/2\rfloor\rfloor=\lfloor\lg x\rfloor-1$; (b) $\lceil\lg\lceil x/2\rceil\rceil=\lceil\lg x\rceil-1$.
+\end{lema}
+
+\begin{proof}
+(a) Seja $m=\lfloor\lg x\rfloor\ge1$, de modo que $2^m\le x<2^{m+1}$. Então $2^{m-1}=\lfloor 2^m/2\rfloor\le\lfloor x/2\rfloor\le x/2<2^m$, logo $\lfloor\lg\lfloor x/2\rfloor\rfloor=m-1$.
+(b) Seja $k=\lceil\lg x\rceil\ge1$, de modo que $2^{k-1}<x\le2^k$. Então $\lceil x/2\rceil\le2^{k-1}$, pois $x/2\le2^{k-1}$ e $2^{k-1}$ é inteiro; e $\lceil x/2\rceil\ge x/2>2^{k-2}$. Logo $2^{k-2}<\lceil x/2\rceil\le2^{k-1}$ e $\lceil\lg\lceil x/2\rceil\rceil=k-1$.
+\end{proof}
+
+\begin{lema}
+\label{lema:g}
+Seja $g(m)=m\lceil\lg m\rceil-2^{\lceil\lg m\rceil}+1$ para $m\ge1$. Se $j$ é inteiro e $2^{j-1}\le m\le2^j$, então $g(m)=mj-2^j+1$.
+\end{lema}
+
+\begin{proof}
+Se $2^{j-1}<m\le2^j$, então $\lceil\lg m\rceil=j$ e o resultado é imediato. Se $m=2^{j-1}$, então $\lceil\lg m\rceil=j-1$ e $g(m)=m(j-1)-2^{j-1}+1=mj-m-2^{j-1}+1=mj-2^{j-1}-2^{j-1}+1=mj-2^j+1$.
+\end{proof}
+
+\begin{proposicao}[pior caso]
+\label{prop:ms}
+Para todo $n\ge1$, $W(n)=n\lceil\lg n\rceil-2^{\lceil\lg n\rceil}+1$.
 \end{proposicao}
 
 \begin{proof}
-Por indução em $k$. Base $k=0$: $W(1)=0=1\cdot0-1+1$ e $B(1)=0=\frac12\cdot0$. Passo: supondo válido para $n=2^k$,
+Por indução forte em $n$, com $n_0=1$. Escreve-se $g(n)$ para o lado direito.
+
+\textbf{Caso base} ($n=1$). $W(1)=0$ e $g(1)=1\cdot0-2^0+1=0$.
+
+\textbf{Hipótese de indução forte.} Seja $n\ge2$ e suponha $W(j)=g(j)$ para todo $j$ com $1\le j<n$.
+
+\textbf{Passo indutivo.} Seja $k=\lceil\lg n\rceil\ge1$, de modo que $2^{k-1}<n\le2^k$, e sejam $a=\lfloor n/2\rfloor$ e $b=\lceil n/2\rceil$. Como $n\ge2$, vale $1\le a\le b<n$, e a hipótese se aplica a $a$ e a $b$. Pelo Lema~\ref{lema:lg}(b), $b\le2^{k-1}$. Além disso, $n\ge2^{k-1}+1$ implica $a\ge\lfloor(2^{k-1}+1)/2\rfloor\ge2^{k-2}$. Assim, $2^{k-2}\le a\le b\le2^{k-1}$, e o Lema~\ref{lema:g} com $j=k-1$ vale para os dois:
 \[
-W(2n)=2W(n)+2n-1=2(n\lg n-n+1)+2n-1=2n\lg n+1=2n\lg(2n)-2n+1,
+W(a)=a(k-1)-2^{k-1}+1,\qquad W(b)=b(k-1)-2^{k-1}+1.
 \]
-\[
-B(2n)=2B(n)+n=n\lg n+n=\tfrac{2n}{2}\lg(2n). \qedhere
-\]
+Substituindo na recorrência~\eqref{eq:recW} e usando $a+b=n$:
+\begin{align*}
+W(n)&=W(a)+W(b)+n-1\\
+&=(a+b)(k-1)-2\cdot2^{k-1}+2+n-1\\
+&=n(k-1)+n-2^k+1\\
+&=nk-2^k+1=g(n).
+\end{align*}
+
+\textbf{Conclusão.} Pelo princípio da indução forte, $W(n)=g(n)$ para todo $n\ge1$.
 \end{proof}
 
-Como $\frac n2\lg n=B(n)\le C(n)\le W(n)\le n\lg n$ para potências de 2 (e com ajuste de constantes para $n$ geral), o MergeSort faz $\Theta(n\lg n)$ comparações em \emph{qualquer} entrada. O número exato de comparações depende da ordem dos dados: entradas já ordenadas se aproximam de $B(n)$ e entradas aleatórias, de $W(n)$.
+Como $2^{\lceil\lg n\rceil}\ge n$, segue que $W(n)\le n\lceil\lg n\rceil-n+1<n\lg n+1$. Para $n=2^k$, a fórmula se reduz a $W(n)=n\lg n-n+1$.
+
+\begin{proposicao}[limite inferior]
+\label{prop:msinf}
+Para toda entrada de tamanho $n\ge1$, o MergeSort recursivo faz
+\[
+C(n)\ \ge\ L(n)=\frac n2\lfloor\lg n\rfloor-\frac{n-1}{2}
+\]
+comparações.
+\end{proposicao}
+
+\begin{proof}
+Por indução forte em $n$, com $n_0=1$.
+
+\textbf{Caso base} ($n=1$). $C(1)=0$ e $L(1)=\frac12\cdot0-0=0$.
+
+\textbf{Hipótese de indução forte.} Seja $n\ge2$ e suponha que, para todo $j$ com $1\le j<n$, toda execução do MergeSort sobre $j$ elementos faça pelo menos $L(j)$ comparações.
+
+\textbf{Passo indutivo.} Sejam $a=\lfloor n/2\rfloor$, $b=\lceil n/2\rceil$ e $m=\lfloor\lg n\rfloor\ge1$. As duas chamadas recursivas são execuções sobre $a<n$ e $b<n$ elementos, e a intercalação faz ao menos $\min(a,b)=a$ comparações; pela recorrência~\eqref{eq:recms} e pela hipótese,
+\[
+C(n)\ge L(a)+L(b)+a=\frac a2\lfloor\lg a\rfloor-\frac{a-1}{2}+\frac b2\lfloor\lg b\rfloor-\frac{b-1}{2}+a.
+\]
+Pelo Lema~\ref{lema:lg}(a), $\lfloor\lg a\rfloor=m-1$, e como $b\ge a$, $\lfloor\lg b\rfloor\ge m-1$. Usando ainda $a+b=n$ e $a\ge\frac{n-1}{2}$:
+\begin{align*}
+C(n)&\ge\frac{a+b}{2}(m-1)-\frac{(a+b)-2}{2}+a\\
+&\ge\frac n2(m-1)-\frac{n-2}{2}+\frac{n-1}{2}\\
+&=\frac n2(m-1)+\frac12=\frac n2\,m-\frac{n-1}{2}=L(n).
+\end{align*}
+
+\textbf{Conclusão.} Pelo princípio da indução forte, $C(n)\ge L(n)$ para todo $n\ge1$.
+\end{proof}
+
+\textbf{Classificação assintótica.} Como $\lfloor\lg n\rfloor>\lg n-1$, a Proposição~\ref{prop:msinf} dá $C(n)>\frac n2\lg n-n$, que é pelo menos $\frac n4\lg n$ para $n\ge16$; e a Proposição~\ref{prop:ms} dá $C(n)\le W(n)<n\lg n+1$. Logo, para qualquer entrada, $C(n)=\Theta(n\lg n)$. O número exato de comparações depende da ordem dos dados: entradas já ordenadas se aproximam do melhor caso, que satisfaz $B(1)=0$ e $B(n)=B(\lfloor n/2\rfloor)+B(\lceil n/2\rceil)+\lfloor n/2\rfloor$ (para $n=2^k$, $B(n)=\frac n2\lg n$, pois $B(2n)=2B(n)+n$), e entradas aleatórias se aproximam de $W(n)$. As faixas teóricas das tabelas de resultados usam os valores exatos de $B(n)$ e $W(n)$ calculados por essas recorrências.
 
 \textbf{Espaço.} A intercalação usa um vetor auxiliar de $n$ ponteiros: $\Theta(n)$. A recursão tem profundidade $\lceil\lg n\rceil$, acrescentando $\Theta(\lg n)$ de pilha. Espaço auxiliar total: $\Theta(n)+\Theta(\lg n)=\Theta(n)$.
 
@@ -427,13 +525,46 @@ static size_t busca_binaria_rec_aux(char **v, const char *chave, size_t lo, size
 
 As duas versões retornam a posição da primeira chave maior ou igual à procurada. Na busca em $D$, se essa posição é válida, faz-se mais uma comparação de igualdade, também contabilizada.
 
-\textbf{Tempo.} A cada iteração, um intervalo de tamanho $s$ passa a ter tamanho $\lfloor s/2\rfloor$ ou $\lfloor (s-1)/2\rfloor$. Logo o número de iterações (e de comparações) de uma busca em $n$ elementos está entre
-\[
-b_{\min}(n)=\lfloor\lg(n+1)\rfloor\qquad\text{e}\qquad b_{\max}(n)=\lfloor\lg n\rfloor+1,
-\]
-que diferem de no máximo uma unidade: a busca binária é $\Theta(\lg n)$ em qualquer caso, pois a versão implementada nunca termina antes de reduzir o intervalo a zero. As versões iterativa e recursiva fazem as mesmas comparações.
+\textbf{Relação de recorrência.} Em um intervalo de tamanho $s\ge1$, o elemento central é $\texttt{meio}=\texttt{lo}+\lfloor s/2\rfloor$. Se \texttt{v[meio]} é menor que a chave, o novo intervalo é $[\texttt{meio}+1,\texttt{hi})$, de tamanho $s-\lfloor s/2\rfloor-1=\lfloor(s-1)/2\rfloor$; caso contrário, é $[\texttt{lo},\texttt{meio})$, de tamanho $\lfloor s/2\rfloor$. Cada iteração faz uma comparação, e a busca termina quando o intervalo fica vazio. Assim, o maior e o menor número de comparações possíveis em $n$ elementos satisfazem
+\begin{equation}
+\begin{aligned}
+b_{\max}(0)&=0, & b_{\max}(n)&=1+\max\{b_{\max}(\lfloor n/2\rfloor),\,b_{\max}(\lfloor(n-1)/2\rfloor)\},\\
+b_{\min}(0)&=0, & b_{\min}(n)&=1+\min\{b_{\min}(\lfloor n/2\rfloor),\,b_{\min}(\lfloor(n-1)/2\rfloor)\}.
+\end{aligned}
+\label{eq:recbb}
+\end{equation}
+A versão recursiva segue literalmente essa recorrência (cada chamada é um passo), e a iterativa executa a mesma sequência de intervalos; por isso as duas fazem as mesmas comparações.
 
-\textbf{Espaço.} A iterativa usa $\Theta(1)$. A recursiva empilha uma moldura por iteração, com profundidade $\Theta(\lg n)$; mesmo para $n=10^9$ isso seria cerca de 30 molduras, sem risco de estouro.
+\begin{proposicao}
+\label{prop:bb}
+Para todo $n\ge1$, $b_{\max}(n)=\lfloor\lg n\rfloor+1$ e $b_{\min}(n)=\lfloor\lg(n+1)\rfloor$.
+\end{proposicao}
+
+\begin{proof}
+Por indução forte em $n$, com $n_0=1$. Observa-se que as duas fórmulas são não decrescentes em $n$ e que, estendendo-as com $b_{\max}(0)=0$ e $\lfloor\lg(0+1)\rfloor=0$, também valem em $n=0$.
+
+\textbf{Caso base} ($n=1$). Os dois subintervalos têm tamanho $\lfloor1/2\rfloor=\lfloor0/2\rfloor=0$, logo $b_{\max}(1)=b_{\min}(1)=1$; e $\lfloor\lg1\rfloor+1=1=\lfloor\lg2\rfloor$.
+
+\textbf{Hipótese de indução forte.} Seja $n\ge2$ e suponha as duas fórmulas válidas para todo $j$ com $0\le j<n$.
+
+\textbf{Passo indutivo.} Os tamanhos $\lfloor n/2\rfloor$ e $\lfloor(n-1)/2\rfloor$ são menores que $n$, e $\lfloor(n-1)/2\rfloor\le\lfloor n/2\rfloor$.
+
+\emph{Máximo.} Pela hipótese e pela monotonicidade, o máximo é atingido em $\lfloor n/2\rfloor\ge1$, e pelo Lema~\ref{lema:lg}(a):
+\[
+b_{\max}(n)=1+\lfloor\lg\lfloor n/2\rfloor\rfloor+1=1+(\lfloor\lg n\rfloor-1)+1=\lfloor\lg n\rfloor+1.
+\]
+
+\emph{Mínimo.} Pela hipótese e pela monotonicidade, o mínimo é atingido em $\lfloor(n-1)/2\rfloor$. Como $\lfloor(n-1)/2\rfloor+1=\lfloor(n+1)/2\rfloor$ e $n+1\ge3$, o Lema~\ref{lema:lg}(a) com $x=n+1$ dá
+\[
+b_{\min}(n)=1+\lfloor\lg\lfloor(n+1)/2\rfloor\rfloor=1+(\lfloor\lg(n+1)\rfloor-1)=\lfloor\lg(n+1)\rfloor.
+\]
+
+\textbf{Conclusão.} Pelo princípio da indução forte, as duas fórmulas valem para todo $n\ge1$.
+\end{proof}
+
+\textbf{Tempo.} Os dois limites diferem de no máximo uma unidade, pois $\lfloor\lg n\rfloor\le\lfloor\lg(n+1)\rfloor\le\lfloor\lg n\rfloor+1$. A busca binária é, portanto, $\Theta(\lg n)$ em qualquer caso: a versão implementada (limite inferior) nunca termina antes de reduzir o intervalo a zero.
+
+\textbf{Espaço.} A iterativa usa $\Theta(1)$. A recursiva empilha uma moldura por iteração, com profundidade $b(n)\le\lfloor\lg n\rfloor+1$, isto é, $\Theta(\lg n)$; mesmo para $n=10^9$ isso seria cerca de 30 molduras, sem risco de estouro.
 
 \begin{table}[H]
 \centering
@@ -806,7 +937,7 @@ No benchmark, para $N=8.000$, a Solução 1 fez 162 vezes mais comparações que
 
 \textbf{Iterativa e recursiva produzem o mesmo resultado?} Em número de comparações da busca, sim, em todos os experimentos: as versões percorrem os dados na mesma ordem e param no mesmo ponto. Os MergeSorts diferem ligeiramente nas contagens, porque dividem o vetor de formas diferentes, mas ambos são $\Theta(n\lg n)$. A diferença está no espaço (pilha $\Theta(n)$ na busca sequencial recursiva e $\Theta(\lg n)$ nas recursões da Solução 2) e no tempo, que é cerca de 3 vezes maior na busca sequencial recursiva e quase igual nas demais.
 
-\textbf{Os resultados sustentam a demonstração matemática?} Sustentam, com a ressalva de que experimentos não demonstram teoremas: a prova por indução estabelece a fórmula para todo $N\ge1$ por dedução lógica. O que os experimentos fazem é validar que a modelagem do custo de cada inserção está correta e que o programa implementado, em todas as variantes, é de fato o algoritmo analisado.
+\textbf{Os resultados sustentam a demonstração matemática?} Sustentam, com a ressalva de que experimentos não demonstram teoremas: as provas por indução forte estabelecem as fórmulas para todo $N$ por dedução lógica. O que os experimentos fazem é validar que a modelagem do custo de cada inserção está correta e que o programa implementado, em todas as variantes, é de fato o algoritmo analisado.
 
 \textbf{Implicação prática.} A classificação $\Theta(N^2)$ diz que a Solução 1 não escala: para os 718 nomes deste arquivo, a execução é instantânea, mas um cadastro de 100.000 bolsistas exigiria cerca de $5\times10^9$ comparações, e 1.000.000 levaria a $5\times10^{11}$, inviável na prática. A Solução 2 faria cerca de $4\times10^7$ comparações para um milhão de registros. O gargalo está na estrutura de dados e no algoritmo de busca, não na linguagem, na máquina, nem na escolha entre iteração e recursão. Uma tabela de dispersão reduziria ainda mais o custo esperado, para $O(N+Q)$.
 
@@ -814,9 +945,9 @@ No benchmark, para $N=8.000$, a Solução 1 fez 162 vezes mais comparações que
 
 O trabalho implementou em C o serviço de importação de bolsistas com detecção de redundância na coluna \texttt{Nome}, usando o arquivo \texttt{bolsistas-2025.csv} do Portal de Dados Abertos, em quatro variantes: busca sequencial iterativa e recursiva (Solução 1) e MergeSort seguido de busca binária, ambos em versões iterativa e recursiva (Solução 2). O algoritmo foi instrumentado com contadores de comparações, e a análise relacionou as funções deduzidas, as demonstrações formais, os dados medidos e as classificações assintóticas.
 
-Na Solução 1, a função deduzida foi $T(N,Q)=N\cdot Q+N(N-1)/2$, obtida somando os custos individuais das $N$ inserções, cada uma percorrendo um vetor de $Q+i-1$ chaves, e demonstrada por indução para todo $N\ge1$. Os dados confirmaram a fórmula sem nenhuma margem de erro nas 28 execuções sob a hipótese de distinção, e a única divergência, no experimento com o arquivo completo, foi explicada exatamente pelo encerramento antecipado da busca na posição 438. As versões iterativa e recursiva fazem as mesmas comparações, mas diferem no espaço auxiliar ($\Theta(1)$ contra $\Theta(n)$) e no tempo: a recursiva foi cerca de 3 vezes mais lenta e falhou por estouro de pilha com 200.000 registros.
+Na Solução 1, a função deduzida foi $T(N,Q)=N\cdot Q+N(N-1)/2$, obtida somando os custos individuais das $N$ inserções, cada uma percorrendo um vetor de $Q+i-1$ chaves, e demonstrada por indução forte a partir da relação de recorrência~\eqref{eq:rec1}. Os dados confirmaram a fórmula sem nenhuma margem de erro nas 28 execuções sob a hipótese de distinção, e a única divergência, no experimento com o arquivo completo, foi explicada exatamente pelo encerramento antecipado da busca na posição 438. As versões iterativa e recursiva fazem as mesmas comparações, mas diferem no espaço auxiliar ($\Theta(1)$ contra $\Theta(n)$) e no tempo: a recursiva foi cerca de 3 vezes mais lenta e falhou por estouro de pilha com 200.000 registros.
 
-Na Solução 2, o MergeSort tem custo $\Theta(n\lg n)$ em qualquer entrada e espaço auxiliar $\Theta(n)$ nas duas versões, com $\Theta(\lg n)$ de pilha adicional na recursiva; a busca binária tem custo $\Theta(\lg n)$, com espaço $\Theta(1)$ na iterativa e $\Theta(\lg n)$ na recursiva. O custo total é $\Theta((N+Q)\lg(N+Q))$. Todas as contagens ficaram dentro dos limites teóricos, e a quase-ordenação do arquivo original levou o MergeSort para perto do melhor caso, como previsto. O tempo cresceu um pouco mais rápido que $N\lg N$ por efeito da hierarquia de memória, fator que o modelo de contagem de comparações não considera.
+Na Solução 2, as recorrências foram resolvidas por indução forte para todo $n$: o MergeSort faz no máximo $n\lceil\lg n\rceil-2^{\lceil\lg n\rceil}+1$ e no mínimo $\frac n2\lfloor\lg n\rfloor-\frac{n-1}{2}$ comparações, ou seja, tem custo $\Theta(n\lg n)$ em qualquer entrada e espaço auxiliar $\Theta(n)$ nas duas versões, com $\Theta(\lg n)$ de pilha adicional na recursiva; a busca binária faz entre $\lfloor\lg(n+1)\rfloor$ e $\lfloor\lg n\rfloor+1$ comparações, $\Theta(\lg n)$, com espaço $\Theta(1)$ na iterativa e $\Theta(\lg n)$ na recursiva. O custo total é $\Theta((N+Q)\lg(N+Q))$. Todas as contagens ficaram dentro dos limites teóricos, e a quase-ordenação do arquivo original levou o MergeSort para perto do melhor caso, como previsto. O tempo cresceu um pouco mais rápido que $N\lg N$ por efeito da hierarquia de memória, fator que o modelo de contagem de comparações não considera.
 
 A classificação assintótica da Solução 1 é $\Theta(N^2)$ para $Q$ constante, e a da Solução 2, $\Theta(N\lg N)$. A Solução 2 foi 60 vezes mais rápida para 8.000 registros, enquanto para cadastros muito pequenos a Solução 1 é competitiva. A lição que fica é que a Solução 1 está correta e é inadequada ao mesmo tempo: resolve o problema especificado, mas não escala; a intervenção necessária está na estrutura de dados e no algoritmo que sustentam a verificação de redundância, e não na escolha entre iteração e recursão, que altera apenas constantes e o uso de pilha.
 
